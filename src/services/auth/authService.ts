@@ -11,6 +11,7 @@ import TenantRepository from '../../database/repositories/tenantRepository';
 import { tenantSubdomain } from '../tenantSubdomain';
 import Error401 from '../../errors/Error401';
 import moment from 'moment';
+import user from '../../database/models/user';
 
 const BCRYPT_SALT_ROUNDS = 12;
 
@@ -28,6 +29,7 @@ class AuthService {
   static async signup(
     email,
     password,
+    role,
     invitationToken,
     tenantId,
     options: any = {},
@@ -103,6 +105,7 @@ class AuthService {
             ...options,
             transaction,
           },
+          role
         );
 
         const token = jwt.sign(
@@ -130,17 +133,20 @@ class AuthService {
         },
       );
 
-      if (EmailSender.isConfigured) {
-        await this.sendEmailAddressVerificationEmail(
-          options.language,
-          newUser.email,
-          tenantId,
-          {
-            ...options,
-            transaction,
-          },
-        );
-      }
+      // if (EmailSender.isConfigured) {
+      //   console.log("njvgfnjfnvjbkfnbjkn")
+      //   await this.sendEmailAddressVerificationEmail(
+      //     options.language,
+      //     newUser.email,
+      //     tenantId,
+      //     {
+      //       ...options,
+      //       transaction,
+      //     },
+      //   );
+      // }
+
+      newUser.emailVerified = true
 
       // Handles onboarding process like
       // invitation, creation of default tenant,
@@ -278,6 +284,7 @@ class AuthService {
     invitationToken,
     tenantId,
     options,
+    role?,
   ) {
     if (invitationToken) {
       try {
@@ -334,7 +341,7 @@ class AuthService {
       }).createOrJoinDefault(
         {
           // leave empty to require admin's approval
-          roles: [],
+          roles: [role] || null,
         },
         options.transaction,
       );
@@ -379,11 +386,13 @@ class AuthService {
                 return;
               }
 
+              user.emailVerified = true;
+
               // If the email sender id not configured,
               // removes the need for email verification.
-              if (user && !EmailSender.isConfigured) {
-                user.emailVerified = true;
-              }
+              // if (user && !EmailSender.isConfigured) {
+              //   user.emailVerified = true;
+              // }
 
               resolve(user);
             })

@@ -6,6 +6,7 @@ export default async (req, res, next) => {
     const payload = await AuthService.signup(
       req.body.email,
       req.body.password,
+      req.body.role,
       req.body.invitationToken,
       req.body.tenantId,
       req,

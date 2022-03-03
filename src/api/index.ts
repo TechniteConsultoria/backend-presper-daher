@@ -46,7 +46,8 @@ app.use(helmet());
 // to JSON
 app.use(
   bodyParser.json({
-    limit: '50mb', extended: true, 
+    limit: '50mb', 
+    // extended: true, 
     verify: function (req, res, buf) {
       const url = (<any>req).originalUrl;
       if (url.startsWith('/api/plan/stripe/webhook')) {
