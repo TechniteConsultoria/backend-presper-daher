@@ -1,0 +1,34 @@
+export default (app) => {
+  app.post(
+    `/tenant/:tenantId/notificacao`,
+    require('./notificacaoCreate').default,
+  );
+  app.put(
+    `/tenant/:tenantId/notificacao/:id`,
+    require('./notificacaoUpdate').default,
+  );
+  app.post(
+    `/tenant/:tenantId/notificacao/import`,
+    require('./notificacaoImport').default,
+  );
+  app.delete(
+    `/tenant/:tenantId/notificacao`,
+    require('./notificacaoDestroy').default,
+  );
+  app.get(
+    `/tenant/:tenantId/notificacao/autocomplete`,
+    require('./notificacaoAutocomplete').default,
+  );
+  app.get(
+    `/tenant/:tenantId/notificacao`,
+    require('./notificacaoList').default,
+  );
+  app.get(
+    `/tenant/:tenantId/notificacao/:id`,
+    require('./notificacaoFind').default,
+  );
+  app.get(
+    `/tenant/notificacao/:tenantId/calendario`,
+    require('./notificacaoCalendario').default,
+  );
+};

@@ -1,0 +1,30 @@
+export default (app) => {
+  app.post(
+    `/tenant/:tenantId/afiliados`,
+    require('./afiliadosCreate').default,
+  );
+  app.put(
+    `/tenant/:tenantId/afiliados/:id`,
+    require('./afiliadosUpdate').default,
+  );
+  app.post(
+    `/tenant/:tenantId/afiliados/import`,
+    require('./afiliadosImport').default,
+  );
+  app.delete(
+    `/tenant/:tenantId/afiliados`,
+    require('./afiliadosDestroy').default,
+  );
+  app.get(
+    `/tenant/:tenantId/afiliados/autocomplete`,
+    require('./afiliadosAutocomplete').default,
+  );
+  app.get(
+    `/tenant/:tenantId/afiliados`,
+    require('./afiliadosList').default,
+  );
+  app.get(
+    `/tenant/:tenantId/afiliados/:id`,
+    require('./afiliadosFind').default,
+  );
+};

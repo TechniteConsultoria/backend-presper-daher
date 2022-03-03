@@ -1,0 +1,48 @@
+export default (app) => {
+  app.post(
+    `/tenant/:tenantId/pergunta`,
+    require('./perguntaCreate').default,
+  );
+  app.post(
+    `/tenant/:tenantId/perguntaDiasPerguntas`,
+    require('./perguntaCreateDiasPerguntas').default,
+  );
+  app.put(
+    `/tenant/:tenantId/pergunta/:id`,
+    require('./perguntaUpdate').default,
+  );
+  app.delete(
+    `/tenant/:tenantId/pergunta`,
+    require('./perguntaDestroy').default,
+  );
+  app.get(
+    `/tenant/:tenantId/pergunta/autocomplete`,
+    require('./perguntaAutocomplete').default,
+  );
+  app.get(
+    `/tenant/:tenantId/pergunta`,
+    require('./perguntaList').default,
+  );
+  app.get(
+    `/tenant/:tenantId/pergunta/:id`,
+    require('./perguntaFind').default,
+  );
+
+  //Rotas App
+  app.get(
+    `/app/cliente/:id/:token/avaliacao/:avaliacao/pergunta`,
+    require('./appPerguntaList').default,
+  );
+  app.get(
+    `/app/cliente/:id/:token/pergunta/:pergunta`,
+    require('./appPerguntaFind').default,
+  );
+  app.post(
+    `/app/cliente/:id/:token/pergunta`,
+    require('./appPerguntaCreate').default,
+  )
+  app.put(
+    `/app/cliente/:id/:token/pergunta/:id`,
+    require('./appPerguntaUpdate').default,
+  );
+};

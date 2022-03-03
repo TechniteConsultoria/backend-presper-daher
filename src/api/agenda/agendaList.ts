@@ -1,0 +1,20 @@
+import PermissionChecker from '../../services/user/permissionChecker';
+import ApiResponseHandler from '../apiResponseHandler';
+import Permissions from '../../security/permissions';
+import AgendaService from '../../services/agendaService';
+
+export default async (req, res, next) => {
+  try {
+    new PermissionChecker(req).validateHas(
+      Permissions.values.agendaRead,
+    );
+
+    const payload = await new AgendaService(
+      req,
+    ).findAndCountAll(req.query);
+
+    await ApiResponseHandler.success(req, res, payload);
+  } catch (error) {
+    await ApiResponseHandler.error(req, res, error);
+  }
+};

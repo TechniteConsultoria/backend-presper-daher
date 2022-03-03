@@ -1,0 +1,40 @@
+export default (app) => {
+  app.post(
+    `/tenant/:tenantId/curso-aula`,
+    require('./cursoAulaCreate').default,
+  );
+  app.put(
+    `/tenant/:tenantId/curso-aula/:id`,
+    require('./cursoAulaUpdate').default,
+  );
+  app.post(
+    `/tenant/:tenantId/curso-aula/import`,
+    require('./cursoAulaImport').default,
+  );
+  app.delete(
+    `/tenant/:tenantId/curso-aula`,
+    require('./cursoAulaDestroy').default,
+  );
+  app.get(
+    `/tenant/:tenantId/curso-aula/autocomplete`,
+    require('./cursoAulaAutocomplete').default,
+  );
+  app.get(
+    `/tenant/:tenantId/curso-aula`,
+    require('./cursoAulaList').default,
+  );
+  app.get(
+    `/tenant/:tenantId/curso-aula/:id`,
+    require('./cursoAulaFind').default,
+  );
+
+//Rotas App
+  app.get(
+    `/app/cliente/:id/:token/curso/:curso/modulo/:modulo/aula`,
+    require('./appCursoAulaList').default,
+  );
+  app.get(
+    `/app/cliente/:id/:token/curso/:curso/modulo/:modulo/aula/:aula`,
+    require('./appCursoAulaFind').default,
+  );
+};

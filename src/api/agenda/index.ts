@@ -1,0 +1,54 @@
+export default (app) => {
+  app.post(
+    `/tenant/:tenantId/agenda`,
+    require('./agendaCreate').default,
+  );
+  app.put(
+    `/tenant/:tenantId/agenda/:id`,
+    require('./agendaUpdate').default,
+  );
+  app.post(
+    `/tenant/:tenantId/agenda/import`,
+    require('./agendaImport').default,
+  );
+  app.delete(
+    `/tenant/:tenantId/agenda`,
+    require('./agendaDestroy').default,
+  );
+  app.get(
+    `/tenant/:tenantId/agenda/autocomplete`,
+    require('./agendaAutocomplete').default,
+  );
+  app.get(
+    `/tenant/:tenantId/agenda`,
+    require('./agendaList').default,
+  );
+  app.get(
+    `/tenant/:tenantId/agenda/:id`,
+    require('./agendaFind').default,
+  );
+  app.get(
+    `/tenant/agenda/calendario`,
+    require('./agendaCalendario').default,
+  );
+  app.get(
+    `/app/cliente/:id/:token/agendamentos`,
+    require('./appAgendamentosMarcados').default,
+  );
+  /* app.get(
+    `/app/cliente/:id/:token/agendamentosMarcados`,
+    require('./appAgendamentosMarcados').default,
+  );
+  app.get(
+    `/app/cliente/:id/:token/agendamentosDisponiveis`,
+    require('./appAgendamentosDisponiveis').default,
+  ); */
+  app.put(
+    `/app/cliente/:id/:token/agenda/`,
+    require('./appAgendaUpdate').default,
+  );
+  app.get(
+    `/tenant/agenda/validarConsulta`,
+    require('./validarConsulta').default,
+  );
+};

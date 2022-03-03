@@ -1,0 +1,40 @@
+export default (app) => {
+  app.post(
+    `/tenant/:tenantId/curso-modulo`,
+    require('./cursoModuloCreate').default,
+  );
+  app.put(
+    `/tenant/:tenantId/curso-modulo/:id`,
+    require('./cursoModuloUpdate').default,
+  );
+  app.post(
+    `/tenant/:tenantId/curso-modulo/import`,
+    require('./cursoModuloImport').default,
+  );
+  app.delete(
+    `/tenant/:tenantId/curso-modulo`,
+    require('./cursoModuloDestroy').default,
+  );
+  app.get(
+    `/tenant/:tenantId/curso-modulo/autocomplete`,
+    require('./cursoModuloAutocomplete').default,
+  );
+  app.get(
+    `/tenant/:tenantId/curso-modulo`,
+    require('./cursoModuloList').default,
+  );
+  app.get(
+    `/tenant/:tenantId/curso-modulo/:id`,
+    require('./cursoModuloFind').default,
+  );
+
+//Rotas App
+  app.get(
+    `/app/cliente/:id/:token/curso/:curso/modulo`,
+    require('./appCursoModuloList').default,
+  );
+  app.get(
+    `/app/cliente/:id/:token/curso/:curso/modulo/:modulo`,
+    require('./appCursoModuloFind').default,
+  );
+};

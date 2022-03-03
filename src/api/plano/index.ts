@@ -1,0 +1,30 @@
+export default (app) => {
+  app.post(
+    `/tenant/:tenantId/plano`,
+    require('./planoCreate').default,
+  );
+  app.put(
+    `/tenant/:tenantId/plano/:id`,
+    require('./planoUpdate').default,
+  );
+  app.post(
+    `/tenant/:tenantId/plano/import`,
+    require('./planoImport').default,
+  );
+  app.delete(
+    `/tenant/:tenantId/plano`,
+    require('./planoDestroy').default,
+  );
+  app.get(
+    `/tenant/:tenantId/plano/autocomplete`,
+    require('./planoAutocomplete').default,
+  );
+  app.get(
+    `/tenant/:tenantId/plano`,
+    require('./planoList').default,
+  );
+  app.get(
+    `/tenant/:tenantId/plano/:id`,
+    require('./planoFind').default,
+  );
+};
