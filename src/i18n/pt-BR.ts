@@ -86,168 +86,49 @@ const ptBR = {
   },
 
   entities: {
-    afiliados: {
+    pessoaFisica: {
+      errors: {
+        unique: {
+          cpf: 'Cpf deve ser único',
+        }
+      }
+    },
+    empresa: {
+      errors: {
+        unique: {
+          cnpj: 'Cnpj deve ser único',
+        }
+      }
+    },
+    cartao: {
+      errors: {
+        unique: {
+          apelido: 'Apelido deve ser único',
+        }
+      }
+    },
+    produto: {
       errors: {
         unique: {
 
         }
       }
     },
-    regiao: {
+    pedido: {
       errors: {
         unique: {
 
         }
       }
     },
-    cliente: {
+    carrinho: {
       errors: {
         unique: {
 
         }
       }
     },
-    avaliacao: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    questionarioTipo: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    questionario: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    questionarioPergunta: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    questionarioCliente: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    questionarioClienteResposta: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    agenda: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    dicaReceita: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    programa: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    programaCliente: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    pilulaSouLeve: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    notificacao: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    curso: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    cursoModulo: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    cursoAula: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    cursoCliente: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    cursoClienteAula: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    plano: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    planoCliente: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    programaAtividade: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    programaAtividadeItem: {
+    categoria: {
       errors: {
         unique: {
 

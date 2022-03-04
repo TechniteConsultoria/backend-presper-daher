@@ -1,7 +1,3 @@
-/**
- * User database model.
- * See https://sequelize.org/v5/manual/models-definition.html to learn how to customize it.
- */
 export default function (sequelize, DataTypes) {
   const user = sequelize.define(
     'user',
@@ -14,18 +10,23 @@ export default function (sequelize, DataTypes) {
       fullName: {
         type: DataTypes.STRING(255),
         allowNull: true,
+        validate: {
+          len: [0, 255],
+        },
       },
       firstName: {
         type: DataTypes.STRING(80),
         allowNull: true,
-      },
-      usuarioMaster: {
-        type: DataTypes.STRING(10),
-        allowNull: true,
+        validate: {
+          len: [0, 80],
+        },
       },
       password: {
         type: DataTypes.STRING(255),
         allowNull: true,
+        validate: {
+          len: [0, 255],
+        },
         get() {
           return undefined;
         },
@@ -33,7 +34,7 @@ export default function (sequelize, DataTypes) {
       emailVerified: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: true,
+        defaultValue: false,
       },
       emailVerificationToken: {
         type: DataTypes.STRING(255),
@@ -45,9 +46,24 @@ export default function (sequelize, DataTypes) {
       emailVerificationTokenExpiresAt: {
         type: DataTypes.DATE,
       },
+      provider: {
+        type: DataTypes.STRING(255),
+        validate: {
+          len: [0, 255],
+        },
+      },
+      providerId: {
+        type: DataTypes.STRING(2024),
+        validate: {
+          len: [0, 2024],
+        },
+      },
       passwordResetToken: {
         type: DataTypes.STRING(255),
         allowNull: true,
+        validate: {
+          len: [0, 255],
+        },
         get() {
           return undefined;
         },
@@ -56,18 +72,25 @@ export default function (sequelize, DataTypes) {
       lastName: {
         type: DataTypes.STRING(175),
         allowNull: true,
+        validate: {
+          len: [0, 175],
+        },
       },
       phoneNumber: {
         type: DataTypes.STRING(24),
         allowNull: true,
+        validate: {
+          len: [0, 24],
+        },
       },
       email: {
         type: DataTypes.STRING(255),
         allowNull: false,
-        // validate: {
-        //   isEmail: true,
-        //   notEmpty: true,
-        // },
+        validate: {
+          isEmail: true,
+          notEmpty: true,
+          len: [0, 255],
+        },
       },
       jwtTokenInvalidBefore: {
         type: DataTypes.DATE,
@@ -75,7 +98,15 @@ export default function (sequelize, DataTypes) {
       importHash: {
         type: DataTypes.STRING(255),
         allowNull: true,
+        validate: {
+          len: [0, 255],
+        },
       },
+      hasProfile: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      }
     },
     {
       indexes: [
@@ -114,6 +145,11 @@ export default function (sequelize, DataTypes) {
       },
     });
 
+    models.user.hasMany(models.pessoaFisica, {
+      as: 'pessoaFisica',
+      constraints: false,
+    });
+
     models.user.belongsTo(models.user, {
       as: 'createdBy',
     });
@@ -121,6 +157,12 @@ export default function (sequelize, DataTypes) {
     models.user.belongsTo(models.user, {
       as: 'updatedBy',
     });
+
+
+    // models.user.belongsTo(models.comentarios, {
+    //   as: 'user',
+    // });
+
   };
 
   user.beforeCreate((user, options) => {

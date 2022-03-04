@@ -5,10 +5,6 @@ import SequelizeRepository from '../../database/repositories/sequelizeRepository
 import TenantUserRepository from '../../database/repositories/tenantUserRepository';
 import { tenantSubdomain } from '../tenantSubdomain';
 import { IServiceOptions } from '../IServiceOptions';
-import SmtpService from '../smtpService';
-/**
- * Handles the creation of the user(s) via the User page.
- */
 export default class UserCreator {
   options: IServiceOptions;
   transaction;
@@ -24,9 +20,6 @@ export default class UserCreator {
   /**
    * Creates new user(s) via the User page.
    * Sends Invitation Emails if flagged.
-   *
-   * @param {*} data
-   * @param {*} sendInvitationEmails
    */
   async execute(data, sendInvitationEmails = true) {
     this.data = data;
@@ -94,8 +87,6 @@ export default class UserCreator {
   /**
    * Creates or updates the user passed.
    * If the user already exists, it only adds the role to the user.
-   *
-   * @param {*} email
    */
   async _addOrUpdate(email) {
     let user = await UserRepository.findByEmailWithoutAvatar(
@@ -164,17 +155,13 @@ export default class UserCreator {
           this.options.currentTenant,
         )}/auth/invitation?token=${emailToInvite.token}`;
 
-        return new SmtpService(this.options).convidar(
-          emailToInvite.email,
-          link,
-        )
-        /* return new EmailSender(
+        return new EmailSender(
           EmailSender.TEMPLATES.INVITATION,
           {
             tenant: this.options.currentTenant,
             link,
           },
-        ).sendTo(emailToInvite.email); */
+        ).sendTo(emailToInvite.email);
       }),
     );
   }

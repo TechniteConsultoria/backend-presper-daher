@@ -11,9 +11,6 @@ import SettingsService from './settingsService';
 import Plans from '../security/plans';
 import { IServiceOptions } from './IServiceOptions';
 
-/**
- * Handles Tenant operations
- */
 export default class TenantService {
   options: IServiceOptions;
 
@@ -163,11 +160,6 @@ export default class TenantService {
     );
   }
 
-  /**
-   * Creates a Tenant.
-   *
-   * @param {*} data
-   */
   async create(data) {
     const transaction = await SequelizeRepository.createTransaction(
       this.options.database,
@@ -222,12 +214,6 @@ export default class TenantService {
     }
   }
 
-  /**
-   * Updates a Tenant.
-   *
-   * @param {*} id
-   * @param {*} data
-   */
   async update(id, data) {
     const transaction = await SequelizeRepository.createTransaction(
       this.options.database,
@@ -264,9 +250,6 @@ export default class TenantService {
     }
   }
 
-  /**
-   * Updates the user of the tenant plan.
-   */
   async updatePlanUser(
     id,
     planStripeCustomerId,
@@ -300,9 +283,6 @@ export default class TenantService {
     }
   }
 
-  /**
-   * Update plan to free.
-   */
   async updatePlanToFree(planStripeCustomerId) {
     return this.updatePlanStatus(
       planStripeCustomerId,
@@ -311,9 +291,6 @@ export default class TenantService {
     );
   }
 
-  /**
-   * Updates the status of the tenant plan.
-   */
   async updatePlanStatus(
     planStripeCustomerId,
     plan,
@@ -346,11 +323,6 @@ export default class TenantService {
     }
   }
 
-  /**
-   * Destroy all Tenants with those ids.
-   *
-   * @param {*} ids
-   */
   async destroyAll(ids) {
     const transaction = await SequelizeRepository.createTransaction(
       this.options.database,
@@ -399,11 +371,6 @@ export default class TenantService {
     }
   }
 
-  /**
-   * Finds the Tenant by Id.
-   *
-   * @param {*} id
-   */
   async findById(id, options?) {
     options = options || {};
 
@@ -422,12 +389,6 @@ export default class TenantService {
     });
   }
 
-  /**
-   * Finds Tenants for Autocomplete.
-   *
-   * @param {*} search
-   * @param {*} limit
-   */
   async findAllAutocomplete(search, limit) {
     return TenantRepository.findAllAutocomplete(
       search,
@@ -436,11 +397,6 @@ export default class TenantService {
     );
   }
 
-  /**
-   * Finds Tenants based on the query.
-   *
-   * @param {*} args
-   */
   async findAndCountAll(args) {
     return TenantRepository.findAndCountAll(
       args,
@@ -448,11 +404,6 @@ export default class TenantService {
     );
   }
 
-  /**
-   * Accept user invitation to join the tenant
-   * @param {*} token
-   * @param {*} forceAcceptOtherEmail - Force accepting the invitation even if it's not the same email
-   */
   async acceptInvitation(
     token,
     forceAcceptOtherEmail = false,
@@ -506,11 +457,6 @@ export default class TenantService {
     }
   }
 
-  /**
-   * Decline user invitation to join tenant
-   *
-   * @param {*} token
-   */
   async declineInvitation(token) {
     const transaction = await SequelizeRepository.createTransaction(
       this.options.database,
@@ -551,12 +497,6 @@ export default class TenantService {
     }
   }
 
-  /**
-   * Imports a list of Tenants.
-   *
-   * @param {*} data
-   * @param {*} importHash
-   */
   async import(data, importHash) {
     if (!importHash) {
       throw new Error400(
@@ -580,12 +520,6 @@ export default class TenantService {
     return this.create(dataToCreate);
   }
 
-  /**
-   * Checks if the import hash already exists.
-   * Every item imported has a unique hash.
-   *
-   * @param {*} importHash
-   */
   async _isImportHashExistent(importHash) {
     const count = await TenantRepository.count(
       {

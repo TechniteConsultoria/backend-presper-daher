@@ -13,17 +13,8 @@ const Op = Sequelize.Op;
 
 const forbiddenTenantUrls = ['www'];
 
-/**
- * Handles database operations for the Tenant.
- * See https://sequelize.org/v5/index.html to learn how to customize it.
- */
 class TenantRepository {
-  /**
-   * Creates the Tenant.
-   *
-   * @param {Object} data
-   * @param {Object} [options]
-   */
+
   static async create(data, options: IRepositoryOptions) {
     const currentUser = SequelizeRepository.getCurrentUser(
       options,
@@ -86,13 +77,11 @@ class TenantRepository {
     });
   }
 
-  /**
-   * Updates the Tenant.
-   *
-   * @param {Object} data
-   * @param {Object} [options]
-   */
-  static async update(id, data, options: IRepositoryOptions) {
+  static async update(
+    id,
+    data,
+    options: IRepositoryOptions,
+  ) {
     const currentUser = SequelizeRepository.getCurrentUser(
       options,
     );
@@ -163,9 +152,6 @@ class TenantRepository {
     return this.findById(record.id, options);
   }
 
-  /**
-   * Updates the Tenant Plan user.
-   */
   static async updatePlanUser(
     id,
     planStripeCustomerId,
@@ -207,9 +193,6 @@ class TenantRepository {
     return this.findById(record.id, options);
   }
 
-  /**
-   * Updates the Tenant Plan user.
-   */
   static async updatePlanStatus(
     planStripeCustomerId,
     plan,
@@ -251,12 +234,6 @@ class TenantRepository {
     return this.findById(record.id, options);
   }
 
-  /**
-   * Deletes the Tenant.
-   *
-   * @param {string} id
-   * @param {Object} [options]
-   */
   static async destroy(id, options: IRepositoryOptions) {
     const transaction = SequelizeRepository.getTransaction(
       options,
@@ -289,12 +266,6 @@ class TenantRepository {
     );
   }
 
-  /**
-   * Finds the Tenant and its relations.
-   *
-   * @param {string} id
-   * @param {Object} [options]
-   */
   static async findById(id, options: IRepositoryOptions) {
     const transaction = SequelizeRepository.getTransaction(
       options,
@@ -313,12 +284,6 @@ class TenantRepository {
     return record;
   }
 
-  /**
-   * Finds the Tenant and its relations by url.
-   *
-   * @param {string} url
-   * @param {Object} [options]
-   */
   static async findByUrl(url, options: IRepositoryOptions) {
     const transaction = SequelizeRepository.getTransaction(
       options,
@@ -335,30 +300,17 @@ class TenantRepository {
     return record;
   }
 
-  /**
-   * Counts the number of Tenants based on the filter.
-   *
-   * @param {Object} filter
-   * @param {Object} [options]
-   */
   static async count(filter, options: IRepositoryOptions) {
     const transaction = SequelizeRepository.getTransaction(
       options,
     );
 
-    return options.database.tenant.count(
-      {
-        where: filter,
-      },
-      {
-        transaction,
-      },
-    );
+    return options.database.tenant.count({
+      where: filter,
+      transaction,
+    });
   }
 
-  /**
-   * Finds the first/default tenant.
-   */
   static async findDefault(options: IRepositoryOptions) {
     return options.database.tenant.findOne({
       transaction: SequelizeRepository.getTransaction(
@@ -367,20 +319,6 @@ class TenantRepository {
     });
   }
 
-  /**
-   * Finds the Tenants based on the query.
-   * See https://sequelize.org/v5/manual/querying.html to learn how to
-   * customize the query.
-   *
-   * @param {Object} query
-   * @param {Object} query.filter
-   * @param {number} query.limit
-   * @param  {number} query.offset
-   * @param  {string} query.orderBy
-   * @param {Object} [options]
-   *
-   * @returns {Promise<Object>} response - Object containing the rows and the count.
-   */
   static async findAndCountAll(
     { filter, limit = 0, offset = 0, orderBy = '' },
     options: IRepositoryOptions,
@@ -411,7 +349,7 @@ class TenantRepository {
 
       if (filter.name) {
         whereAnd.push(
-          SequelizeFilterUtils.ilike(
+          SequelizeFilterUtils.ilikeIncludes(
             'tenant',
             'name',
             filter.name,
@@ -469,52 +407,48 @@ class TenantRepository {
     return { rows, count };
   }
 
-  /**
-   * Lists the Tenants to populate the autocomplete.
-   * See https://sequelize.org/v5/manual/querying.html to learn how to
-   * customize the query.
-   *
-   * @param {Object} query
-   * @param {number} limit
-   * @param {Object} options
-   */
-  static async findAllAutocomplete(query, limit, options: IRepositoryOptions) {
-    let where = {};
+  static async findAllAutocomplete(
+    query,
+    limit,
+    options: IRepositoryOptions,
+  ) {
+    let whereAnd: Array<any> = [];
 
     const currentUser = SequelizeRepository.getCurrentUser(
       options,
     );
 
     // Fetch only tenant that the current user has access
-    where = {
-      ...where,
+    whereAnd.push({
       id: {
         [Op.in]: currentUser.tenants.map(
           (tenantUser) => tenantUser.tenant.id,
         ),
       },
-    };
+    });
 
     if (query) {
-      where = {
+      whereAnd.push({
         [Op.or]: [
           { ['id']: query.id },
           {
-            [Op.and]: SequelizeFilterUtils.ilike(
+            [Op.and]: SequelizeFilterUtils.ilikeIncludes(
               'tenant',
               'name',
               query.name,
             ),
           },
         ],
-      };
+      });
     }
+
+    const where = { [Op.and]: whereAnd };
 
     const records = await options.database.tenant.findAll({
       attributes: ['id', 'name'],
       where,
       limit: limit ? Number(limit) : undefined,
-      orderBy: [['name', 'ASC']],
+      order: [['name', 'ASC']],
     });
 
     return records.map((record) => ({
@@ -523,14 +457,6 @@ class TenantRepository {
     }));
   }
 
-  /**
-   * Creates an audit log of the operation.
-   *
-   * @param {string} action - The action [create, update or delete].
-   * @param {object} record - The sequelize record
-   * @param {object} data - The new data passed on the request
-   * @param {object} options
-   */
   static async _createAuditLog(
     action,
     record,

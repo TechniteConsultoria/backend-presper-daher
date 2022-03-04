@@ -4,7 +4,7 @@ import SmtpService from '../../services/smtpService';
 export default async (req, res, next) => {
   try {
 
-    const payload = await new SmtpService(req).enviarVerificacao(req.body.to);
+    const payload = await new SmtpService(req).enviarVerificacao(req.body.email);
 
     await ApiResponseHandler.success(req, res, payload);
   } catch (error) {

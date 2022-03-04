@@ -7,14 +7,23 @@ import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import { createRateLimiter } from './apiRateLimiter';
 import { languageMiddleware } from '../middlewares/languageMiddleware';
-import { clienteMiddleware } from '../middlewares/clienteMiddleware';
-const scheduleRoutes = require('../api/notificacao/appNotificacaoCliente');
-const scheduleRoutes3 = require('../api/cursoCliente/appRotinaBoleto');
+import authSocial from './auth/authSocial';
+import setupSwaggerUI from './apiDocumentation';
+import { getEmpresaMiddleware } from '../middlewares/getEmpresaMiddleware';
+import path from 'path';
 
 const app = express();
 
 // Enables CORS
 app.use(cors({ origin: true }));
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+  res.header("Access-Control-Allow-Headers", "X-PINGOTHER, Content-Type, Authorization");
+  app.use(cors());
+  next();
+});
 
 // Initializes and adds the database middleware.
 app.use(databaseMiddleware);
@@ -26,8 +35,15 @@ app.use(languageMiddleware);
 // to set the currentUser to the requests
 app.use(authMiddleware);
 
-// Middleware para validar id/token de um Cliente usando o App
-app.use('/api/app/cliente/:id/:token', clienteMiddleware);
+// Middleware para encontrar o ususario empresa
+app.use('/api/tenant/:tenantId/produto', getEmpresaMiddleware);
+
+// Middleware para encontrar o ususario empresa
+app.use('/api/tenant/:tenantId/pedido', getEmpresaMiddleware);
+// app.use('/api/tenant/:tenantId/pedido', getPessoaFisicaMiddleware);
+
+// Setup the Documentation
+setupSwaggerUI(app);
 
 // Default rate limiter
 const defaultRateLimiter = createRateLimiter({
@@ -45,8 +61,6 @@ app.use(helmet());
 // to JSON
 app.use(
   bodyParser.json({
-    limit: '50mb', 
-    // extended: true, 
     verify: function (req, res, buf) {
       const url = (<any>req).originalUrl;
       if (url.startsWith('/api/plan/stripe/webhook')) {
@@ -61,6 +75,9 @@ app.use(
 // Configure the Entity routes
 const routes = express.Router();
 
+// Enable Passport for Social Sign-in
+authSocial(app, routes);
+
 require('./auditLog').default(routes);
 require('./auth').default(routes);
 require('./plan').default(routes);
@@ -68,24 +85,41 @@ require('./tenant').default(routes);
 require('./file').default(routes);
 require('./user').default(routes);
 require('./settings').default(routes);
-require('./cliente').default(routes);
-require('./notificacao').default(routes);
-require('./notificacaoCliente').default(routes);
-require('./curso').default(routes);
-require('./cursoModulo').default(routes);
-require('./cursoAula').default(routes);
-require('./cursoCliente').default(routes);
-require('./cursoClienteAula').default(routes);
+require('./pessoaFisica').default(routes);
+require('./empresa').default(routes);
+require('./cartao').default(routes);
+require('./produto').default(routes);
+require('./pedido').default(routes);
+require('./carrinho').default(routes);
+require('./categoria').default(routes);
+require('./carrinhoProduto').default(routes);
+require('./pedidoProduto').default(routes);
 require('./smtp').default(routes);
-require('./plano').default(routes);
-require('./planoCliente').default(routes);
+require('./comentario').default(routes);
+require('./banner').default(routes);
+require('./termo').default(routes);
+require('./informacoes').default(routes);
+
+
 // Loads the Tenant if the :tenantId param is passed
 routes.param('tenantId', tenantMiddleware);
 
 // Add the routes to the /api endpoint
 app.use('/api', routes);
 
-app.use("/schedule", scheduleRoutes);
-app.use("/schedule", scheduleRoutes3);
+// let https = require('https');
+let https = require('http');
+// let https = require('http');
+const fs = require('fs');
 
-export default app;
+let sslServer;
+
+
+  sslServer = https.createServer({
+    ca:   fs.readFileSync(path.join(__dirname, '../../cert', 'constal.crt'),   'utf8'),
+    key:  fs.readFileSync(path.join(__dirname, '../../cert', 'constal.key'),   'utf8'),
+    cert: fs.readFileSync(path.join(__dirname, '../../cert', 'constal.pem'),   'utf8')
+  }, app)
+
+
+export default sslServer;

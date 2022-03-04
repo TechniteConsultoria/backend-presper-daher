@@ -23,8 +23,6 @@ export default class SequelizeRepository {
 
   /**
    * Returns the currentUser if it exists on the options.
-   *
-   * @param {object} options
    */
   static getCurrentUser(options: IRepositoryOptions) {
     return (options && options.currentUser) || { id: null };
@@ -32,8 +30,6 @@ export default class SequelizeRepository {
 
   /**
    * Returns the tenant if it exists on the options.
-   *
-   * @param {object} options
    */
   static getCurrentTenant(options: IRepositoryOptions) {
     return (
@@ -43,8 +39,6 @@ export default class SequelizeRepository {
 
   /**
    * Returns the transaction if it exists on the options.
-   *
-   * @param {object} options
    */
   static getTransaction(options: IRepositoryOptions) {
     return (options && options.transaction) || undefined;

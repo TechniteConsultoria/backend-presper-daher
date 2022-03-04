@@ -3,9 +3,6 @@ import UserRepository from '../../database/repositories/userRepository';
 import SequelizeRepository from '../../database/repositories/sequelizeRepository';
 import { IServiceOptions } from '../IServiceOptions';
 
-/**
- * Handles the update of the user profile.
- */
 export default class AuthProfileEditor {
   options: IServiceOptions;
   transaction;
@@ -16,11 +13,6 @@ export default class AuthProfileEditor {
     this.transaction = null;
   }
 
-  /**
-   * Executes the user update.
-   *
-   * @param {*} data
-   */
   async execute(data) {
     this.data = data;
 
@@ -50,10 +42,7 @@ export default class AuthProfileEditor {
       throw error;
     }
   }
-
-  /**
-   * Validates the user info.
-   */
+  
   async _validate() {
     assert(
       this.options.currentUser,

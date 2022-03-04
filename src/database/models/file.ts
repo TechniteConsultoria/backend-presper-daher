@@ -1,7 +1,5 @@
-/**
- * File database model.
- * See https://sequelize.org/v5/manual/models-definition.html to learn how to customize it.
- */
+
+
 export default function (sequelize, DataTypes) {
   const file = sequelize.define(
     'file',
@@ -11,14 +9,36 @@ export default function (sequelize, DataTypes) {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      belongsTo: DataTypes.STRING(255),
-      belongsToId: DataTypes.STRING(255),
-      belongsToColumn: DataTypes.STRING(255),
+      belongsTo: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+          len: [0, 255],
+        },
+      },
+      belongsToId: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+          len: [0, 255],
+        },
+      },
+      belongsToColumn: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+          len: [0, 255],
+        },
+      },
       name: {
         type: DataTypes.STRING(2083),
         allowNull: false,
         validate: {
           notEmpty: true,
+          len: [0, 2083],
         },
       },
       sizeInBytes: {
@@ -28,10 +48,16 @@ export default function (sequelize, DataTypes) {
       privateUrl: {
         type: DataTypes.STRING(2083),
         allowNull: true,
+        validate: {
+          len: [0, 2083],
+        },
       },
       publicUrl: {
         type: DataTypes.STRING(2083),
         allowNull: true,
+        validate: {
+          len: [0, 2083],
+        },
       },
     },
     {

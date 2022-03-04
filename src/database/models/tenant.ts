@@ -2,10 +2,6 @@ import Plans from '../../security/plans';
 
 const plans = Plans.values;
 
-/**
- * Tenant database model.
- * See https://sequelize.org/v5/manual/models-definition.html to learn how to customize it.
- */
 export default function (sequelize, DataTypes) {
   const tenant = sequelize.define(
     'tenant',
@@ -20,6 +16,7 @@ export default function (sequelize, DataTypes) {
         allowNull: false,
         validation: {
           notEmpty: true,
+          len: [0, 255],
         },
       },
       url: {
@@ -27,22 +24,36 @@ export default function (sequelize, DataTypes) {
         allowNull: false,
         validation: {
           notEmpty: true,
+          len: [0, 50],
         },
       },
       plan: {
-        type: DataTypes.ENUM,
+        type: DataTypes.STRING(255),
         allowNull: false,
-        values: [plans.free, plans.growth, plans.enterprise],
+        validate: {
+          notEmpty: true,
+          isIn: [
+            [plans.free, plans.growth, plans.enterprise],
+          ],
+        },
         defaultValue: plans.free,
       },
       planStatus: {
-        type: DataTypes.ENUM,
+        type: DataTypes.STRING(255),
         allowNull: false,
-        values: ['active', 'cancel_at_period_end', 'error'],
-        defaultValue: 'active',
+        validate: {
+          notEmpty: true,
+          isIn: [
+            ['active','pendente', 'cancel_at_period_end', 'error'],
+          ],
+        },
+        defaultValue: 'active'
       },
       planStripeCustomerId: {
         type: DataTypes.STRING(255),
+        validate: {
+          len: [0, 255],
+        }
       },
       planUserId: {
         type: DataTypes.UUID,

@@ -7,5 +7,23 @@ export default (app) => {
       `/cliente/trocarSenha`,
       require('./appEnviarResetarSenha').default,
     );
-  };
-  
+
+    app.post(
+      `/cliente/enviarEmailEmpresaAprovada`,
+      require('./appEnviarEmailEmpresaAprovada').default,
+    );
+
+    app.post(
+      `/produto/enviarEmailRecusado`,
+      require('./sendEmailProduto').default,
+    );
+
+    app.post(
+      `/tenant/:tenantId/produto/enviarEmailRecusadoImagemProduto`,
+      require('./sendEmailImagemroduto').default,
+    );
+    app.post(
+      `/tenant/:tenantId/cliente/comentario-denuncia`,
+      require('./sendEmailDenunciaComentario').default,
+    );
+  }

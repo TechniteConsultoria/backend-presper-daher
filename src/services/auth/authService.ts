@@ -11,34 +11,39 @@ import TenantRepository from '../../database/repositories/tenantRepository';
 import { tenantSubdomain } from '../tenantSubdomain';
 import Error401 from '../../errors/Error401';
 import moment from 'moment';
-import user from '../../database/models/user';
+import empresa from '../../database/models/empresa';
 
 const BCRYPT_SALT_ROUNDS = 12;
 
-/**
- * Handles all the Auth operations of the user.
- */
 class AuthService {
-  /**
-   * Signs up with the email and password and returns a JWT token.
-   *
-   * @param {*} email
-   * @param {*} password
-   * @param {*} [options]
-   */
+
   static async signup(
+    fullName,
     email,
     password,
-    role,
     invitationToken,
     tenantId,
+    role,
+    status,
     options: any = {},
   ) {
+    if(role == 1){
+      role = 'pessoa'
+      status = 'active'
+    }else if(role == 2){
+      role = 'empresa'
+      status = 'pendente'
+    }else{
+      role = 'admin'
+      status = 'pendente'
+    }
     const transaction = await SequelizeRepository.createTransaction(
       options.database,
     );
-
+      
     try {
+      email = email.toLowerCase();
+      
       const existingUser = await UserRepository.findByEmail(
         email,
         options,
@@ -81,19 +86,6 @@ class AuthService {
           },
         );
 
-        if (EmailSender.isConfigured) {
-          await this.sendEmailAddressVerificationEmail(
-            options.language,
-            existingUser.email,
-            tenantId,
-            {
-              ...options,
-              transaction,
-              bypassPermissionValidation: true,
-            },
-          );
-        }
-
         // Handles onboarding process like
         // invitation, creation of default tenant,
         // or default joining the current tenant
@@ -105,8 +97,34 @@ class AuthService {
             ...options,
             transaction,
           },
-          role
         );
+
+        // Email may have been alreadyverified using the invitation token
+        const isEmailVerified = Boolean(
+          await UserRepository.count(
+            {
+              emailVerified: true,
+              id: existingUser.id,
+            },
+            {
+              ...options,
+              transaction,
+            },
+          ),
+        );
+
+        if (!isEmailVerified && EmailSender.isConfigured) {
+          await this.sendEmailAddressVerificationEmail(
+            options.language,
+            existingUser.email,
+            tenantId,
+            {
+              ...options,
+              transaction,
+              bypassPermissionValidation: true,
+            },
+          );
+        }
 
         const token = jwt.sign(
           { id: existingUser.id },
@@ -123,7 +141,8 @@ class AuthService {
 
       const newUser = await UserRepository.createFromAuth(
         {
-          firstName: email.split('@')[0],
+          fullName: fullName,
+          firstName: fullName.split(' ')[0],
           password: hashedPassword,
           email: email,
         },
@@ -132,21 +151,6 @@ class AuthService {
           transaction,
         },
       );
-
-      // if (EmailSender.isConfigured) {
-      //   console.log("njvgfnjfnvjbkfnbjkn")
-      //   await this.sendEmailAddressVerificationEmail(
-      //     options.language,
-      //     newUser.email,
-      //     tenantId,
-      //     {
-      //       ...options,
-      //       transaction,
-      //     },
-      //   );
-      // }
-
-      newUser.emailVerified = true
 
       // Handles onboarding process like
       // invitation, creation of default tenant,
@@ -159,7 +163,34 @@ class AuthService {
           ...options,
           transaction,
         },
+        role,
       );
+
+      // Email may have been alreadyverified using the invitation token
+      const isEmailVerified = Boolean(
+        await UserRepository.count(
+          {
+            emailVerified: true,
+            id: newUser.id,
+          },
+          {
+            ...options,
+            transaction,
+          },
+        ),
+      );
+
+      if (!isEmailVerified && EmailSender.isConfigured) {
+        await this.sendEmailAddressVerificationEmail(
+          options.language,
+          newUser.email,
+          tenantId,
+          {
+            ...options,
+            transaction,
+          },
+        );
+      }
 
       const token = jwt.sign(
         { id: newUser.id },
@@ -170,8 +201,7 @@ class AuthService {
       await SequelizeRepository.commitTransaction(
         transaction,
       );
-
-      return token;
+      return token;    
     } catch (error) {
       await SequelizeRepository.rollbackTransaction(
         transaction,
@@ -181,22 +211,11 @@ class AuthService {
     }
   }
 
-  /**
-   * Finds the user by the email.
-   *
-   * @param email
-   * @param options
-   */
   static async findByEmail(email, options: any = {}) {
+    email = email.toLowerCase();
     return UserRepository.findByEmail(email, options);
   }
 
-  /**
-   * Signs in a user with the email and password and returns a JWT token.
-   * @param {*} email
-   * @param {*} password
-   * @param {*} [options]
-   */
   static async signin(
     email,
     password,
@@ -209,6 +228,7 @@ class AuthService {
     );
 
     try {
+      email = email.toLowerCase();
       const user = await UserRepository.findByEmail(
         email,
         options,
@@ -348,11 +368,6 @@ class AuthService {
     }
   }
 
-  /**
-   * Finds the user based on the JWT token.
-   *
-   * @param {*} token
-   */
   static async findByToken(token, options) {
     return new Promise((resolve, reject) => {
       jwt.verify(
@@ -382,17 +397,16 @@ class AuthService {
                   );
 
               if (isTokenManuallyExpired) {
+                console.log("hjsdfnvkjsdvkjs\nbvjsdnvjdcnvjfsanvpojsdnvosdnvojksdanvojksdnv sdapkjvnsdoijnvosdinvoisdanviosdnvsdivnsdoinviosdnvoisdn")
                 reject(new Error401());
                 return;
               }
 
-              user.emailVerified = true;
-
               // If the email sender id not configured,
               // removes the need for email verification.
-              // if (user && !EmailSender.isConfigured) {
-              //   user.emailVerified = true;
-              // }
+              if (user && !EmailSender.isConfigured) {
+                user.emailVerified = true;
+              }
 
               resolve(user);
             })
@@ -402,13 +416,6 @@ class AuthService {
     });
   }
 
-  /**
-   * Sends an email address verification email.
-   *
-   * @param {*} language
-   * @param {*} email
-   * @param {*} [options]
-   */
   static async sendEmailAddressVerificationEmail(
     language,
     email,
@@ -421,11 +428,16 @@ class AuthService {
 
     let link;
     try {
-      const tenant = await TenantRepository.findById(
-        tenantId,
-        { ...options },
-      );
+      let tenant;
+      
+      if (tenantId) {
+        tenant = await TenantRepository.findById(
+          tenantId,
+          { ...options },
+        );
+      }
 
+      email = email.toLowerCase();
       const token = await UserRepository.generateEmailVerificationToken(
         email,
         options,
@@ -447,12 +459,6 @@ class AuthService {
     ).sendTo(email);
   }
 
-  /**
-   * Sends a password reset email.
-   *
-   * @param {*} language
-   * @param {*} email
-   */
   static async sendPasswordResetEmail(
     language,
     email,
@@ -466,11 +472,16 @@ class AuthService {
     let link;
 
     try {
-      const tenant = await TenantRepository.findById(
-        tenantId,
-        { ...options },
-      );
+      let tenant;
+      
+      if (tenantId) {
+        tenant = await TenantRepository.findById(
+          tenantId,
+          { ...options },
+        );
+      }
 
+      email = email.toLowerCase();
       const token = await UserRepository.generatePasswordResetToken(
         email,
         options,
@@ -493,12 +504,6 @@ class AuthService {
     ).sendTo(email);
   }
 
-  /**
-   * Verifies the user email based on the token.
-   *
-   * @param {*} token
-   * @param {*} options
-   */
   static async verifyEmail(token, options) {
     const currentUser = options.currentUser;
 
@@ -533,13 +538,6 @@ class AuthService {
     );
   }
 
-  /**
-   * Resets the password, validating the password reset token.
-   *
-   * @param {*} token
-   * @param {*} password
-   * @param {*} options
-   */
   static async passwordReset(
     token,
     password,
@@ -604,6 +602,70 @@ class AuthService {
       true,
       options,
     );
+  }
+
+  static async signinFromSocial(
+    provider,
+    providerId,
+    email,
+    emailVerified,
+    firstName,
+    lastName,
+    options: any = {},
+  ) {
+    if (!email) {
+      throw new Error('auth-no-email');
+    }
+
+    const transaction = await SequelizeRepository.createTransaction(
+      options.database,
+    );
+
+    try {
+      email = email.toLowerCase();
+      let user = await UserRepository.findByEmail(
+        email,
+        options,
+      );
+
+      if (
+        user &&
+        (user.provider !== provider ||
+          user.providerId !== providerId)
+      ) {
+        throw new Error('auth-invalid-provider');
+      }
+
+      if (!user) {
+        user = await UserRepository.createFromSocial(
+          provider,
+          providerId,
+          email,
+          emailVerified,
+          firstName,
+          lastName,
+          options,
+        );
+      }
+
+      const token = jwt.sign(
+        { id: user.id },
+        getConfig().AUTH_JWT_SECRET,
+        { expiresIn: getConfig().AUTH_JWT_EXPIRES_IN },
+      );
+
+      await SequelizeRepository.commitTransaction(
+        transaction,
+      );
+
+      return token;
+    } catch (error) {
+      await SequelizeRepository.rollbackTransaction(
+        transaction,
+      );
+
+      throw error;
+    }
   }
 }
 

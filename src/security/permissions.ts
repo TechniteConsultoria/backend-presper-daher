@@ -1,7 +1,7 @@
 import Roles from './roles';
 import Plans from './plans';
 import Storage from './storage';
-
+//a
 const storage = Storage.values;
 const roles = Roles.values;
 const plans = Plans.values;
@@ -47,7 +47,7 @@ class Permissions {
       },
       userEdit: {
         id: 'userEdit',
-        allowedRoles: [roles.admin],
+        allowedRoles: [roles.admin, roles.pessoa],
         allowedPlans: [
           plans.free,
           plans.growth,
@@ -83,7 +83,7 @@ class Permissions {
       },
       userRead: {
         id: 'userRead',
-        allowedRoles: [roles.admin],
+        allowedRoles: [roles.admin, roles.pessoa, roles.empresa],
         allowedPlans: [
           plans.free,
           plans.growth,
@@ -92,7 +92,7 @@ class Permissions {
       },
       userAutocomplete: {
         id: 'userAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
+        allowedRoles: [roles.admin],
         allowedPlans: [
           plans.free,
           plans.growth,
@@ -121,1083 +121,482 @@ class Permissions {
           storage.settingsLogos,
         ],
       },
-      afiliadosImport: {
-        id: 'afiliadosImport',
+      pessoaFisicaImport: {
+        id: 'pessoaFisicaImport',
         allowedRoles: [roles.admin],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      afiliadosCreate: {
-        id: 'afiliadosCreate',
-        allowedRoles: [roles.admin],
+      pessoaFisicaCreate: {
+        id: 'pessoaFisicaCreate',
+        allowedRoles: [roles.admin, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
-          storage.afiliadosFoto,
+          storage.pessoaFisicaFoto,
         ],
       },
-      afiliadosEdit: {
-        id: 'afiliadosEdit',
-        allowedRoles: [roles.admin],
+      pessoaFisicaEdit: {
+        id: 'pessoaFisicaEdit',
+        allowedRoles: [roles.admin, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
-          storage.afiliadosFoto,
+          storage.pessoaFisicaFoto,
         ],
       },
-      afiliadosDestroy: {
-        id: 'afiliadosDestroy',
-        allowedRoles: [roles.admin],
+      pessoaFisicaDestroy: {
+        id: 'pessoaFisicaDestroy',
+        allowedRoles: [roles.admin,],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
-          storage.afiliadosFoto,
+          storage.pessoaFisicaFoto,
         ],
       },
-      afiliadosRead: {
-        id: 'afiliadosRead',
-        allowedRoles: [roles.admin, roles.custom],
+      pessoaFisicaRead: {
+        id: 'pessoaFisicaRead',
+        allowedRoles: [roles.admin, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      afiliadosAutocomplete: {
-        id: 'afiliadosAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
+      pessoaFisicaAutocomplete: {
+        id: 'pessoaFisicaAutocomplete',
+        allowedRoles: [roles.admin, ],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
 
-      regiaoImport: {
-        id: 'regiaoImport',
+      empresaImport: {
+        id: 'empresaImport',
         allowedRoles: [roles.admin],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      regiaoCreate: {
-        id: 'regiaoCreate',
+      empresaCreate: {
+        id: 'empresaCreate',
+        allowedRoles: [roles.admin, roles.empresa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+        allowedStorage: [
+          storage.empresaFoto,
+        ],
+      },
+      empresaEdit: {
+        id: 'empresaEdit',
+        allowedRoles: [roles.admin, roles.empresa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+        allowedStorage: [
+          storage.empresaFoto,
+        ],
+      },
+      empresaDestroy: {
+        id: 'empresaDestroy',
         allowedRoles: [roles.admin],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
-
+          storage.empresaFoto,
         ],
       },
-      regiaoEdit: {
-        id: 'regiaoEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      regiaoDestroy: {
-        id: 'regiaoDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      regiaoRead: {
-        id: 'regiaoRead',
-        allowedRoles: [roles.admin, roles.custom],
+      empresaRead: {
+        id: 'empresaRead',
+        allowedRoles: [roles.admin, roles.empresa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      regiaoAutocomplete: {
-        id: 'regiaoAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      clienteImport: {
-        id: 'clienteImport',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      clienteCreate: {
-        id: 'clienteCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.clienteFoto,
-        ],
-      },
-      clienteEdit: {
-        id: 'clienteEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.clienteFoto,
-        ],
-      },
-      clienteDestroy: {
-        id: 'clienteDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.clienteFoto,
-        ],
-      },
-      clienteRead: {
-        id: 'clienteRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      clienteAutocomplete: {
-        id: 'clienteAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
+      empresaAutocomplete: {
+        id: 'empresaAutocomplete',
+        allowedRoles: [roles.admin, ],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
 
-      avaliacaoImport: {
-        id: 'avaliacaoImport',
+      cartaoImport: {
+        id: 'cartaoImport',
         allowedRoles: [roles.admin],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      avaliacaoCreate: {
-        id: 'avaliacaoCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.avaliacaoDieta,
-          storage.avaliacaoBioimpedancia,
-          storage.avaliacaoBioressonancia,
-        ],
-      },
-      avaliacaoEdit: {
-        id: 'avaliacaoEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.avaliacaoDieta,
-          storage.avaliacaoBioimpedancia,
-          storage.avaliacaoBioressonancia,
-        ],
-      },
-      avaliacaoDestroy: {
-        id: 'avaliacaoDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.avaliacaoDieta,
-          storage.avaliacaoBioimpedancia,
-          storage.avaliacaoBioressonancia,
-        ],
-      },
-      avaliacaoRead: {
-        id: 'avaliacaoRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      avaliacaoAutocomplete: {
-        id: 'avaliacaoAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      questionarioTipoImport: {
-        id: 'questionarioTipoImport',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      questionarioTipoCreate: {
-        id: 'questionarioTipoCreate',
-        allowedRoles: [roles.admin],
+      cartaoCreate: {
+        id: 'cartaoCreate',
+        allowedRoles: [roles.admin, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
 
         ],
       },
-      questionarioTipoEdit: {
-        id: 'questionarioTipoEdit',
-        allowedRoles: [roles.admin],
+      cartaoEdit: {
+        id: 'cartaoEdit',
+        allowedRoles: [roles.admin, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
 
         ],
       },
-      questionarioTipoDestroy: {
-        id: 'questionarioTipoDestroy',
-        allowedRoles: [roles.admin],
+      cartaoDestroy: {
+        id: 'cartaoDestroy',
+        allowedRoles: [roles.admin, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
 
         ],
       },
-      questionarioTipoRead: {
-        id: 'questionarioTipoRead',
-        allowedRoles: [roles.admin, roles.custom],
+      cartaoRead: {
+        id: 'cartaoRead',
+        allowedRoles: [roles.admin, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      questionarioTipoAutocomplete: {
-        id: 'questionarioTipoAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      questionarioImport: {
-        id: 'questionarioImport',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      questionarioCreate: {
-        id: 'questionarioCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      questionarioEdit: {
-        id: 'questionarioEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      questionarioDestroy: {
-        id: 'questionarioDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      questionarioRead: {
-        id: 'questionarioRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      questionarioAutocomplete: {
-        id: 'questionarioAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
+      cartaoAutocomplete: {
+        id: 'cartaoAutocomplete',
+        allowedRoles: [roles.admin, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
 
-      questionarioPerguntaImport: {
-        id: 'questionarioPerguntaImport',
+      produtoImport: {
+        id: 'produtoImport',
         allowedRoles: [roles.admin],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      questionarioPerguntaCreate: {
-        id: 'questionarioPerguntaCreate',
-        allowedRoles: [roles.admin],
+      produtoCreate: {
+        id: 'produtoCreate',
+        allowedRoles: [roles.admin, roles.empresa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
-          storage.questionarioPerguntaFoto,
+          storage.produtoFotos,
         ],
       },
-      questionarioPerguntaEdit: {
-        id: 'questionarioPerguntaEdit',
-        allowedRoles: [roles.admin],
+      produtoEdit: {
+        id: 'produtoEdit',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
-          storage.questionarioPerguntaFoto,
+          storage.produtoFotos,
         ],
       },
-      questionarioPerguntaDestroy: {
-        id: 'questionarioPerguntaDestroy',
-        allowedRoles: [roles.admin],
+      produtoDestroy: {
+        id: 'produtoDestroy',
+        allowedRoles: [roles.admin, roles.empresa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
-          storage.questionarioPerguntaFoto,
+          storage.produtoFotos,
         ],
       },
-      questionarioPerguntaRead: {
-        id: 'questionarioPerguntaRead',
-        allowedRoles: [roles.admin, roles.custom],
+      produtoRead: {
+        id: 'produtoRead',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      questionarioPerguntaAutocomplete: {
-        id: 'questionarioPerguntaAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
+      produtoAutocomplete: {
+        id: 'produtoAutocomplete',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
 
-      questionarioClienteImport: {
-        id: 'questionarioClienteImport',
+      pedidoImport: {
+        id: 'pedidoImport',
         allowedRoles: [roles.admin],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      questionarioClienteCreate: {
-        id: 'questionarioClienteCreate',
-        allowedRoles: [roles.admin],
+      pedidoCreate: {
+        id: 'pedidoCreate',
+        allowedRoles: [roles.admin, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
 
         ],
       },
-      questionarioClienteEdit: {
-        id: 'questionarioClienteEdit',
-        allowedRoles: [roles.admin],
+      pedidoEdit: {
+        id: 'pedidoEdit',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
 
         ],
       },
-      questionarioClienteDestroy: {
-        id: 'questionarioClienteDestroy',
-        allowedRoles: [roles.admin],
+      pedidoDestroy: {
+        id: 'pedidoDestroy',
+        allowedRoles: [roles.admin, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
 
         ],
       },
-      questionarioClienteRead: {
-        id: 'questionarioClienteRead',
-        allowedRoles: [roles.admin, roles.custom],
+      pedidoRead: {
+        id: 'pedidoRead',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      questionarioClienteAutocomplete: {
-        id: 'questionarioClienteAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
+      pedidoAutocomplete: {
+        id: 'pedidoAutocomplete',
+        allowedRoles: [roles.admin, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-
-      questionarioClienteRespostaImport: {
-        id: 'questionarioClienteRespostaImport',
-        allowedRoles: [roles.admin],
+     pedidoProdutoCreate: {
+        id: 'pedidoProdutoCreate',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      questionarioClienteRespostaCreate: {
-        id: 'questionarioClienteRespostaCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      questionarioClienteRespostaEdit: {
-        id: 'questionarioClienteRespostaEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      questionarioClienteRespostaDestroy: {
-        id: 'questionarioClienteRespostaDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      questionarioClienteRespostaRead: {
-        id: 'questionarioClienteRespostaRead',
-        allowedRoles: [roles.admin, roles.custom],
+      pedidoProdutoEdit: {
+        id: 'pedidoProdutoEdit',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      questionarioClienteRespostaAutocomplete: {
-        id: 'questionarioClienteRespostaAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
+      pedidoProdutoDestroy: {
+        id: 'pedidoProdutoDestroy',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-
-      agendaImport: {
-        id: 'agendaImport',
-        allowedRoles: [roles.admin],
+      pedidoProdutoRead: {
+        id: 'pedidoProdutoRead',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      agendaCreate: {
-        id: 'agendaCreate',
-        allowedRoles: [roles.admin],
+      carrinhoImport: {
+        id: 'carrinhoImport',
+        allowedRoles: [roles.admin, roles.pessoa, roles.empresa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      carrinhoCreate: {
+        id: 'carrinhoCreate',
+        allowedRoles: [roles.admin, roles.pessoa, roles.empresa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
 
         ],
       },
-      agendaEdit: {
-        id: 'agendaEdit',
-        allowedRoles: [roles.admin],
+      carrinhoEdit: {
+        id: 'carrinhoEdit',
+        allowedRoles: [roles.admin, roles.pessoa, roles.empresa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
 
         ],
       },
-      agendaDestroy: {
-        id: 'agendaDestroy',
-        allowedRoles: [roles.admin],
+      carrinhoDestroy: {
+        id: 'carrinhoDestroy',
+        allowedRoles: [roles.admin, roles.pessoa, roles.empresa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
 
         ],
       },
-      agendaRead: {
-        id: 'agendaRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      agendaAutocomplete: {
-        id: 'agendaAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      dicaReceitaImport: {
-        id: 'dicaReceitaImport',
+      
+      carrinhoProdutoImport: {
+        id: 'carrinhoProdutoImport',
         allowedRoles: [roles.admin],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      dicaReceitaCreate: {
-        id: 'dicaReceitaCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.dicaReceitaImagem,
-        ],
-      },
-      dicaReceitaEdit: {
-        id: 'dicaReceitaEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.dicaReceitaImagem,
-        ],
-      },
-      dicaReceitaDestroy: {
-        id: 'dicaReceitaDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.dicaReceitaImagem,
-        ],
-      },
-      dicaReceitaRead: {
-        id: 'dicaReceitaRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      dicaReceitaAutocomplete: {
-        id: 'dicaReceitaAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      programaImport: {
-        id: 'programaImport',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      programaCreate: {
-        id: 'programaCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.programaImagem,
-        ],
-      },
-      programaEdit: {
-        id: 'programaEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.programaImagem,
-        ],
-      },
-      programaDestroy: {
-        id: 'programaDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.programaImagem,
-        ],
-      },
-      programaRead: {
-        id: 'programaRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      programaAutocomplete: {
-        id: 'programaAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      programaClienteImport: {
-        id: 'programaClienteImport',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      programaClienteCreate: {
-        id: 'programaClienteCreate',
-        allowedRoles: [roles.admin],
+      carrinhoProdutoCreate: {
+        id: 'carrinhoProdutoCreate',
+        allowedRoles: [roles.admin, roles.pessoa, roles.empresa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
 
         ],
       },
-      programaClienteEdit: {
-        id: 'programaClienteEdit',
-        allowedRoles: [roles.admin],
+      carrinhoProdutoEdit: {
+        id: 'carrinhoProdutoEdit',
+        allowedRoles: [roles.admin, roles.pessoa, roles.empresa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
 
         ],
       },
-      programaClienteDestroy: {
-        id: 'programaClienteDestroy',
+      carrinhoProdutoUpdate: {
+        id: 'carrinhoProdutoUpdate',
         allowedRoles: [roles.admin],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      carrinhoProdutoDestroy: {
+        id: 'carrinhoProdutoDestroy',
+        allowedRoles: [roles.admin, roles.pessoa, roles.empresa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
 
         ],
       },
-      programaClienteRead: {
-        id: 'programaClienteRead',
-        allowedRoles: [roles.admin, roles.custom],
+      carrinhoProdutoRead: {
+        id: 'carrinhoProdutoRead',
+        allowedRoles: [roles.admin, roles.pessoa, roles.empresa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      programaClienteAutocomplete: {
-        id: 'programaClienteAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      pilulaSouLeveImport: {
-        id: 'pilulaSouLeveImport',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      pilulaSouLeveCreate: {
-        id: 'pilulaSouLeveCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.pilulaSouLeveAudio,
-        ],
-      },
-      pilulaSouLeveEdit: {
-        id: 'pilulaSouLeveEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.pilulaSouLeveAudio,
-        ],
-      },
-      pilulaSouLeveDestroy: {
-        id: 'pilulaSouLeveDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.pilulaSouLeveAudio,
-        ],
-      },
-      pilulaSouLeveRead: {
-        id: 'pilulaSouLeveRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      pilulaSouLeveAutocomplete: {
-        id: 'pilulaSouLeveAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
+      carrinhoProdutoAutocomplete: {
+        id: 'carrinhoProdutoAutocomplete',
+        allowedRoles: [roles.admin, roles.pessoa, roles.empresa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
 
-      notificacaoImport: {
-        id: 'notificacaoImport',
-        allowedRoles: [roles.admin],
+      carrinhoRead: {
+        id: 'carrinhoRead',
+        allowedRoles: [roles.admin, roles.pessoa, roles.empresa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      notificacaoCreate: {
-        id: 'notificacaoCreate',
-        allowedRoles: [roles.admin],
+      carrinhoAutocomplete: {
+        id: 'carrinhoAutocomplete',
+        allowedRoles: [roles.admin, roles.pessoa, roles.empresa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+
+      categoriaImport: {
+        id: 'categoriaImport',
+        allowedRoles: [roles.admin, roles.empresa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      categoriaCreate: {
+        id: 'categoriaCreate',
+        allowedRoles: [roles.admin, roles.empresa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
 
         ],
       },
-      notificacaoEdit: {
-        id: 'notificacaoEdit',
-        allowedRoles: [roles.admin],
+      categoriaEdit: {
+        id: 'categoriaEdit',
+        allowedRoles: [roles.admin, roles.empresa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
         allowedStorage: [
 
         ],
       },
-      notificacaoDestroy: {
-        id: 'notificacaoDestroy',
-        allowedRoles: [roles.admin],
+      categoriaDestroy: {
+        id: 'categoriaDestroy',
+        allowedRoles: [roles.admin, roles.empresa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
       },
-      notificacaoRead: {
-        id: 'notificacaoRead',
-        allowedRoles: [roles.admin, roles.custom],
+      categoriaRead: {
+        id: 'categoriaRead',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
-      notificacaoAutocomplete: {
-        id: 'notificacaoAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      cursoImport: {
-        id: 'cursoImport',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      cursoCreate: {
-        id: 'cursoCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.cursoImagem,
-        ],
-      },
-      cursoEdit: {
-        id: 'cursoEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.cursoImagem,
-        ],
-      },
-      cursoDestroy: {
-        id: 'cursoDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.cursoImagem,
-        ],
-      },
-      cursoRead: {
-        id: 'cursoRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      cursoAutocomplete: {
-        id: 'cursoAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      cursoModuloImport: {
-        id: 'cursoModuloImport',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      cursoModuloCreate: {
-        id: 'cursoModuloCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.cursoModuloImagem,
-        ],
-      },
-      cursoModuloEdit: {
-        id: 'cursoModuloEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.cursoModuloImagem,
-        ],
-      },
-      cursoModuloDestroy: {
-        id: 'cursoModuloDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.cursoModuloImagem,
-        ],
-      },
-      cursoModuloRead: {
-        id: 'cursoModuloRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      cursoModuloAutocomplete: {
-        id: 'cursoModuloAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      cursoAulaImport: {
-        id: 'cursoAulaImport',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      cursoAulaCreate: {
-        id: 'cursoAulaCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.cursoAulaImagem,
-          storage.cursoAulaApostila,
-          storage.cursoAulaQuestionario,
-        ],
-      },
-      cursoAulaEdit: {
-        id: 'cursoAulaEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.cursoAulaImagem,
-          storage.cursoAulaApostila,
-          storage.cursoAulaQuestionario,
-        ],
-      },
-      cursoAulaDestroy: {
-        id: 'cursoAulaDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.cursoAulaImagem,
-          storage.cursoAulaApostila,
-          storage.cursoAulaQuestionario,
-        ],
-      },
-      cursoAulaRead: {
-        id: 'cursoAulaRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      cursoAulaAutocomplete: {
-        id: 'cursoAulaAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      cursoClienteImport: {
-        id: 'cursoClienteImport',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      cursoClienteCreate: {
-        id: 'cursoClienteCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      cursoClienteEdit: {
-        id: 'cursoClienteEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      cursoClienteDestroy: {
-        id: 'cursoClienteDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      cursoClienteRead: {
-        id: 'cursoClienteRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      cursoClienteAutocomplete: {
-        id: 'cursoClienteAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      cursoClienteAulaImport: {
-        id: 'cursoClienteAulaImport',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      cursoClienteAulaCreate: {
-        id: 'cursoClienteAulaCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      cursoClienteAulaEdit: {
-        id: 'cursoClienteAulaEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      cursoClienteAulaDestroy: {
-        id: 'cursoClienteAulaDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      cursoClienteAulaRead: {
-        id: 'cursoClienteAulaRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      cursoClienteAulaAutocomplete: {
-        id: 'cursoClienteAulaAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      }, 
-      planoImport: {
-        id: 'planoImport',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      planoCreate: {
-        id: 'planoCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.planoImagem,
-        ],
-      },
-      planoEdit: {
-        id: 'planoEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.planoImagem,
-        ],
-      },
-      planoDestroy: {
-        id: 'planoDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.planoImagem,
-        ],
-      },
-      planoRead: {
-        id: 'planoRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      planoAutocomplete: {
-        id: 'planoAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      tarefaCreate: {
-        id: 'tarefaCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-        ],
-      },
-      tarefaEdit: {
-        id: 'tarefaEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-        ],
-      },
-      tarefaDestroy: {
-        id: 'tarefaDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-        ],
-      },
-      tarefaRead: {
-        id: 'tarefaRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      tarefaAutocomplete: {
-        id: 'tarefaAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      perguntaCreate: {
-        id: 'perguntaCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-        ],
-      },
-      perguntaEdit: {
-        id: 'perguntaEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-        ],
-      },
-      perguntaDestroy: {
-        id: 'perguntaDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-        ],
-      },
-      perguntaRead: {
-        id: 'perguntaRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      perguntaAutocomplete: {
-        id: 'perguntaAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      planoClienteImport: {
-        id: 'planoClienteImport',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      planoClienteCreate: {
-        id: 'planoClienteCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      planoClienteEdit: {
-        id: 'planoClienteEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      planoClienteDestroy: {
-        id: 'planoClienteDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      planoClienteRead: {
-        id: 'planoClienteRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      planoClienteAutocomplete: {
-        id: 'planoClienteAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      programaAtividadeImport: {
-        id: 'programaAtividadeImport',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      programaAtividadeCreate: {
-        id: 'programaAtividadeCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.programaAtividadeImagem,
-        ],
-      },
-      programaAtividadeEdit: {
-        id: 'programaAtividadeEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.programaAtividadeImagem,
-        ],
-      },
-      programaAtividadeDestroy: {
-        id: 'programaAtividadeDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-          storage.programaAtividadeImagem,
-        ],
-      },
-      programaAtividadeRead: {
-        id: 'programaAtividadeRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      programaAtividadeAutocomplete: {
-        id: 'programaAtividadeAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-
-      programaAtividadeItemImport: {
-        id: 'programaAtividadeItemImport',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      programaAtividadeItemCreate: {
-        id: 'programaAtividadeItemCreate',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      programaAtividadeItemEdit: {
-        id: 'programaAtividadeItemEdit',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      programaAtividadeItemDestroy: {
-        id: 'programaAtividadeItemDestroy',
-        allowedRoles: [roles.admin],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-        allowedStorage: [
-
-        ],
-      },
-      programaAtividadeItemRead: {
-        id: 'programaAtividadeItemRead',
-        allowedRoles: [roles.admin, roles.custom],
-        allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      },
-      programaAtividadeItemAutocomplete: {
-        id: 'programaAtividadeItemAutocomplete',
-        allowedRoles: [roles.admin, roles.custom],
+      categoriaAutocomplete: {
+        id: 'categoriaAutocomplete',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
         allowedPlans: [plans.free, plans.growth, plans.enterprise],
       },
       
-      
-      // tarefaImport: {
-      //   id: 'tarefaImport',
+      comentarioCreate: {
+        id: 'comentarioCreate',
+        allowedRoles: [roles.admin, roles.pessoa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      comentarioEdit: {
+        id: 'comentarioEdit',
+        allowedRoles: [roles.admin, roles.pessoa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      comentarioDestroy: {
+        id: 'comentarioDestroy',
+        allowedRoles: [roles.admin, roles.pessoa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      comentarioRead: {
+        id: 'comentarioRead',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      informacoesImport: {
+        id: 'informacoesImport',
+        allowedRoles: [roles.admin],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      informacoesCreate: {
+        id: 'informacoesCreate',
+        allowedRoles: [roles.admin, roles.empresa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+
+      },
+      informacoesEdit: {
+        id: 'informacoesEdit',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      informacoesDestroy: {
+        id: 'informacoesDestroy',
+        allowedRoles: [roles.admin, roles.empresa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+
+      },
+      informacoesRead: {
+        id: 'informacoesRead',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      informacoesAutocomplete: {
+        id: 'informacoesAutocomplete',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      // ImagemCreate: {
+      //   id: 'ImagemCreate',
       //   allowedRoles: [roles.admin],
       //   allowedPlans: [plans.free, plans.growth, plans.enterprise],
       // },
-      // tarefaCreate: {
-      //   id: 'tarefaCreate',
+      termosImport: {
+        id: 'termosImport',
+        allowedRoles: [roles.admin],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      termosCreate: {
+        id: 'termosCreate',
+        allowedRoles: [roles.admin, roles.empresa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+
+      },
+      termosEdit: {
+        id: 'termosEdit',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      termosDestroy: {
+        id: 'termosDestroy',
+        allowedRoles: [roles.admin, roles.empresa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+
+      },
+      termosRead: {
+        id: 'termosRead',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      termosAutocomplete: {
+        id: 'termosAutocomplete',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      // ImagemCreate: {
+      //   id: 'ImagemCreate',
       //   allowedRoles: [roles.admin],
       //   allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      //   allowedStorage: [
-
-      //   ],
       // },
-      // tarefaEdit: {
-      //   id: 'tarefaEdit',
-      //   allowedRoles: [roles.admin],
-      //   allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      //   allowedStorage: [
-
-      //   ],
-      // },
-      // tarefaDestroy: {
-      //   id: 'tarefaDestroy',
-      //   allowedRoles: [roles.admin],
-      //   allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      //   allowedStorage: [
-
-      //   ],
-      // },
-      // tarefaRead: {
-      //   id: 'tarefaRead',
-      //   allowedRoles: [roles.admin, roles.custom],
-      //   allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      // },
-      // tarefaAutocomplete: {
-      //   id: 'tarefaAutocomplete',
-      //   allowedRoles: [roles.admin, roles.custom],
-      //   allowedPlans: [plans.free, plans.growth, plans.enterprise],
-      // },
-
-    }
+      bannersImport: {
+        id: 'bannersImport',
+        allowedRoles: [roles.admin],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      bannersCreate: {
+        id: 'bannersCreate',
+        allowedRoles: [roles.admin, roles.empresa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+        allowedStorage: [
+          storage.bannersFotos,
+        ],
+      },
+      bannersEdit: {
+        id: 'bannersEdit',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+        allowedStorage: [
+          storage.bannersFotos,
+        ],
+      },
+      bannersDestroy: {
+        id: 'bannersDestroy',
+        allowedRoles: [roles.admin, roles.empresa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+        allowedStorage: [
+          storage.bannersFotos,
+        ],
+      },
+      bannersRead: {
+        id: 'bannersRead',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+      bannersAutocomplete: {
+        id: 'bannersAutocomplete',
+        allowedRoles: [roles.admin, roles.empresa, roles.pessoa],
+        allowedPlans: [plans.free, plans.growth, plans.enterprise],
+      },
+    };
   }
 
   static get asArray() {

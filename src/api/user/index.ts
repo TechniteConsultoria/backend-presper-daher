@@ -8,6 +8,10 @@ export default (app) => {
     require('./userEdit').default,
   );
   app.post(
+    `/tenant/:tenantId/userVerificarEmail/:id`,
+    require('./userVerificarEmail').default,
+  );
+  app.post(
     `/tenant/:tenantId/user/import`,
     require('./userImport').default,
   );
@@ -27,25 +31,8 @@ export default (app) => {
     `/tenant/:tenantId/user/:id`,
     require('./userFind').default,
   );
-
-  //app
   app.get(
-    `/userByBairro/:bairro`,
-    require('./userByBairro').default,
-  );
-
-  app.get(
-    `/userByCidade/:cidade`,
-    require('./userByCidade').default,
-  );
-
-  app.get(
-    `/userByEstado/:estado`,
-    require('./userByEstado').default,
-  );
-
-  app.get(
-    `/userByPais`,
-    require('./userByPais').default,
+    `/tenant/:tenantId/adm/:id`,
+    require('./admFind').default,
   );
 };

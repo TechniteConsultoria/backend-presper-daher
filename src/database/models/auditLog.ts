@@ -1,7 +1,3 @@
-/**
- * Audit Log database model.
- * See https://sequelize.org/v5/manual/models-definition.html to learn how to customize it.
- */
 export default function (sequelize, DataTypes) {
   const auditLog = sequelize.define(
     'auditLog',
@@ -14,10 +10,16 @@ export default function (sequelize, DataTypes) {
       entityName: {
         type: DataTypes.STRING(255),
         allowNull: false,
+        validate: {
+          len: [0, 255],
+        },
       },
       entityId: {
         type: DataTypes.STRING(255),
         allowNull: false,
+        validate: {
+          len: [0, 255],
+        },
       },
       tenantId: {
         type: DataTypes.UUID,
@@ -26,6 +28,9 @@ export default function (sequelize, DataTypes) {
       action: {
         type: DataTypes.STRING(32),
         allowNull: false,
+        validate: {
+          len: [0, 32],
+        },
       },
       createdById: {
         type: DataTypes.UUID,
@@ -33,6 +38,9 @@ export default function (sequelize, DataTypes) {
       },
       createdByEmail: {
         type: DataTypes.STRING(255),
+        validate: {
+          len: [0, 255],
+        },
         allowNull: true,
       },
       timestamp: { type: DataTypes.DATE, allowNull: false },

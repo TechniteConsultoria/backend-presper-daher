@@ -84,144 +84,53 @@ const en = {
 
   preview: {
     error:
-      'Sorry, this operation is not allowed on preview mode.',
+      'Sorry, this operation is not allowed in preview mode.',
   },
 
   entities: {
-    afiliados: {
+    pessoaFisica: {
+      errors: {
+        unique: {
+          cpf: 'Cpf must be unique',
+        }
+      }
+    },
+    empresa: {
+      errors: {
+        unique: {
+          cnpj: 'Cnpj must be unique',
+        }
+      }
+    },
+    cartao: {
+      errors: {
+        unique: {
+          apelido: 'Apelido must be unique',
+        }
+      }
+    },
+    produto: {
       errors: {
         unique: {
 
         }
       }
     },
-    regiao: {
+    pedido: {
       errors: {
         unique: {
 
         }
       }
     },
-    cliente: {
+    carrinho: {
       errors: {
         unique: {
 
         }
       }
     },
-    avaliacao: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    questionarioTipo: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    questionario: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    questionarioPergunta: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    questionarioCliente: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    questionarioClienteResposta: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    agenda: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    dicaReceita: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    programa: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    programaCliente: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    pilulaSouLeve: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    notificacao: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    curso: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    cursoModulo: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    cursoAula: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    cursoCliente: {
-      errors: {
-        unique: {
-
-        }
-      }
-    },
-    cursoClienteAula: {
+    categoria: {
       errors: {
         unique: {
 

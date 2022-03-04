@@ -14,10 +14,11 @@ export default async (req, res) => {
     if (!req.currentUser || !req.currentUser.id) {
       throw new Error403();
     }
+
     if (!req.currentTenant || !req.currentTenant.id) {
       throw new Error403();
     }
-    
+
     // The config storage has the information on where
     // to store the file and the max size
     const config = Storage.values[storageId];
@@ -34,7 +35,6 @@ export default async (req, res) => {
     ) {
       throw new Error403();
     }
-    
 
     // The private URL is the path related to the bucket/file system folder
     let privateUrl = `${config.folder}/${filename}`;

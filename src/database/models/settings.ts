@@ -1,7 +1,3 @@
-/**
- * Settings database model.
- * See https://sequelize.org/v5/manual/models-definition.html to learn how to customize it.
- */
 export default function (sequelize, DataTypes) {
   const settings = sequelize.define(
     'settings',
@@ -14,6 +10,10 @@ export default function (sequelize, DataTypes) {
       theme: {
         type: DataTypes.STRING(255),
         allowNull: false,
+        validate: {
+          notEmpty: true,
+          len: [0, 255],
+        },
       },
       backgroundImageUrl: {
         type: DataTypes.STRING(1024),
@@ -51,6 +51,9 @@ export default function (sequelize, DataTypes) {
 
     models.settings.belongsTo(models.tenant, {
       as: 'tenant',
+      foreignKey: {
+        allowNull: false,
+      },
     });
 
     models.settings.belongsTo(models.user, {

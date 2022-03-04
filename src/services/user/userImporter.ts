@@ -8,9 +8,6 @@ import { IServiceOptions } from '../IServiceOptions';
  */
 const SEND_INVITATION_EMAIL = false;
 
-/**
- * Handles importing of users.
- */
 export default class UserImporter {
   options: IServiceOptions;
 

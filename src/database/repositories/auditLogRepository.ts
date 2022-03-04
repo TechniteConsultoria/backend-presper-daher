@@ -5,10 +5,6 @@ import { IRepositoryOptions } from './IRepositoryOptions';
 
 const Op = Sequelize.Op;
 
-/**
- * Handles database operations for Audit Logs.
- * See https://sequelize.org/v5/index.html to learn how to customize it.
- */
 export default class AuditLogRepository {
   static get CREATE() {
     return 'create';
@@ -69,20 +65,6 @@ export default class AuditLogRepository {
     return log;
   }
 
-  /**
-   * Finds the Audit Logs based on the query.
-   *
-   * @param {Object} query
-   * @param {Object} query.filter
-   * @param {number} query.limit
-   * @param  {number} query.offset
-   * @param  {string} query.orderBy
-
-   * @param  {Object} options
-   * @param  {string} options.tenant
-   *
-   * @returns {Promise<Object>} response - Object containing the rows and the count.
-   */
   static async findAndCountAll(
     { filter, limit = 0, offset = 0, orderBy = '' },
     options: IRepositoryOptions,
@@ -141,7 +123,7 @@ export default class AuditLogRepository {
 
       if (filter.createdByEmail) {
         whereAnd.push({
-          [Op.and]: SequelizeFilterUtils.ilike(
+          [Op.and]: SequelizeFilterUtils.ilikeIncludes(
             'auditLog',
             'createdByEmail',
             filter.createdByEmail,

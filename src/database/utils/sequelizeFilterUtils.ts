@@ -11,8 +11,6 @@ export default class SequelizeFilterUtils {
    * To hack this behaviour, if the uuid is invalid, it creates a new one,
    * that won't match any of the database.
    * If the uuid is invalid, brings no results.
-   *
-   * @param {*} value
    */
   static uuid(value) {
     let id = value;
@@ -29,12 +27,8 @@ export default class SequelizeFilterUtils {
 
   /**
    * Creates an ilike condition.
-   *
-   * @param {*} model
-   * @param {*} column
-   * @param {*} value
    */
-  static ilike(model, column, value) {
+  static ilikeIncludes(model, column, value) {
     return Sequelize.where(
       Sequelize.fn(
         'lower',
@@ -46,11 +40,15 @@ export default class SequelizeFilterUtils {
     );
   }
 
-  static arrayContainsForMySQL(model, column, value) {
-    return Sequelize.fn(
-      'JSON_CONTAINS',
-      Sequelize.col(`${model}.${column}`),
-      `"${value}"`,
+  static ilikeExact(model, column, value) {
+    return Sequelize.where(
+      Sequelize.fn(
+        'lower',
+        Sequelize.col(`${model}.${column}`),
+      ),
+      {
+        [Sequelize.Op.like]: (value || '').toLowerCase(),
+      },
     );
   }
 }

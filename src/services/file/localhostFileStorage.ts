@@ -4,6 +4,7 @@ import os from 'os';
 import jwt from 'jsonwebtoken';
 import { getConfig } from '../../config';
 import mv from 'mv';
+import Error403 from '../../errors/Error403';
 
 /**
  * The directory where the files should be uploaded.
@@ -16,11 +17,6 @@ export default class LocalFileStorage {
    * Creates a signed upload URL that enables
    * the frontend to upload directly to the server in a
    * secure way.
-   *
-   * @param {*} privateUrl
-   * @param {*} maxSizeInBytes
-   * @param {*} publicRead
-   * @param {*} tokenExpiresAt
    */
   static async uploadCredentials(
     privateUrl,
@@ -48,7 +44,12 @@ export default class LocalFileStorage {
    * Handles the upload to the server.
    */
   static async upload(fileTempUrl, privateUrl) {
-    const internalUrl = path.join(UPLOAD_DIR, privateUrl);
+    let internalUrl: any = path.join(UPLOAD_DIR, privateUrl);
+    internalUrl = internalUrl.split( '\\');
+    internalUrl = internalUrl.join('/');
+    if (!isPathInsideUploadDir(internalUrl)) {
+      throw new Error403();
+    }
     ensureDirectoryExistence(internalUrl);
     return new Promise((resolve, reject) => {
       mv(fileTempUrl, internalUrl, (err) => {
@@ -75,10 +76,15 @@ export default class LocalFileStorage {
 
   /**
    * Downloads the file.
-   * @param {*} privateUrl
    */
   static async download(privateUrl) {
-    return path.join(UPLOAD_DIR, privateUrl);
+    let finalPath: any = path.join(UPLOAD_DIR, privateUrl);
+    finalPath = finalPath.split( '\\');
+    finalPath = finalPath.join('/');
+    if (!isPathInsideUploadDir(finalPath)) {
+      throw new Error403();
+    }
+    return finalPath;
   }
 }
 
@@ -91,4 +97,9 @@ function ensureDirectoryExistence(filePath) {
 
   ensureDirectoryExistence(dirname);
   fs.mkdirSync(dirname);
+}
+
+function isPathInsideUploadDir(path) {
+  const uploadUrlWithSlash = UPLOAD_DIR.endsWith('/') ? UPLOAD_DIR : `${UPLOAD_DIR}/`;
+  return path.indexOf(uploadUrlWithSlash) === 0;
 }

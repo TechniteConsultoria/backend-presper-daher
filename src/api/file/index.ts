@@ -11,19 +11,4 @@ export default (app) => {
     `/tenant/:tenantId/file/credentials`,
     require('./credentials').default,
   );
-
-  //Rotas App
-  app.get(
-    `/app/cliente/:id/:token/file/credentials/:filename`,
-    require('./appCredentials').default,
-  );
-
-  app.post(
-    `/app/cliente/:id/:token/file/upload`,
-    require('./localhost/appUpload').default,
-  );
-  app.get(
-    `/app/cliente/:id/:token/file/download`,
-    require('./localhost/appDownload').default,
-  );
 };

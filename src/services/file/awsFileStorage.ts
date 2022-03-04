@@ -5,6 +5,7 @@ const aws = require('aws-sdk');
 const s3 = new aws.S3({
   accessKeyId: getConfig().AWS_ACCESS_KEY_ID,
   secretAccessKey: getConfig().AWS_SECRET_ACCESS_KEY,
+  region: getConfig().AWS_REGION,
 });
 
 export default class AWSStorage {
@@ -12,11 +13,6 @@ export default class AWSStorage {
    * Creates a signed upload URL that enables
    * the frontend to upload directly to S3 in a
    * secure way
-   *
-   * @param {*} privateUrl
-   * @param {*} maxSizeInBytes
-   * @param {*} publicRead
-   * @param {*} tokenExpiresAt
    */
   static async uploadCredentials(
     privateUrl,
@@ -64,11 +60,7 @@ export default class AWSStorage {
   }
 
   /**
-   * Returns a signed download URL.
-      *
-   * @param {*} privateUrl
-   * @param {*} publicRead
-   * @param {*} tokenExpiresAt
+   * Returns a signed download URL
    */
   static async downloadUrl(privateUrl, publicRead) {
     if (publicRead) {

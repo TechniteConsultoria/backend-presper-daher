@@ -20,8 +20,6 @@ export default class UserDestroyer {
 
   /**
    * Removes all passed users.
-   *
-   * @param {*} data
    */
   async destroyAll(data) {
     this.data = data;

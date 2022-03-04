@@ -1,11 +1,6 @@
-import { databaseCloseIfIndividualConnectionPerRequest } from '../database/databaseConnection';
-
 export default class ApiResponseHandler {
   static async download(req, res, path) {
     res.download(path);
-    await databaseCloseIfIndividualConnectionPerRequest(
-      req.database,
-    );
   }
 
   static async success(req, res, payload) {
@@ -14,10 +9,6 @@ export default class ApiResponseHandler {
     } else {
       res.sendStatus(200);
     }
-
-    await databaseCloseIfIndividualConnectionPerRequest(
-      req.database,
-    );
   }
 
   static async error(req, res, error) {
@@ -30,9 +21,5 @@ export default class ApiResponseHandler {
       console.error(error);
       res.status(500).send(error.message);
     }
-
-    await databaseCloseIfIndividualConnectionPerRequest(
-      req.database,
-    );
   }
 }

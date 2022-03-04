@@ -11,7 +11,7 @@ export default async (req, res, next) => {
     // In the case of the Tenant, specific permissions like tenantDestroy and tenantEdit are
     // checked inside the service
     const payload = await new TenantService(req).update(
-      req.body.id,
+      req.params.id,
       req.body.data,
     );
 

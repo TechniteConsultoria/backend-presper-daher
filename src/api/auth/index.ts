@@ -47,19 +47,7 @@ export default (app) => {
     `/auth/sign-up`,
     signUpRateLimiter,
     require('./authSignUp').default,
-  );
-
-  app.post(
-    `/tenant/:tenantId/auth/sign-in`,
-    signInRateLimiter,
-    require('./authSignIn').default,
-  );
-
-  app.post(
-    `/tenant/:tenantId/auth/sign-up`,
-    signUpRateLimiter,
-    require('./authSignUp').default,
-  );
+  );  
 
   app.put(
     `/auth/profile`,
@@ -76,10 +64,6 @@ export default (app) => {
     require('./authVerifyEmail').default,
   );
 
-  app.get(`/auth/me`, require('./authMe').default);
-
-  app.get(
-    `/auth/email-configured`,
-    require('./authIsEmailConfigured').default,
-  );
+  app.get(`/auth/me`, 
+  require('./authMe').default);
 };

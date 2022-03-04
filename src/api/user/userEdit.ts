@@ -11,7 +11,7 @@ export default async (req, res) => {
 
     let editor = new UserEditor(req);
 
-    await editor.update(req.body.data);
+    await editor.userVerificarEmail(req.body.data);
 
     const payload = true;
 

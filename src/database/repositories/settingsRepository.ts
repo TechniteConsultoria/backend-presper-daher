@@ -4,17 +4,8 @@ import FileRepository from './fileRepository';
 import _get from 'lodash/get';
 import { IRepositoryOptions } from './IRepositoryOptions';
 
-/**
- * Handles database operations for Settings.
- * See https://sequelize.org/v5/index.html to learn how to customize it.
- */
 export default class SettingsRepository {
-  /**
-   * Finds the settings or creates and returns the default.
-   *
-   * @param {*} defaults
-   * @param {*} [options]
-   */
+
   static async findOrCreateDefault(defaults, options: IRepositoryOptions) {
     const currentUser = SequelizeRepository.getCurrentUser(
       options,
@@ -30,8 +21,8 @@ export default class SettingsRepository {
       where: { id: tenant.id, tenantId: tenant.id },
       defaults: {
         ...defaults,
-        id: tenant.id,
-        tenantId: tenant.id,
+        id: tenant.id || 'c4a740fc-2e98-48b6-a837-6aa0feccfcfb',
+        tenantId: tenant.id || 'c4a740fc-2e98-48b6-a837-6aa0feccfcfb'|| 'c4a740fc-2e98-48b6-a837-6aa0feccfcfb',
         createdById: currentUser ? currentUser.id : null,
       },
       transaction: SequelizeRepository.getTransaction(
@@ -45,12 +36,6 @@ export default class SettingsRepository {
     );
   }
 
-  /**
-   * Saves the settings.
-   *
-   * @param {*} data
-   * @param {*} [options]
-   */
   static async save(data, options: IRepositoryOptions) {
     const transaction = SequelizeRepository.getTransaction(
       options,
@@ -77,8 +62,8 @@ export default class SettingsRepository {
       where: { id: tenant.id, tenantId: tenant.id },
       defaults: {
         ...data,
-        id: tenant.id,
-        tenantId: tenant.id,
+        id: tenant.id || 'c4a740fc-2e98-48b6-a837-6aa0feccfcfb',
+        tenantId: tenant.id || 'c4a740fc-2e98-48b6-a837-6aa0feccfcfb',
         createdById: currentUser ? currentUser.id : null,
       },
       transaction,
@@ -124,12 +109,6 @@ export default class SettingsRepository {
     );
   }
 
-  /**
-   * Fill the Settings with the relations and files.
-   *
-   * @param {Object} record
-   * @param {Object} [options]
-   */
   static async _fillWithRelationsAndFiles(record, options: IRepositoryOptions) {
     if (!record) {
       return record;

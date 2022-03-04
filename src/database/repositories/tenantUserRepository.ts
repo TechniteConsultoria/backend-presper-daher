@@ -4,18 +4,8 @@ import Roles from '../../security/roles';
 import crypto from 'crypto';
 import { IRepositoryOptions } from './IRepositoryOptions';
 
-/**
- * Handles database operations for Tenant User Roles.
- * See https://sequelize.org/v5/index.html to learn how to customize it.
- */
 export default class TenantUserRepository {
-  /**
-   * Find Roles by Tenant and User
-   *
-   * @param {*} tenantId
-   * @param {*} userId
-   * @param {*} options
-   */
+  
   static async findByTenantAndUser(
     tenantId,
     userId,
@@ -34,9 +24,6 @@ export default class TenantUserRepository {
     });
   }
 
-  /**
-   * Finds the Tenant User by its invitation token
-   */
   static async findByInvitationToken(
     invitationToken,
     options: IRepositoryOptions,
@@ -54,20 +41,22 @@ export default class TenantUserRepository {
     });
   }
 
-  /**
-   * Creates the Tenant User relation.
-   * @param {*} tenant
-   * @param {*} user
-   * @param {*} options
-   */
-  static async create(tenant, user, roles, options: IRepositoryOptions) {
+  static async create(
+    tenant,
+    user,
+    roles,
+    options: IRepositoryOptions,
+  ) {
     roles = roles || [];
     const transaction = SequelizeRepository.getTransaction(
       options,
     );
-
-    const status = selectStatus('active', roles);
-
+    let status;
+    if(roles === 'pessoa'){
+      status = selectStatus('active', roles);
+    }else{
+      status = selectStatus('pendente', roles);
+    }
     await options.database.tenantUser.create(
       {
         tenantId: tenant.id,
@@ -93,14 +82,11 @@ export default class TenantUserRepository {
     );
   }
 
-  /**
-   * Deletes the user from the tenant.
-   *
-   * @param {*} tenantId
-   * @param {*} id
-   * @param {*} options
-   */
-  static async destroy(tenantId, id, options: IRepositoryOptions) {
+  static async destroy(
+    tenantId,
+    id,
+    options: IRepositoryOptions,
+  ) {
     const transaction = SequelizeRepository.getTransaction(
       options,
     );
@@ -130,14 +116,7 @@ export default class TenantUserRepository {
     );
   }
 
-  /**
-   * Updates the roles of the user in a tenant.
-   *
-   * @param {*} id
-   * @param {*} roles
-   * @param {*} [options]
-   */
-  static async updateRoles(tenantId, id, roles, options, usuarioMaster=null) {
+  static async updateRoles(tenantId, id, roles, options) {
     const transaction = SequelizeRepository.getTransaction(
       options,
     );
@@ -151,16 +130,6 @@ export default class TenantUserRepository {
       id,
       options,
     );
-
-    
-    if(usuarioMaster!=null){
-      await user.update(
-        {
-          usuarioMaster: usuarioMaster
-        },
-        { transaction },
-      );  
-    }
 
     let isCreation = false;
 
@@ -223,7 +192,10 @@ export default class TenantUserRepository {
     return tenantUser;
   }
 
-  static async acceptInvitation(invitationToken, options: IRepositoryOptions) {
+  static async acceptInvitation(
+    invitationToken,
+    options: IRepositoryOptions,
+  ) {
     const transaction = SequelizeRepository.getTransaction(
       options,
     );
@@ -236,6 +208,9 @@ export default class TenantUserRepository {
       invitationToken,
       options,
     );
+
+    const isSameEmailFromInvitation =
+      invitationTenantUser.userId === currentUser.id;
 
     let existingTenantUser = await this.findByTenantAndUser(
       invitationTenantUser.tenantId,
@@ -292,6 +267,17 @@ export default class TenantUserRepository {
       });
     }
 
+    const emailVerified =
+      currentUser.emailVerified ||
+      isSameEmailFromInvitation;
+
+    await options.database.user.update(
+      {
+        emailVerified,
+      },
+      { where: { id: currentUser.id }, transaction },
+    );
+
     const auditLogRoles = existingTenantUser
       ? existingTenantUser.roles
       : invitationTenantUser.roles;
@@ -318,7 +304,9 @@ function selectStatus(oldStatus, newRoles) {
   if (oldStatus === 'invited') {
     return oldStatus;
   }
-
+  if (oldStatus === 'pendente') {
+    return oldStatus;
+  }
   if (!newRoles.length) {
     return 'empty-permissions';
   }

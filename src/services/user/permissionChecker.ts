@@ -8,14 +8,23 @@ const plans = Plans.values;
 
 /**
  * Checks the Permission of the User on a Tenant.
+ * Hey
  */
 export default class PermissionChecker {
+  ImagemCreate(produtoEdit: {
+    id: string; allowedRoles: string[]; allowedPlans: string[]; allowedStorage: {
+      id: string; folder: string; maxSizeInBytes: number; /**
+ * Checks if the current user roles allows the permission.
+ */ }[];
+  }) {
+    throw new Error('Method not implemented.');
+  }
   currentTenant;
   language;
   currentUser;
 
   constructor({ currentTenant, language, currentUser }) {
-    this.currentTenant = currentTenant;
+    this.currentTenant = currentUser.tenants[0].dataValues;
     this.language = language;
     this.currentUser = currentUser;
   }
@@ -23,36 +32,42 @@ export default class PermissionChecker {
   /**
    * Validates if the user has a specific permission
    * and throws a Error403 if it doesn't.
-   * @param {*} permission
    */
   validateHas(permission) {
     if (!this.has(permission)) {
+      console.log("permission stop 'cuz it is !this.has(permission)")
+      console.log(permission)
+      console.log("dont have permission!")
       throw new Error403(this.language);
     }
   }
 
   /**
    * Checks if the user has a specific permission.
-   * @param {*} permission
    */
   has(permission) {
+    console.log(permission)
+    console.log("permission has")	
     assert(permission, 'permission is required');
 
-    // if (!this.isEmailVerified) {
-    //   return false;
-    // }
+    if (!this.isEmailVerified) {
+      console.log("email stopped")
+      return false;
+    }
 
-    // if (!this.hasPlanPermission(permission)) {
-    //   return false;
-    // }
-
+    if (!this.hasPlanPermission(permission)) {
+      console.log('stped has permission')
+      return false;
+    }
+    console.log(' this.hasRolePermission  ')
+    console.log(this.hasRolePermission(permission) )
     return this.hasRolePermission(permission);
+    // return true
   }
 
   /**
    * Validates if the user has access to a storage
    * and throws a Error403 if it doesn't.
-   * @param {*} storageId
    */
   validateHasStorage(storageId) {
     if (!this.hasStorage(storageId)) {
@@ -62,7 +77,6 @@ export default class PermissionChecker {
 
   /**
    * Validates if the user has access to a storage.
-   * @param {*} storageId
    */
   hasStorage(storageId: string) {
     assert(storageId, 'storageId is required');
@@ -73,10 +87,23 @@ export default class PermissionChecker {
    * Checks if the current user roles allows the permission.
    */
   hasRolePermission(permission) {
-    return this.currentUserRolesIds.some((role) =>
-      permission.allowedRoles.some(
-        (allowedRole) => allowedRole === role,
-      ),
+
+    console.log(this.currentUserRolesIds)
+	
+    return this.currentUserRolesIds.some((role) =>{
+      return permission.allowedRoles.some(
+        (allowedRole) => {
+             console.log(`Raindrops are falling on my head
+And just like the guy whose feet are too big for his bed
+Nothing seems to fit `)
+             console.log(allowedRole)
+	     console.log(role)
+	     console.log(allowedRole == role)
+	     
+	     return allowedRole == role
+       }
+      )
+     }
     );
   }
 
@@ -110,20 +137,39 @@ export default class PermissionChecker {
     }
 
     const tenant = this.currentUser.tenants
-      .filter(
+      /*.filter(
         (tenantUser) => tenantUser.status === 'active',
-      )
+      )*/
       .find((tenantUser) => {
-        return (
-          tenantUser.tenant.id === this.currentTenant.id
+          console.log(`
+It starts with one
+All I know
+It's so unreal
+Watch you go
+I tried so hard and got so far
+But in the end, it doesn't even matter
+I had to fall to lose it all
+But in the end, it doesn't even matter
+`)
+          console.log(tenantUser.tenant.id)
+	  console.log(this.currentTenant)
+	  console.log("tenantUser.tenant.id === this.currentTenant.tenantId")
+	  console.log(tenantUser.tenant.id === this.currentTenant.tenantId) 
+        return(
+          tenantUser.tenant.id === this.currentTenant.tenantId
         );
       });
 
     if (!tenant) {
       return [];
     }
-
-    return tenant.roles;
+    console.log('*-*-**-*-*-*-*-')
+    console.log('tenant.roles')
+    console.log(tenant.roles)
+    console.log(JSON.parse(tenant.roles))
+    console.log(typeof(tenant.roles))
+    console.log(typeof(JSON.parse(tenant.roles)))
+    return JSON.parse(tenant.roles);
   }
 
   /**

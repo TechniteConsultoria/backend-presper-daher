@@ -1,8 +1,5 @@
 import { i18n, i18nExists } from '../i18n';
 
-/**
- * Error with code 401
- */
 export default class Error401 extends Error {
   code: Number;
 

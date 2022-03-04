@@ -6,10 +6,6 @@ import Error401 from '../errors/Error401';
  * Authenticates and fills the request with the user if it exists.
  * If no token is passed, it continues the request but without filling the currentUser.
  * If userAutoAuthenticatedEmailForTests exists and no token is passed, it fills with this user for tests.
- *
- * @param {*} req
- * @param {*} res
- * @param {*} next
  */
 export async function authMiddleware(req, res, next) {
   const isTokenEmpty =

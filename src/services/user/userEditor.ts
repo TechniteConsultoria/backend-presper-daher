@@ -20,10 +20,11 @@ export default class UserEditor {
     this.options = options;
   }
 
+  async userVerificarEmail(id){
+    await UserRepository.userVerificarEmail(id);
+  }
   /**
    * Updates a user via the User page.
-   *
-   * @param {*} data
    */
   async update(data) {
     this.data = data;
@@ -85,10 +86,9 @@ export default class UserEditor {
   async _updateAtDatabase() {
     await TenantUserRepository.updateRoles(
       this.options.currentTenant.id,
-      this.data.id,      
+      this.data.id,
       this.data.roles,
       this.options,
-      this.data.usuarioMaster
     );
   }
 

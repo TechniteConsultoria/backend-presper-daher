@@ -13,7 +13,7 @@ export default async (req, res) => {
     const event = stripe.webhooks.constructEvent(
       req.rawBody,
       req.headers['stripe-signature'],
-      getConfig().PLAN_STRIPE_WEBHOOK_SIGNIN_SECRET,
+      getConfig().PLAN_STRIPE_WEBHOOK_SIGNING_SECRET,
     );
 
     if (event.type === 'checkout.session.completed') {
