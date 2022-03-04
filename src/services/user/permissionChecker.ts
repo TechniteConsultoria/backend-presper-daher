@@ -38,13 +38,13 @@ export default class PermissionChecker {
   has(permission) {
     assert(permission, 'permission is required');
 
-    if (!this.isEmailVerified) {
-      return false;
-    }
+    // if (!this.isEmailVerified) {
+    //   return false;
+    // }
 
-    if (!this.hasPlanPermission(permission)) {
-      return false;
-    }
+    // if (!this.hasPlanPermission(permission)) {
+    //   return false;
+    // }
 
     return this.hasRolePermission(permission);
   }

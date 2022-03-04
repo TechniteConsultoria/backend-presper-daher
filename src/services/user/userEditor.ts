@@ -88,7 +88,6 @@ export default class UserEditor {
       this.data.id,      
       this.data.roles,
       this.options,
-      this.data.afiliado,
       this.data.usuarioMaster
     );
   }
