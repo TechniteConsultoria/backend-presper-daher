@@ -12,6 +12,12 @@ export default function (sequelize) {
       nome: {
         type: DataTypes.TEXT,
       },
+      titulo: {
+        type: DataTypes.TEXT,
+      },
+      autor: {
+        type: DataTypes.TEXT,
+      },
       descricao: {
         type: DataTypes.TEXT,
       },
