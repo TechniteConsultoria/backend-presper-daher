@@ -1,33 +1,33 @@
 export default (app) => {
   
   app.post(
-    `/tenant/:tenantId/comentario`,
-    require('./comentarioCreate').default,
+    `/tenant/:tenantId/pergunta`,
+    require('./perguntaCreate').default,
   );
   app.put(
-    `/tenant/:tenantId/comentario/:id`,
-    require('./comentarioUpdate').default,
+    `/tenant/:tenantId/pergunta/:id`,
+    require('./perguntaUpdate').default,
   );
   app.get(
-    `/tenant/:tenantId/comentario`,
-    require('./comentarioList').default,
+    `/tenant/:tenantId/pergunta`,
+    require('./perguntaList').default,
   );
   app.get(
-    `/tenant/:tenantId/find-comentario/:id`,
-    require('./comentarioFind').default,
+    `/tenant/:tenantId/find-pergunta/:id`,
+    require('./perguntaFind').default,
   );
   app.get(
     `/tenant/:tenantId/findByProduto/:id`,
-    require('./comentarioListByProduto').default,
+    require('./perguntaListByProduto').default,
   );
 
   app.get(
     `/tenant/:tenantId/findByEmpresa/:id`,
-    require('./comentarioByEmpresa').default,
+    require('./perguntaByEmpresa').default,
   );
   // app.post(
-  //   `/tenant/:tenantId/comentario`,
-  //   require('./comentarioFindByProduto').default,
+  //   `/tenant/:tenantId/pergunta`,
+  //   require('./perguntaFindByProduto').default,
   // );
   
   
