@@ -52,15 +52,6 @@ export default (app) => {
     `/app/cliente/:id/:token/receita/:receita`,
     require('./appReceitaFind').default,
   );
-  //Pilula
-  app.get(
-    `/app/cliente/:id/:token/pilula`,
-    require('./appPilulaList').default,
-  );
-  app.get(
-    `/app/cliente/:id/:token/pilula/:pilula`,
-    require('./appPilulaFind').default,
-  );
 
   
   //Produtos (Open)

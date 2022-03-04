@@ -9,7 +9,6 @@ import { createRateLimiter } from './apiRateLimiter';
 import { languageMiddleware } from '../middlewares/languageMiddleware';
 import { clienteMiddleware } from '../middlewares/clienteMiddleware';
 const scheduleRoutes = require('../api/notificacao/appNotificacaoCliente');
-const scheduleRoutes2 = require('../api/agendaNotificacao/appNotificacaoAgenda');
 const scheduleRoutes3 = require('../api/cursoCliente/appRotinaBoleto');
 
 const app = express();
@@ -69,23 +68,7 @@ require('./tenant').default(routes);
 require('./file').default(routes);
 require('./user').default(routes);
 require('./settings').default(routes);
-require('./afiliados').default(routes);
-require('./regiao').default(routes);
 require('./cliente').default(routes);
-require('./avaliacao').default(routes);
-require('./questionarioTipo').default(routes);
-require('./questionario').default(routes);
-require('./questionarioPergunta').default(routes);
-require('./questionarioCliente').default(routes);
-require('./questionarioClienteResposta').default(routes);
-require('./pergunta').default(routes);
-require('./tarefa').default(routes);
-require('./agenda').default(routes);
-require('./agendaNotificacao').default(routes);
-require('./dicaReceita').default(routes);
-require('./programa').default(routes);
-require('./programaCliente').default(routes);
-require('./pilulaSouLeve').default(routes);
 require('./notificacao').default(routes);
 require('./notificacaoCliente').default(routes);
 require('./curso').default(routes);
@@ -96,9 +79,6 @@ require('./cursoClienteAula').default(routes);
 require('./smtp').default(routes);
 require('./plano').default(routes);
 require('./planoCliente').default(routes);
-require('./programaAtividade').default(routes);
-require('./programaAtividadeItem').default(routes);
-
 // Loads the Tenant if the :tenantId param is passed
 routes.param('tenantId', tenantMiddleware);
 
@@ -106,7 +86,6 @@ routes.param('tenantId', tenantMiddleware);
 app.use('/api', routes);
 
 app.use("/schedule", scheduleRoutes);
-app.use("/schedule", scheduleRoutes2);
 app.use("/schedule", scheduleRoutes3);
 
 export default app;
