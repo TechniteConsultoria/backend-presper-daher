@@ -163,13 +163,9 @@ But in the end, it doesn't even matter
     if (!tenant) {
       return [];
     }
-    console.log('*-*-**-*-*-*-*-')
-    console.log('tenant.roles')
-    console.log(tenant.roles)
-    console.log(JSON.parse(tenant.roles))
-    console.log(typeof(tenant.roles))
-    console.log(typeof(JSON.parse(tenant.roles)))
-    return JSON.parse(tenant.roles);
+
+    // return JSON.parse(tenant.roles);
+    return tenant.roles;
   }
 
   /**
