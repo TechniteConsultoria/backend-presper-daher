@@ -26,8 +26,9 @@ export default function (sequelize, DataTypes) {
       },
       status: {
         type: DataTypes.ENUM,
-        allowNull: false,
+        // allowNull: false,
         values: ['active', 'invited', 'empty-permissions'],
+        default: 'empty-permissions'
       },
     },
     {

@@ -54,7 +54,7 @@ export default function (sequelize) {
         allowNull: false,
         validate: {
           notEmpty: true,
-          //isEmail: true,
+          isEmail: true,
         }
       },
       emailVerificado: {
@@ -164,11 +164,7 @@ export default function (sequelize) {
       },
     });
 
-    models.cliente.belongsToMany(models.programaAtividade, {
-      as: 'programaAtividade',
-      constraints: false,
-      through: 'programaAtividadeCliente',
-    });
+    
     
     models.cliente.belongsTo(models.tenant, {
       as: 'tenant',

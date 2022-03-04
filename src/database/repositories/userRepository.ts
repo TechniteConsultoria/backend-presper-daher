@@ -53,18 +53,18 @@ export default class UserRepository {
       options,
     );
 
-    await AuditLogRepository.log(
-      {
-        entityName: 'user',
-        entityId: user.id,
-        action: AuditLogRepository.CREATE,
-        values: {
-          ...user.get({ plain: true }),
-          avatars: data.avatars,
-        },
-      },
-      options,
-    );
+    // await AuditLogRepository.log(
+    //   {
+    //     entityName: 'user',
+    //     entityId: user.id,
+    //     action: AuditLogRepository.CREATE,
+    //     values: {
+    //       ...user.get({ plain: true }),
+    //       avatars: data.avatars,
+    //     },
+    //   },
+    //   options,
+    // );
 
     return this.findById(user.id, {
       ...options,
@@ -93,18 +93,18 @@ export default class UserRepository {
     );
 
     delete user.password;
-    await AuditLogRepository.log(
-      {
-        entityName: 'user',
-        entityId: user.id,
-        action: AuditLogRepository.CREATE,
-        values: {
-          ...user.get({ plain: true }),
-          avatars: data.avatars,
-        },
-      },
-      options,
-    );
+    // await AuditLogRepository.log(
+    //   {
+    //     entityName: 'user',
+    //     entityId: user.id,
+    //     action: AuditLogRepository.CREATE,
+    //     values: {
+    //       ...user.get({ plain: true }),
+    //       avatars: data.avatars,
+    //     },
+    //   },
+    //   options,
+    // );
 
     return this.findById(user.id, {
       ...options,
@@ -152,18 +152,18 @@ export default class UserRepository {
       options,
     );
 
-    await AuditLogRepository.log(
-      {
-        entityName: 'user',
-        entityId: user.id,
-        action: AuditLogRepository.UPDATE,
-        values: {
-          ...user.get({ plain: true }),
-          avatars: data.avatars,
-        },
-      },
-      options,
-    );
+    // await AuditLogRepository.log(
+    //   {
+    //     entityName: 'user',
+    //     entityId: user.id,
+    //     action: AuditLogRepository.UPDATE,
+    //     values: {
+    //       ...user.get({ plain: true }),
+    //       avatars: data.avatars,
+    //     },
+    //   },
+    //   options,
+    // );
 
     return this.findById(user.id, options);
   }

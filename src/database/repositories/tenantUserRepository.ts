@@ -137,7 +137,7 @@ export default class TenantUserRepository {
    * @param {*} roles
    * @param {*} [options]
    */
-  static async updateRoles(tenantId, id, roles, options, afiliado=null, usuarioMaster=null) {
+  static async updateRoles(tenantId, id, roles, options, usuarioMaster=null) {
     const transaction = SequelizeRepository.getTransaction(
       options,
     );
@@ -152,12 +152,7 @@ export default class TenantUserRepository {
       options,
     );
 
-    if(afiliado!=null){
-      await user.setAfiliado(afiliado || null, {
-        transaction,
-      });
-    }
-
+    
     if(usuarioMaster!=null){
       await user.update(
         {

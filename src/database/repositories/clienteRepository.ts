@@ -11,8 +11,6 @@ import ptBR from '../../i18n/pt-BR'
 import { Md5 } from 'ts-md5'
 import { v4 as uuidv4 } from 'uuid'
 import Error403 from '../../errors/Error403'
-import regiao from '../models/regiao'
-import RegiaoService from '../../services/regiaoService'
 import { getConfig } from '../../config'
 require('dotenv').config()
 
@@ -953,21 +951,11 @@ class ClienteRepository {
           options,
         )
 
-        let regiao = await options.database.regiao.findAll({
-          where: {
-            afiliadoId: currentUser.afiliadoId,
-          },
-          transaction,
-        })
+       
 
         var bairros = ''
         var cidades: any[] = []
         var estados: any[] = []
-        regiao.forEach((element) => {
-          bairros += ';' + element.descricao + ';'
-          cidades.push(element.cidade)
-          estados.push(element.uf)
-        })
 
         var bairrosValidados: string[] = []
         bairros.split(';').forEach((element) => {
@@ -1038,21 +1026,12 @@ class ClienteRepository {
           options,
         )
 
-        let regiao = await options.database.regiao.findAll({
-          where: {
-            afiliadoId: currentUser.afiliadoId,
-          },
-          transaction,
-        })
+        
 
         var bairros = ''
         var cidades: any[] = []
         var estados: any[] = []
-        regiao.forEach((element) => {
-          bairros += ';' + element.descricao + ';'
-          cidades.push(element.cidade)
-          estados.push(element.uf)
-        })
+        
 
         var bairrosValidados: string[] = []
         bairros.split(';').forEach((element) => {
@@ -1076,18 +1055,11 @@ class ClienteRepository {
           options,
         )
 
-        let regiao = await options.database.regiao.findAll({
-          transaction,
-        })
-
+       
         var bairros = ''
         var cidades: any[] = []
         var estados: any[] = []
-        regiao.forEach((element) => {
-          bairros += ';' + element.descricao + ';'
-          cidades.push(element.cidade)
-          estados.push(element.uf)
-        })
+       
 
         var bairrosValidados: string[] = []
         bairros.split(';').forEach((element) => {

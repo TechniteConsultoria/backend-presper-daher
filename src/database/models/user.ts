@@ -33,7 +33,7 @@ export default function (sequelize, DataTypes) {
       emailVerified: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false,
+        defaultValue: true,
       },
       emailVerificationToken: {
         type: DataTypes.STRING(255),
@@ -64,10 +64,10 @@ export default function (sequelize, DataTypes) {
       email: {
         type: DataTypes.STRING(255),
         allowNull: false,
-        validate: {
-          isEmail: true,
-          notEmpty: true,
-        },
+        // validate: {
+        //   isEmail: true,
+        //   notEmpty: true,
+        // },
       },
       jwtTokenInvalidBefore: {
         type: DataTypes.DATE,
@@ -103,12 +103,6 @@ export default function (sequelize, DataTypes) {
     models.user.hasMany(models.tenantUser, {
       as: 'tenants',
     });
-
-    models.user.belongsTo(models.afiliados, {
-      as: 'afiliado',
-      constraints: false,
-    });
-
 
     models.user.hasMany(models.file, {
       as: { singular: 'avatar', plural: 'avatars' },

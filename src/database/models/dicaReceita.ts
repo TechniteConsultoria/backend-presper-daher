@@ -19,7 +19,6 @@ export default function (sequelize) {
         values: [
           "Dica",
           "Receita",
-          "Pilula",
           "Produto"
         ],
       },
