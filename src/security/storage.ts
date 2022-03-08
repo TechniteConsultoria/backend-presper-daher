@@ -58,10 +58,13 @@ export default class Storage {
         publicRead: true,
       },
 
-
-
-
-
+      produtoImagem1: {
+        id: ' ',
+        folder: 'tenant/:tenantId/produto/imagem1',
+        bypassWritingPermissions: true,
+        maxSizeInBytes: 100 * 1024 * 1024,
+        publicRead: true,
+      },
 
     };
   }
