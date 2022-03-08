@@ -52,6 +52,19 @@ export default function (sequelize, DataTypes) {
         type: DataTypes.STRING(255),
       },
 
+      profissao: {
+        type: DataTypes.STRING(255),
+      },
+
+      bio: {
+        type: DataTypes.STRING(255),
+      },
+
+      
+      telefone: {
+        type: DataTypes.STRING(255),
+      },
+      
 
       provider: {
         type: DataTypes.STRING(255),
