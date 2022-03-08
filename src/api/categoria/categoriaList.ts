@@ -5,13 +5,18 @@ import CategoriaService from '../../services/categoriaService';
 
 export default async (req, res, next) => {
   try {
-    new PermissionChecker(req).validateHas(
-      Permissions.values.categoriaRead,
-    );
+    // new PermissionChecker(req).validateHas(
+    //   Permissions.values.categoriaRead,
+    // );
 
     const payload = await new CategoriaService(
       req,
     ).findAndCountAll(req.query);
+
+    console.log("categoria payload");
+    console.log(payload);
+    console.log("  --  ");
+    
 
     await ApiResponseHandler.success(req, res, payload);
   } catch (error) {

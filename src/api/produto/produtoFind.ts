@@ -5,9 +5,9 @@ import ProdutoService from '../../services/produtoService';
 
 export default async (req, res, next) => {
   try {
-    new PermissionChecker(req).validateHas(
-      Permissions.values.produtoRead,
-    );
+    // new PermissionChecker(req).validateHas(
+    //   Permissions.values.produtoRead,
+    // );
 
     const payload = await new ProdutoService(req).findById(
       req.params.id,

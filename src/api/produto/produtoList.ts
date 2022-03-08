@@ -6,9 +6,9 @@ import EmpresaService from '../../services/empresaService';
 
 export default async (req, res, next) => {
   try {
-    new PermissionChecker(req).validateHas(
-      Permissions.values.produtoRead,
-    );
+    // new PermissionChecker(req).validateHas(
+    //   Permissions.values.produtoRead,
+    // );
    console.log('req.currentUser.tenants[0].roles')
    console.log(req.currentUser.tenants[0].roles)
 
