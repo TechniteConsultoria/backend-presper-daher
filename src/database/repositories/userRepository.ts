@@ -62,6 +62,7 @@ export default class UserRepository {
         email: data.email,
         firstName: data.firstName || null,
         fullName: data.fullName || null,
+        imagemUrl: data.imagemUrl || null,
         lastName: data.lastName || null,
         phoneNumber: data.phoneNumber || null,
         importHash: data.importHash || null,
@@ -113,6 +114,7 @@ export default class UserRepository {
         fullName: data.fullName,
         email: data.email,
         firstName: data.firstName,
+        imagemUrl: data.imagemUrl || null,
         password: data.password,
       },
       { transaction },
@@ -155,11 +157,31 @@ export default class UserRepository {
       transaction,
     });
 
+    console.log("----------------------------*-------------------------")
+    console.log("data")
+    console.log(
+      {
+      fullName:    data.fullName    || null,
+      firstName:   data.firstName   || null,
+      lastName:    data.lastName    || null,
+      telefone:    data.telefone    || null,
+      bio:         data.bio         || null,
+      profissao:   data.profissao   || null,
+      imagemUrl:   data.imagemUrl   || null,
+      updatedById: currentUser.id,
+    }
+    )
+    console.log("----------------------------*-------------------------")
+
     await user.update(
       {
-        firstName: data.firstName || null,
-        lastName: data.lastName || null,
-        phoneNumber: data.phoneNumber || null,
+        fullName:    data.fullName     || null,
+        firstName:   data.firstName   || null,
+        lastName:    data.lastName    || null,
+        telefone:    data.telefone    || null,
+        bio:         data.bio         || null,
+        profissao:   data.profissao   || null,
+        imagemUrl:   data.imagemUrl   || null,
         updatedById: currentUser.id,
       },
       { transaction },
