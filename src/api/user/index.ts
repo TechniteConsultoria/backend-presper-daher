@@ -35,4 +35,9 @@ export default (app) => {
     `/tenant/:tenantId/adm/:id`,
     require('./admFind').default,
   );
+
+  app.put(
+    `/tenant/:tenantId/user/:id`,
+    require('./userUpdate').default,
+  );
 };
