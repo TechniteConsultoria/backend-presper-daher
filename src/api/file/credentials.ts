@@ -12,19 +12,33 @@ export default async (req, res) => {
     const storageId = req.query.storageId;
 
     if (!req.currentUser || !req.currentUser.id) {
+      console.log("!req.currentUser || !req.currentUser.id")
       throw new Error403();
     }
 
     if (!req.currentTenant || !req.currentTenant.id) {
+      console.log("!req.currentTenant || !req.currentTenant.id")
       throw new Error403();
     }
 
     // The config storage has the information on where
     // to store the file and the max size
+
+    console.log("Storage.values")
+    console.log(Storage.values)
+
+    console.log("Storage.values[storageId]")
+    console.log(Storage.values [storageId])
+
+    console.log("storageId")
+    console.log( storageId )
+
     const config = Storage.values[storageId];
 
     if (!config) {
+      console.log("!config")
       throw new Error403();
+
     }
 
     if (
@@ -33,6 +47,8 @@ export default async (req, res) => {
       !config.bypassWritingPermissions &&
       !permissionChecker.hasStorage(storageId)
     ) {
+      console.log(`!config.bypassWritingPermissions &&
+      !permissionChecker.hasStorage(storageId)`)
       throw new Error403();
     }
 
