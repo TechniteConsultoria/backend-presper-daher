@@ -73,8 +73,10 @@ class ProdutoRepository {
             'prazo',
             'imagemUrl',
             'categoriaId',
+            'titulo',
+            'autor',
           ]), //como se pegasse o data.algo
-          empresaId: data.empresa.id,
+          empresaId:  currentUser.id,
           // categoriaId: data.categoria || null,
           tenantId: tenant.id,
           createdById: currentUser.id,
@@ -265,6 +267,9 @@ class ProdutoRepository {
         transaction,
       },
     );
+
+    console.log("record")
+    console.log( record )
 
     if (!record) {
       throw new Error404();
@@ -964,6 +969,8 @@ class ProdutoRepository {
     if (!record) {
       return record;
     }
+    console.log("record 2")
+    console.log(record)
 
     const output = record.get({ plain: true });
 
