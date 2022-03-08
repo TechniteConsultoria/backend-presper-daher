@@ -46,6 +46,13 @@ export default function (sequelize, DataTypes) {
       emailVerificationTokenExpiresAt: {
         type: DataTypes.DATE,
       },
+      
+
+      imagemUrl: {
+        type: DataTypes.STRING(255),
+      },
+
+
       provider: {
         type: DataTypes.STRING(255),
         validate: {
