@@ -77,7 +77,7 @@ class perguntaRepository {
   //   let record = await options.database.perguntas.findOne({
   //     where: {
   //       id,
-  //       tenantId: currentTenant.id,
+  //       // tenantId: currentTenant.id,
   //     },
   //   });
 
@@ -153,7 +153,7 @@ class perguntaRepository {
     let record = await options.database.perguntas.findOne({
       where: {
         id,
-        tenantId: currentTenant.id,
+        // tenantId: currentTenant.id,
       },
     });
 
@@ -267,7 +267,7 @@ class perguntaRepository {
       id: {
         [Op.in]: ids,
       },
-      tenantId: currentTenant.id,
+      // tenantId: currentTenant.id,
     };
 
     const records = await options.database.perguntas.findAll({
@@ -285,7 +285,7 @@ class perguntaRepository {
     return options.database.perguntas.count({
       where: {
         ...filter,
-        tenantId: tenant.id,
+        // tenantId: tenant.id,
       },
     });
   }
@@ -315,7 +315,7 @@ class perguntaRepository {
     // ];
 
     // whereAnd.push({
-    //   tenantId: tenant.id,
+    //   // tenantId: tenant.id,
     // });
 
     // if (filter) {
@@ -394,7 +394,7 @@ class perguntaRepository {
       e.cnpj
       from
         perguntas c
-        left JOIN empresas e
+        left JOIN users e
         ON c.fornecedorEmpresaId = e.id;`
     ,
     {
@@ -403,7 +403,9 @@ class perguntaRepository {
     }
   );
 
-  // console.log(record)
+  console.log("pergunta")
+  console.log("record")
+  console.log(record)
   return { record };
   }
 

@@ -36,15 +36,31 @@ const { QueryTypes } = require('sequelize');
 class CarrinhoProdutoRepository {
 
   static async create(data, options: IRepositoryOptions) {
+
+
+    console.log("-----")
+    console.log("data")
+    console.log(data)
+
+
+    console.log(
+      // carrinhoId: data.carrinho.id,
+      // produtoId: data.product.id,
+      data.carrinho,
+      data.product,
+      data.quantidade,
+    )
+
+
     const record = await options.database.carrinhoProduto.findOrCreate(
       {
         where:
         {
-          carrinhoId: data.carrinho,
+          carrinhoId: data.carrinho || '',
           produtoId: data.product.id,
         },
         defaults: {
-          carrinhoId: data.carrinho.id,
+          carrinhoId: data.carrinho || '',
           produtoId: data.product.id,
           quantidade: data.quantidade,
         }

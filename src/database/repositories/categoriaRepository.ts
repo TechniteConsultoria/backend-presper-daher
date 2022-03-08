@@ -95,7 +95,7 @@ class CategoriaRepository {
       {
         where: {
           id,
-          tenantId: currentTenant.id,
+          // tenantId: currentTenant.id,
         },
         transaction,
       },
@@ -148,7 +148,7 @@ class CategoriaRepository {
       {
         where: {
           id,
-          tenantId: currentTenant.id,
+          // tenantId: currentTenant.id,
         },
         transaction,
       },
@@ -187,7 +187,7 @@ class CategoriaRepository {
       {
         where: {
           id,
-          tenantId: currentTenant.id,
+          // tenantId: currentTenant.id,
         },
         include,
         transaction,
@@ -226,7 +226,7 @@ class CategoriaRepository {
       id: {
         [Op.in]: ids,
       },
-      tenantId: currentTenant.id,
+      // tenantId: currentTenant.id,
     };
 
     const records = await options.database.categoria.findAll(
@@ -252,7 +252,7 @@ class CategoriaRepository {
       {
         where: {
           ...filter,
-          tenantId: tenant.id,
+          // tenantId: tenant.id,
         },
         transaction,
       },
@@ -263,18 +263,15 @@ class CategoriaRepository {
     { filter, limit = 0, offset = 0, orderBy = '' },
     options: IRepositoryOptions,
   ) {
-    const tenant = SequelizeRepository.getCurrentTenant(
-      options,
-    );
 
     let whereAnd: Array<any> = [];
     let include = [
       
     ];
 
-    whereAnd.push({
-      tenantId: tenant.id,
-    });
+    // whereAnd.push({
+    //   tenantId: tenant.id,
+    // });
 
     if (filter) {
       if (filter.id) {
@@ -364,7 +361,7 @@ class CategoriaRepository {
     );
 
     let whereAnd: Array<any> = [{
-      tenantId: tenant.id,
+      // tenantId: tenant.id,
     }];
 
     if (query) {
@@ -387,10 +384,19 @@ class CategoriaRepository {
       },
     );
 
+    console.log("categoria")
+    console.log("records")
+    console.log(
+      records.map((record) => ({
+      id: record.id,
+      label: record.id,
+    })))
+    
     return records.map((record) => ({
       id: record.id,
       label: record.id,
     }));
+
   }
 
   static async _createAuditLog(

@@ -176,6 +176,7 @@ export default class UserRepository {
     await user.update(
       {
         fullName:    data.fullName     || null,
+        name:        data.fullName     || null,
         firstName:   data.firstName   || null,
         lastName:    data.lastName    || null,
         telefone:    data.telefone    || null,

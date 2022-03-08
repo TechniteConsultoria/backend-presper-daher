@@ -116,7 +116,7 @@ class BannersRepository {
       {
         where: {
           id,
-          tenantId: currentTenant.id,
+          // tenantId: currentTenant.id,
         },
         transaction,
       },
@@ -179,7 +179,7 @@ class BannersRepository {
       {
         where: {
           id,
-          tenantId: currentTenant.id,
+          // tenantId: currentTenant.id,
         },
         transaction,
       },
@@ -217,7 +217,7 @@ class BannersRepository {
       {
         where: {
           id,
-          tenantId: currentTenant.id,
+          // tenantId: currentTenant.id,
         },
         include,
         transaction,
@@ -257,7 +257,7 @@ class BannersRepository {
       id: {
         [Op.in]: ids,
       },
-      tenantId: currentTenant.id,
+      // tenantId: currentTenant.id,
     };
 
     const records = await options.database.banners.findAll(
@@ -285,7 +285,7 @@ class BannersRepository {
       id: {
         [Op.in]: ids,
       },
-      tenantId: currentTenant.id,
+      // tenantId: currentTenant.id,
     };
 
     const records = await options.database.banners.findAll(
@@ -311,7 +311,7 @@ class BannersRepository {
       {
         where: {
           ...filter,
-          tenantId: tenant.id,
+          // tenantId: tenant.id,
         },
         transaction,
       },
@@ -338,7 +338,7 @@ class BannersRepository {
     ];
 
     whereAnd.push({
-      tenantId: tenant.id,
+      // tenantId: tenant.id,
     });
 
     if (filter) {
@@ -676,7 +676,7 @@ class BannersRepository {
     );
 
     let whereAnd: Array<any> = [{
-      tenantId: tenant.id,
+      // tenantId: tenant.id,
     }];
 
     if (query) {

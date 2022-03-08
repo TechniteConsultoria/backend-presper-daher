@@ -133,7 +133,7 @@ class ProdutoRepository {
       {
         where: {
           id,
-          tenantId: currentTenant.id,
+          // tenantId: currentTenant.id,
         },
         transaction,
       },
@@ -215,7 +215,7 @@ class ProdutoRepository {
       {
         where: {
           id,
-          tenantId: currentTenant.id,
+          // tenantId: currentTenant.id,
         },
         transaction,
       },
@@ -243,10 +243,10 @@ class ProdutoRepository {
     );
 
     const include = [
-      {
-        model: options.database.empresa,
-        as: 'empresa',
-      },
+      // {
+      //   model: options.database.empresa,
+      //   as: 'empresa',
+      // },
       {
         model: options.database.categoria,
         as: 'categoria',
@@ -261,7 +261,7 @@ class ProdutoRepository {
       {
         where: {
           id,
-          // tenantId: currentTenant.id,
+          // // tenantId: currentTenant.id,
         },
         include,
         transaction,
@@ -304,7 +304,7 @@ class ProdutoRepository {
       id: {
         [Op.in]: ids,
       },
-      tenantId: currentTenant.id,
+      // tenantId: currentTenant.id,
     };
 
     const records = await options.database.produto.findAll(
@@ -332,7 +332,7 @@ class ProdutoRepository {
       id: {
         [Op.in]: ids,
       },
-      tenantId: currentTenant.id,
+      // tenantId: currentTenant.id,
     };
 
     const records = await options.database.produto.findAll(
@@ -358,7 +358,7 @@ class ProdutoRepository {
       {
         where: {
           ...filter,
-          tenantId: tenant.id,
+          // tenantId: tenant.id,
         },
         transaction,
       },
@@ -369,9 +369,6 @@ class ProdutoRepository {
     { filter, limit = 0, offset = 0, orderBy = '' },
     options: IRepositoryOptions,
   ) {
-    const tenant = SequelizeRepository.getCurrentTenant(
-      options,
-    );
 
 
     console.log("--------------")
@@ -382,10 +379,10 @@ class ProdutoRepository {
 
     let whereAnd: Array<any> = [];
     let include = [
-      {
-        model: options.database.empresa,
-        as: 'empresa',
-      },
+      // {
+      //   model: options.database.empresa,
+      //   as: 'empresa',
+      // },
       {
         model: options.database.categoria,
         as: 'categoria',
@@ -393,7 +390,7 @@ class ProdutoRepository {
     ];
 
     whereAnd.push({
-      tenantId: tenant.id,
+      // tenantId: tenant.id,
     });
 
     if (filter) {
@@ -655,6 +652,8 @@ class ProdutoRepository {
     );
 
     count = rows.length
+    console.log("produto!");
+    console.log( { rows, count } )
     return { rows, count };
   }
 
@@ -889,7 +888,7 @@ class ProdutoRepository {
     );
 
     let whereAnd: Array<any> = [{
-      tenantId: tenant.id,
+      // tenantId: tenant.id,
     }];
 
     if (query) {

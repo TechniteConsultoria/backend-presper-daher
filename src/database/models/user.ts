@@ -9,10 +9,9 @@ export default function (sequelize, DataTypes) {
       },
       fullName: {
         type: DataTypes.STRING(255),
-        allowNull: true,
-        validate: {
-          len: [0, 255],
-        },
+      },
+      name: {
+        type: DataTypes.STRING(255),
       },
       firstName: {
         type: DataTypes.STRING(80),
@@ -60,7 +59,7 @@ export default function (sequelize, DataTypes) {
         type: DataTypes.STRING(255),
       },
 
-      
+
       telefone: {
         type: DataTypes.STRING(255),
       },
