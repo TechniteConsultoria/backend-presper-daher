@@ -49,6 +49,12 @@ export default (app) => {
     require('./authSignUp').default,
   );  
 
+  app.post(
+    `/auth/google`,
+    signUpRateLimiter,
+    require('./authSocial').default,
+  ); 
+
   app.put(
     `/auth/profile`,
     require('./authUpdateProfile').default,

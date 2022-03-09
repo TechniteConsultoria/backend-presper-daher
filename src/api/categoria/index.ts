@@ -24,7 +24,7 @@ export default (app) => {
     require('./categoriaAutocomplete').default,
   );
   app.get(
-    `/tenant/:tenantId/categoria`,
+    `/categoria`,
     require('./categoriaList').default,
   );
   app.get(
