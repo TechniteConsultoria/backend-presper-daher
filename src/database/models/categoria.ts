@@ -43,10 +43,6 @@ export default function (sequelize) {
   );
 
   categoria.associate = (models) => {
-
-
-
-    
     models.categoria.belongsTo(models.tenant, {
       as: 'tenant',
       foreignKey: {
