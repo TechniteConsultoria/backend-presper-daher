@@ -47,12 +47,12 @@ export default function (sequelize) {
 
 
     
-    // models.categoria.belongsTo(models.tenant, {
-    //   as: 'tenant',
-    //   foreignKey: {
-    //     allowNull: false,
-    //   },
-    // });
+    models.categoria.belongsTo(models.tenant, {
+      as: 'tenant',
+      foreignKey: {
+        allowNull: false,
+      },
+    });
 
     models.categoria.belongsTo(models.user, {
       as: 'createdBy',
