@@ -169,7 +169,7 @@ class ProdutoRepository {
           'promocaoEncerramento',
           'promocaoCriacao',
           'categoriaId',
-          'caracteristicasTecnicas',
+          'imagemUrl',
         ]),
         empresaId: data.empresaId || null,
         // categoriaId: data.categoria,
@@ -251,11 +251,12 @@ class ProdutoRepository {
         model: options.database.categoria,
         as: 'categoria',
       },
+      {
+        model: options.database.produtoModulo,
+        as: 'produtoModulo',
+      },
     ];
 
-    const currentTenant = SequelizeRepository.getCurrentTenant(
-      options,
-    );
 
     const record = await options.database.produto.findOne(
       {
@@ -267,9 +268,6 @@ class ProdutoRepository {
         transaction,
       },
     );
-
-    console.log("record")
-    console.log( record )
 
     if (!record) {
       throw new Error404();
@@ -370,11 +368,6 @@ class ProdutoRepository {
     options: IRepositoryOptions,
   ) {
 
-
-    console.log("--------------")
-    console.log("filter")
-    console.log(filter)
-    console.log("--------------")
 
 
     let whereAnd: Array<any> = [];
@@ -652,8 +645,6 @@ class ProdutoRepository {
     );
 
     count = rows.length
-    console.log("produto!");
-    console.log( { rows, count } )
     return { rows, count };
   }
 
@@ -728,14 +719,6 @@ class ProdutoRepository {
     );
     let where = ''
 
-    // console.log(filter)
-    // console.log(filter.filter.categoria)
-
-    // if(filter.filter.categoria){
-    //   console.log("filter")
-    //   where = `and p.categoriaId = '${filter.filter.categoria}' `
-    // }
-    
     let record = await seq.query(
       `SELECT 
       p.*
@@ -758,7 +741,6 @@ class ProdutoRepository {
       }
     );
 
-    // console.log(record)
     return { record };
   }
 
@@ -968,8 +950,7 @@ class ProdutoRepository {
     if (!record) {
       return record;
     }
-    console.log("record 2")
-    console.log(record)
+
 
     const output = record.get({ plain: true });
 
