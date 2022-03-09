@@ -9,26 +9,26 @@ export default async (req, res, next) => {
     // new PermissionChecker(req).validateHas(
     //   Permissions.values.produtoRead,
     // );
-   console.log('req.currentUser.tenants[0].roles')
-   console.log(req.currentUser.tenants[0].roles)
+  //  console.log('req.currentUser.tenants[0].roles')
+  //  console.log(req.currentUser.tenants[0].roles)
 
-    if (req.currentUser.tenants[0].roles == '["empresa"]') {
-      if (!req.query.filter){
-        req.query.filter = []
-      }
-      // req.query.filter.empresa = req.empresa.id //adiciona o filtro de empresa
-      //  req.query.filter.empresa = req.empresa.dataValues.id //adiciona o filtro de empresa
-      console.log("req.currentUser")
-      console.log(req.currentUser.id)
-      let userId = req.currentUser.id
+    // if (req.currentUser.tenants[0].roles == '["empresa"]') {
+    //   if (!req.query.filter){
+    //     req.query.filter = []
+    //   }
+    //   // req.query.filter.empresa = req.empresa.id //adiciona o filtro de empresa
+    //   //  req.query.filter.empresa = req.empresa.dataValues.id //adiciona o filtro de empresa
+    //   console.log("req.currentUser")
+    //   console.log(req.currentUser.id)
+    //   let userId = req.currentUser.id
 
-      let empresa = await new EmpresaService(
-        req,
-      ).findByUserId(userId);
-      console.log('empresa')
-      console.log(empresa)
-      req.query.filter.empresa = empresa.id
-    }
+    //   let empresa = await new EmpresaService(
+    //     req,
+    //   ).findByUserId(userId);
+    //   console.log('empresa')
+    //   console.log(empresa)
+    //   req.query.filter.empresa = empresa.id
+    // }
 
     const payload = await new ProdutoService(
       req,
