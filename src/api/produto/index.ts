@@ -28,7 +28,7 @@ export default (app) => {
     require('./produtoAutocomplete').default,
   );
   app.get(
-    `/tenant/:tenantId/produto`,
+    `/produto`,
     require('./produtoList').default,
   );
 
