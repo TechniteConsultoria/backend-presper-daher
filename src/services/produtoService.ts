@@ -43,9 +43,11 @@ export default class ProdutoService {
             console.log(video)
             console.log("---------------")
 
-            
-            await ProdutoModuloRepository.create(video, this.options)
 
+            let a = await ProdutoModuloRepository.create(video, this.options)
+            console.log("*-*/-*-**-*-**--/*765464648/-*/-/-/-//-/-*/-----*/-/-*---")
+            console.log("a")
+            console.log(a)
 
           }
           catch (error) {
