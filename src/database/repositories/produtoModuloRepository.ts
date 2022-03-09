@@ -34,7 +34,7 @@ let seq = new (<any>Sequelize)(
 );
 
 const { QueryTypes } = require('sequelize');
-class ProdutoRepository {
+class ProdutoModuloRepository {
 
   static async create(data, options: IRepositoryOptions) {
     const currentUser = SequelizeRepository.getCurrentUser(
@@ -57,7 +57,7 @@ class ProdutoRepository {
 
 
 
-      const record = await options.database.produtomodulos.create(
+      const record = await options.database.produtoModulo.create(
         {
           ...lodash.pick(data, [
             'nome',
@@ -82,7 +82,7 @@ class ProdutoRepository {
 
       await FileRepository.replaceRelationFiles(
         {
-          belongsTo: options.database.produtomodulos.getTableName(),
+          belongsTo: options.database.produtoModulo.getTableName(),
           belongsToColumn: 'fotos',
           belongsToId: record.id,
         },
@@ -118,7 +118,7 @@ class ProdutoRepository {
       options,
     );
 
-    let record = await options.database.produtomodulos.findOne(
+    let record = await options.database.produtoModulo.findOne(
       {
         where: {
           id,
@@ -173,7 +173,7 @@ class ProdutoRepository {
 
     await FileRepository.replaceRelationFiles(
       {
-        belongsTo: options.database.produtomodulos.getTableName(),
+        belongsTo: options.database.produtoModulo.getTableName(),
         belongsToColumn: 'fotos',
         belongsToId: record.id,
       },
@@ -200,7 +200,7 @@ class ProdutoRepository {
       options,
     );
 
-    let record = await options.database.produtomodulos.findOne(
+    let record = await options.database.produtoModulo.findOne(
       {
         where: {
           id,
@@ -246,7 +246,7 @@ class ProdutoRepository {
       options,
     );
 
-    const record = await options.database.produtomodulos.findOne(
+    const record = await options.database.produtoModulo.findOne(
       {
         where: {
           id,
@@ -296,7 +296,7 @@ class ProdutoRepository {
       // tenantId: currentTenant.id,
     };
 
-    const records = await options.database.produtomodulos.findAll(
+    const records = await options.database.produtoModulo.findAll(
       {
         attributes: ['id'],
         where,
@@ -324,7 +324,7 @@ class ProdutoRepository {
       // tenantId: currentTenant.id,
     };
 
-    const records = await options.database.produtomodulos.findAll(
+    const records = await options.database.produtoModulo.findAll(
       {
         attributes: ['id'],
         where,
@@ -343,7 +343,7 @@ class ProdutoRepository {
       options,
     );
 
-    return options.database.produtomodulos.count(
+    return options.database.produtoModulo.count(
       {
         where: {
           ...filter,
@@ -398,7 +398,7 @@ class ProdutoRepository {
       if (filter.nome) {
         whereAnd.push(
           SequelizeFilterUtils.ilikeIncludes(
-            'produtomodulos',
+            'produtoModulo',
             'nome',
             filter.nome,
           ),
@@ -408,7 +408,7 @@ class ProdutoRepository {
       if (filter.descricao) {
         whereAnd.push(
           SequelizeFilterUtils.ilikeIncludes(
-            'produtomodulos',
+            'produtoModulo',
             'descricao',
             filter.descricao,
           ),
@@ -418,7 +418,7 @@ class ProdutoRepository {
       if (filter.marca) {
         whereAnd.push(
           SequelizeFilterUtils.ilikeIncludes(
-            'produtomodulos',
+            'produtoModulo',
             'marca',
             filter.marca,
           ),
@@ -428,7 +428,7 @@ class ProdutoRepository {
       if (filter.modelo) {
         whereAnd.push(
           SequelizeFilterUtils.ilikeIncludes(
-            'produtomodulos',
+            'produtoModulo',
             'modelo',
             filter.modelo,
           ),
@@ -438,7 +438,7 @@ class ProdutoRepository {
       if (filter.caracteristicas) {
         whereAnd.push(
           SequelizeFilterUtils.ilikeIncludes(
-            'produtomodulos',
+            'produtoModulo',
             'caracteristicas',
             filter.caracteristicas,
           ),
@@ -448,7 +448,7 @@ class ProdutoRepository {
       if (filter.codigo) {
         whereAnd.push(
           SequelizeFilterUtils.ilikeIncludes(
-            'produtomodulos',
+            'produtoModulo',
             'codigo',
             filter.codigo,
           ),
@@ -622,7 +622,7 @@ class ProdutoRepository {
     let {
       rows,
       count,
-    } = await options.database.produtomodulos.findAndCountAll({
+    } = await options.database.produtoModulo.findAndCountAll({
       where,
       include,
       limit: limit ? Number(limit) : undefined,
@@ -641,7 +641,7 @@ class ProdutoRepository {
     );
 
     count = rows.length
-    console.log("produtomodulos!");
+    console.log("produtoModulo!");
     console.log( { rows, count } )
     return { rows, count };
   }
@@ -886,7 +886,7 @@ class ProdutoRepository {
           { ['id']: SequelizeFilterUtils.uuid(query) },
           {
             [Op.and]: SequelizeFilterUtils.ilikeIncludes(
-              'produtomodulos',
+              'produtoModulo',
               'nome',
               query,
             ),
@@ -897,7 +897,7 @@ class ProdutoRepository {
 
     const where = { [Op.and]: whereAnd };
 
-    const records = await options.database.produtomodulos.findAll(
+    const records = await options.database.produtoModulo.findAll(
       {
         attributes: ['id', 'nome'],
         where,
@@ -929,7 +929,7 @@ class ProdutoRepository {
 
     await AuditLogRepository.log(
       {
-        entityName: 'produtomodulos',
+        entityName: 'produtoModulo',
         entityId: record.id,
         action,
         values,
@@ -1263,4 +1263,4 @@ class ProdutoRepository {
 
 
 
-export default ProdutoRepository;
+export default ProdutoModuloRepository;
