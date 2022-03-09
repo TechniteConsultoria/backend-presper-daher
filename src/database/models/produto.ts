@@ -109,8 +109,14 @@ export default function (sequelize) {
   );
 
   produto.associate = (models) => {
-    models.produto.belongsTo(models.empresa, {
-      as: 'empresa',
+
+    // models.produto.belongsTo(models.produto, {
+    //   as: 'produtoModulo',
+    //   constraints: false,
+    // });
+
+    models.produto.belongsTo(models.user, {
+      as: 'user',
       constraints: false,
     });
 

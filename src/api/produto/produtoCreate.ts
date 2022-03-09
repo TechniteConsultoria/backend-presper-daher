@@ -10,15 +10,6 @@ export default async (req, res, next) => {
       Permissions.values.produtoCreate,
     );
 
-    if (req.currentUser.tenants[0].roles == '["empresa"]') {
-      // let userId = req.currentUser.id
-
-      // let empresa = await new EmpresaService(
-      //   req,
-      // ).findByUserId(userId);
-      // req.query.filter.empresa = empresa.id
-    }
-
     const payload = await new ProdutoService(req).create(
       req.body.data,
     );

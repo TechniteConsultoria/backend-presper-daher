@@ -2,9 +2,11 @@ import Error400 from '../errors/Error400';
 import SequelizeRepository from '../database/repositories/sequelizeRepository';
 import { IServiceOptions } from './IServiceOptions';
 import ProdutoRepository from '../database/repositories/produtoRepository';
+import ProdutoModuloRepository from '../database/repositories/produtoModuloRepository';
 import EmpresaRepository from '../database/repositories/empresaRepository';
 import CategoriaRepository from '../database/repositories/categoriaRepository';
 import upload from '../api/file/localhost/upload';
+
 
 export default class ProdutoService {
   options: IServiceOptions;
@@ -19,23 +21,43 @@ export default class ProdutoService {
     );
 
     try {
-      /*
-      Quando for dar o get no produto deve-se ser passada o id da empresa
-      onde ele é passado?
-      localStorage?
-      
-      */
 
-      const userData = SequelizeRepository.getCurrentUser(
-        this.options,
-      );
-      data.empresa = await EmpresaRepository.findByUserId(userData.id, { ...this.options, transaction });
       data.categoria = await CategoriaRepository.filterIdInTenant(data.categoria, { ...this.options, transaction });
 
       const record = await ProdutoRepository.create(data, {
         ...this.options,
         transaction,
       });
+      console.log("---------------")
+      console.log("data do produto")
+      console.log(data)
+      console.log("---------------")
+
+      data.videos.map(
+        async (video) => {
+          try{
+            video.produtoId = record.id
+            
+
+            console.log("video do produto")
+            console.log(video)
+            console.log("---------------")
+
+            
+            await ProdutoModuloRepository.create(video, this.options)
+
+
+          }
+          catch (error) {
+            await SequelizeRepository.rollbackTransaction(
+              transaction,
+            );
+          }
+
+        } 
+      )
+
+
 
       await SequelizeRepository.commitTransaction(
         transaction,
