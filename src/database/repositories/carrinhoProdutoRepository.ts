@@ -285,7 +285,7 @@ class CarrinhoProdutoRepository {
     const where = { [Op.and]: whereAnd };
 
     let query =
-      'SELECT cp.id, cp.quantidade, cp.carrinhoId, p.id AS `produto.id`, p.nome AS `produto.nome`, IFNULL(p.precoOferta, p.preco) AS `produto.preco`, f.privateUrl AS `produto.fotos`, p.empresaId as `fornecedorId`, p.imagemUrl' +
+      'SELECT cp.id, cp.quantidade, cp.carrinhoId, p.id AS `produto.id`, p.nome AS `produto.nome`, IFNULL(p.precoOferta, p.preco) AS `produto.preco`, f.privateUrl AS `produto.fotos`, p.userId as `fornecedorId`, p.imagemUrl' +
       ` FROM carrinhoProdutos cp
           JOIN produtos p
           ON cp.produtoId = p.id
