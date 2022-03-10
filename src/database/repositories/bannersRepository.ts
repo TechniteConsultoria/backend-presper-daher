@@ -322,9 +322,7 @@ class BannersRepository {
     { filter, limit = 0, offset = 0, orderBy = '' },
     options: IRepositoryOptions,
   ) {
-    const tenant = SequelizeRepository.getCurrentTenant(
-      options,
-    );
+
 
 
     console.log("--------------")
