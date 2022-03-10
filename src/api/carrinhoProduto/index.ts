@@ -12,7 +12,7 @@ export default (app) => {
     require('./carrinhoImport').default,
   ); */
   app.delete(
-    `/tenant/:tenantId/carrinhoProduto`,
+    `/tenant/:tenantId/carrinhoProduto/:id`,
     require('./carrinhoProdutoDestroy').default,
   );
   app.delete(

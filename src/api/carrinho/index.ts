@@ -27,4 +27,11 @@ export default (app) => {
     `/tenant/:tenantId/carrinho/:id`,
     require('./carrinhoFind').default,
   );
+
+  app.delete(
+    `/tenant/:tenantId/carrinhoProdutoOne/:id`,
+    require('./carrinhoProdutoDestroyOne').default,
+  );
+
+  
 };
