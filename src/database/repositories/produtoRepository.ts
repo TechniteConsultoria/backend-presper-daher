@@ -243,10 +243,6 @@ class ProdutoRepository {
     );
 
     const include = [
-      // {
-      //   model: options.database.empresa,
-      //   as: 'empresa',
-      // },
       {
         model: options.database.categoria,
         as: 'categoria',
@@ -987,36 +983,50 @@ class ProdutoRepository {
   }
 
   static async findProdutobyId(id: number) {
-
-    // let query =
-    //   `SELECT 
-    // p.*, f.publicUrl
-    // FROM
-    //     produtos p
-    //         LEFT JOIN
-    //     files f ON f.belongsToId = p.id
-    //     where p.useId = '${id}';`;
         
     let query =
       `SELECT 
-          *
+          p.id,
+          p.nome,
+          p.descricao,
+          p.imagemUrl,
+          p.preco
             FROM 
-            produtos 
-            where deletedAt is null
-            and status = 'aprovado'
-              LIMIT 1 OFFSET ${id-1};`
+            produtos p
+            where p.deletedAt is null
+            and p.id = '${id}';`
 
-    let record = await seq.query(query, {
+    let produto = await seq.query(query, {
       type: QueryTypes.SELECT,
     });
 
-    console.log(record)
+    let prodId = produto[0].id
 
-    if (!record) {
+
+    let queryForProdModule =
+      `SELECT 
+          pm.id,
+          pm.nome,
+          pm.titulo,
+          pm.url
+            FROM 
+            produtomodulos pm
+            where pm.produtoId = '${prodId}';`
+
+    let produtoModulo = await seq.query(queryForProdModule, {
+      type: QueryTypes.SELECT,
+    });
+
+    if (!produto) {
       throw new Error404();
     }
 
-    return record;
+    let result = {
+      produto: produto[0],
+      produtoModulo: produtoModulo
+    }
+
+    return result ;
   }
 
   static async listPromocionalImagem() {
@@ -1049,6 +1059,7 @@ class ProdutoRepository {
 
     return record;
   }
+
   static async updateAllDatabaseOfPagementos(){
     
     const sdk = require('api')('@iugu-dev/v1.0#d6ie79kw6g1afm');
