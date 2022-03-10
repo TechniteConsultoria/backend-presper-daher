@@ -5,9 +5,9 @@ import CarrinhoProdutoService from '../../services/carrinhoProdutoService';
 
 export default async (req, res, next) => {
   try {
-    new PermissionChecker(req).validateHas(
-      Permissions.values.carrinhoProdutoDestroy,
-    );
+    // new PermissionChecker(req).validateHas(
+    //   Permissions.values.carrinhoProdutoDestroy,
+    // );
 
     await new CarrinhoProdutoService(req).destroy(
       req.params.id,
