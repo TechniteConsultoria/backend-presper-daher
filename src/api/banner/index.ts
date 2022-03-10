@@ -24,35 +24,15 @@ export default (app) => {
     require('./bannerAutocomplete').default,
   );
   app.get(
-    `/tenant/:tenantId/banner`,
-    require('./bannerList').default,
-  );
-
-
-  app.get(
     `/banner`,
-    require('./bannerListWithoutLogin').default,
-  );
-
-  app.get(
-    `/banner-list`,
-    require('./bannerListWithoutLoginAndWithoutTenant').default,
-  );
-
-  app.get(
-    `/bannerTrue`,
-    require('./bannerListWithoutLoginTrue').default,
-  );
-  app.get(
-    `/limit-banner`,
-    require('./bannerFindLimitedWithoutLogin').default,
-  );
-  app.get(
-    `/tenant/:tenantId/banner/:id`,
-    require('./bannerFind').default,
+    require('./bannerList').default,
   );
   app.get(
     `/banner/:id`,
-    require('./bannerFindById').default,
+    require('./bannerFind').default,
   );
+  // app.get(
+  //   `/banner/:id`,
+  //   require('./bannerFindById').default,
+  // );
 };
