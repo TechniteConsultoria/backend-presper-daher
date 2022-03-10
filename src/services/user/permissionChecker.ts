@@ -35,9 +35,6 @@ export default class PermissionChecker {
    */
   validateHas(permission) {
     if (!this.has(permission)) {
-      console.log("permission stop 'cuz it is !this.has(permission)")
-      console.log(permission)
-      console.log("dont have permission!")
       throw new Error403(this.language);
     }
   }
@@ -46,21 +43,17 @@ export default class PermissionChecker {
    * Checks if the user has a specific permission.
    */
   has(permission) {
-    console.log(permission)
-    console.log("permission has")	
     assert(permission, 'permission is required');
 
     if (!this.isEmailVerified) {
-      console.log("email stopped")
+
       return false;
     }
 
     if (!this.hasPlanPermission(permission)) {
-      console.log('stped has permission')
+
       return false;
     }
-    console.log(' this.hasRolePermission  ')
-    console.log(this.hasRolePermission(permission) )
     return this.hasRolePermission(permission);
     // return true
   }
@@ -88,19 +81,11 @@ export default class PermissionChecker {
    */
   hasRolePermission(permission) {
 
-    console.log(this.currentUserRolesIds)
 	
     return this.currentUserRolesIds.some((role) =>{
       return permission.allowedRoles.some(
-        (allowedRole) => {
-             console.log(`Raindrops are falling on my head
-And just like the guy whose feet are too big for his bed
-Nothing seems to fit `)
-             console.log(allowedRole)
-	     console.log(role)
-	     console.log(allowedRole == role)
-	     
-	     return allowedRole == role
+        (allowedRole) => {	     
+	      return allowedRole == role
        }
       )
      }
@@ -141,20 +126,6 @@ Nothing seems to fit `)
         (tenantUser) => tenantUser.status === 'active',
       )*/
       .find((tenantUser) => {
-          console.log(`
-It starts with one
-All I know
-It's so unreal
-Watch you go
-I tried so hard and got so far
-But in the end, it doesn't even matter
-I had to fall to lose it all
-But in the end, it doesn't even matter
-`)
-          console.log(tenantUser.tenant.id)
-	  console.log(this.currentTenant)
-	  console.log("tenantUser.tenant.id === this.currentTenant.tenantId")
-	  console.log(tenantUser.tenant.id === this.currentTenant.tenantId) 
         return(
           tenantUser.tenant.id === this.currentTenant.tenantId
         );
