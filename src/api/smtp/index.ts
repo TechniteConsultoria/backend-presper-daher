@@ -26,4 +26,9 @@ export default (app) => {
       `/tenant/:tenantId/cliente/comentario-denuncia`,
       require('./sendEmailDenunciaComentario').default,
     );
+
+    app.post(
+      `/cliente/pergunta`,
+      require('./appEnviarPergunta').default,
+    );
   }
