@@ -358,7 +358,7 @@ export default class SmtpService {
         // send mail with defined transport object
         let info = await transporter.sendMail({
             from: env.NODEMAILER_FROM, // sender address
-            to: 'Ryan.r.c.399ac@gmail.com', // cliente.email, // list of receivers
+            to: 'ryan.r.c.339ac@gmail.com', // cliente.email, // list of receivers
             
             subject: "Pergunta enviada", // Subject line
             text: "", // plain text body
