@@ -150,6 +150,13 @@ export default class CarrinhoProdutoService {
 
     try {
 
+      console.log("===id===")        
+      console.log(id)
+      console.log("===id===")
+      
+
+      
+
       await CarrinhoProdutoRepository.destroy(id, {
         ...this.options,
         transaction,
