@@ -9,11 +9,11 @@ export default (app) => {
     require('./perguntaUpdate').default,
   );
   app.get(
-    `/tenant/:tenantId/pergunta`,
+    `/pergunta`,
     require('./perguntaList').default,
   );
   app.get(
-    `/tenant/:tenantId/find-pergunta/:id`,
+    `/tenant/find-pergunta/:id`,
     require('./perguntaFind').default,
   );
   app.get(

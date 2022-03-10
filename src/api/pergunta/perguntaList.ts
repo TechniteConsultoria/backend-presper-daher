@@ -6,9 +6,6 @@ import comentarioService from '../../services/comentarioService';
 
 export default async (req, res, next) => {
   try {
-    new PermissionChecker(req).validateHas(
-      Permissions.values.pedidoRead,
-    );
 
     const payload = await new comentarioService(
       req,

@@ -30,9 +30,6 @@ class AuthService {
     if(role == 1){
       role = 'pessoa'
       status = 'active'
-    }else if(role == 2){
-      role = 'empresa'
-      status = 'pendente'
     }else{
       role = 'admin'
       status = 'pendente'
