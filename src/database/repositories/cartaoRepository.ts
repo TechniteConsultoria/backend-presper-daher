@@ -263,22 +263,36 @@ class CartaoRepository {
       
     ];
 
-    whereAnd.push({
-      tenantId: tenant.id,
-    });
+    // whereAnd.push({
+    //   tenantId: tenant.id,
+    // });
+
+    console.log(filter)
 
     if (filter) {
+
+      
       if (filter.id) {
         whereAnd.push({
           ['id']: SequelizeFilterUtils.uuid(filter.id),
         });
       }
+      
+       
+      if (filter.user) {
+        whereAnd.push({
+          createdById: filter.user,
+        });
+      }
+
 
       if (filter.tipo) {
         whereAnd.push({
           tipo: filter.tipo,
         });
       }
+
+
 
       if (filter.nomeTitular) {
         whereAnd.push(
