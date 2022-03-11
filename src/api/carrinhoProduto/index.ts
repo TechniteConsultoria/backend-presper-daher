@@ -20,8 +20,8 @@ export default (app) => {
     require('./carrinhoProdutoDestroyAll').default,
   );
   app.delete(
-    `/tenant/:tenantId/carrinhoProduto/:empresaId`,
-    require('./carrinhoProdutoDestroyByEmpresa').default,
+    `/tenant/:tenantId/carrinhoProduto-all/:id`,
+    require('./carrinhoProdutoDestroyByUser').default,
   );
 /*   app.get(
     `/tenant/:tenantId/carrinho/autocomplete`,
