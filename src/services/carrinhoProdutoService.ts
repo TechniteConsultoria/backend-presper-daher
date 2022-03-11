@@ -173,14 +173,13 @@ export default class CarrinhoProdutoService {
     }
   }
 
-  async destroyByEmpresa(id) {
-    console.log("await CarrinhoProdutoRepository.destroyByEmpresa")
-    /*const transaction = await SequelizeRepository.createTransaction(
+  async destroyByUser(id) {
+    const transaction = await SequelizeRepository.createTransaction(
       this.options.database,
     );
 
     try {
-      await CarrinhoProdutoRepository.destroyByEmpresa(id, {
+      await CarrinhoProdutoRepository.destroyByUser(id, {
        ...this.options,
        transaction,
       });
@@ -193,7 +192,7 @@ export default class CarrinhoProdutoService {
         transaction,
       );
       throw error;
-    }*/
+    }
   }
  
   findByBusca(busca, tipo) {
