@@ -52,6 +52,8 @@ export default class PedidoService {
             ...this.options,
           });
 
+          await clienteProdutoCertificadoRepository.create(e, this.options)
+
       });
 
 
