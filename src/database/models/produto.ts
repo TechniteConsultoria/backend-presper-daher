@@ -1,4 +1,5 @@
 import { DataTypes } from 'sequelize';
+import { BLOB } from 'sequelize/types';
 
 export default function (sequelize) {
   const produto = sequelize.define(
@@ -83,6 +84,9 @@ export default function (sequelize) {
       },
       precoOferta: {
         type: DataTypes.DECIMAL(10, 2),
+      },
+      certificado: {
+        type: DataTypes.BLOB
       },
       importHash: {
         type: DataTypes.STRING(255),
