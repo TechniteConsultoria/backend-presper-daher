@@ -990,7 +990,10 @@ class ProdutoRepository {
           p.nome,
           p.descricao,
           p.imagemUrl,
-          p.preco
+          p.preco,
+          p.volumeVendas,
+          p.somatoriaAvaliacoes,
+          p.quantidadeAvaliacoes
             FROM 
             produtos p
             where p.deletedAt is null
