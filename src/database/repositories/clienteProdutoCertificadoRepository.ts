@@ -59,6 +59,7 @@ class clieteProdutoCertificadosRepository {
             "produtoId"
           ]), 
           tenantId:    tenant.id,
+          produtoId:     data.id,
           createdById: currentUser.id,
           updatedById: currentUser.id,
         },
