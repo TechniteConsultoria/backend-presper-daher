@@ -99,6 +99,7 @@ require('./comentario').default(routes);
 require('./pergunta').default(routes);
 require('./banner').default(routes);
 require('./termo').default(routes);
+require('./clienteProdutoCertificado').default(routes);
 require('./informacoes').default(routes);
 
 
