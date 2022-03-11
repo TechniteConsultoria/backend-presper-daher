@@ -1,15 +1,19 @@
 import PermissionChecker from '../../services/user/permissionChecker';
 import ApiResponseHandler from '../apiResponseHandler';
 import Permissions from '../../security/permissions';
-import clienteProdutoCertificadoService from '../../services/clienteProdutoCertificadoService';
+
+import perguntaService from '../../services/perguntaService';
+
 
 export default async (req, res, next) => {
   try {
-   
+    new PermissionChecker(req).validateHas(
+      Permissions.values.pedidoRead,
+    );
 
-    const payload = await new clienteProdutoCertificadoService(
-      req,
-    ).findLimitedWithoutLogin();
+    const payload = await new perguntaService(req).findByProduto(
+      req.params.id,
+    );
 
     await ApiResponseHandler.success(req, res, payload);
   } catch (error) {

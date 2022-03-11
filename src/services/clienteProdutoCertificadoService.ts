@@ -166,9 +166,9 @@ export default class clienteProdutoCertificadoService {
     return clienteProdutoCertificadoRepository.findLimitedWithoutLogin();
   }
 
-  async findclienteProdutoCertificadobyId(id: number) {
-    return clienteProdutoCertificadoRepository.findclienteProdutoCertificadobyId(id);
-  }
+  // async findclienteProdutoCertificadobyId(id: number) {
+  //   return clienteProdutoCertificadoRepository.findclienteProdutoCertificadobyId(id);
+  // }
 
 
   async import(data, importHash) {

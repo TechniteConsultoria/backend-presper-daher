@@ -20,31 +20,9 @@ export default (app) => {
     require('./clienteProdutoCertificadoList').default,
   );
 
-
-  app.get(
-    `/clienteProdutoCertificado`,
-    require('./clienteProdutoCertificadoListWithoutLogin').default,
-  );
-
-  app.get(
-    `/clienteProdutoCertificado-list`,
-    require('./clienteProdutoCertificadoListWithoutLoginAndWithoutTenant').default,
-  );
-
-  app.get(
-    `/clienteProdutoCertificadoTrue`,
-    require('./clienteProdutoCertificadoListWithoutLoginTrue').default,
-  );
-  app.get(
-    `/ativo-clienteProdutoCertificado`,
-    require('./clienteProdutoCertificadoFindLimitedWithoutLogin').default, // esse
-  );
   app.get(
     `/tenant/:tenantId/clienteProdutoCertificado/:id`,
     require('./clienteProdutoCertificadoFind').default,
   );
-  app.get(
-    `/clienteProdutoCertificado/:id`,
-    require('./clienteProdutoCertificadoFindById').default,
-  );
+
 };

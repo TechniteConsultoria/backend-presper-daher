@@ -34,7 +34,7 @@ let seq = new (<any>Sequelize)(
 );
 
 const { QueryTypes } = require('sequelize');
-class clieteProdutoCertificadosRepository {
+class clienteProdutoCertificadosRepository {
 
   static async create(data, options: IRepositoryOptions) {
     const currentUser = SequelizeRepository.getCurrentUser(
@@ -53,15 +53,15 @@ class clieteProdutoCertificadosRepository {
       console.log( data )
 
 
-      const record = await options.database.clieteProdutoCertificado.create(
+      const record = await options.database.clienteProdutoCertificado.create(
         {
           ...lodash.pick(data, [
-            "produtoId"
+            // "produtoId"
           ]), 
           tenantId:    tenant.id,
-          produtoId:     data.id,
-          createdById: currentUser.id,
-          updatedById: currentUser.id,
+          produtoId:   data.id,
+          userId:      currentUser.id,
+          // updatedById: currentUser.id,
         },
         {
           transaction,
@@ -73,7 +73,7 @@ class clieteProdutoCertificadosRepository {
 
       await FileRepository.replaceRelationFiles(
         {
-          belongsTo: options.database.clieteProdutoCertificado.getTableName(),
+          belongsTo: options.database.clienteProdutoCertificado.getTableName(),
           belongsToColumn: 'fotos',
           belongsToId: record.id,
         },
@@ -111,7 +111,7 @@ class clieteProdutoCertificadosRepository {
       options,
     );
 
-    let record = await options.database.clieteProdutoCertificado.findOne(
+    let record = await options.database.clienteProdutoCertificado.findOne(
       {
         where: {
           id,
@@ -132,8 +132,7 @@ class clieteProdutoCertificadosRepository {
           "nome",
           "ativo"
         ]),  
-        createdById: currentUser.id,
-        updatedById: currentUser.id,
+        userId: currentUser.id,
       },
       {
         transaction,
@@ -144,7 +143,7 @@ class clieteProdutoCertificadosRepository {
 
     await FileRepository.replaceRelationFiles(
       {
-        belongsTo: options.database.clieteProdutoCertificado.getTableName(),
+        belongsTo: options.database.clienteProdutoCertificado.getTableName(),
         belongsToColumn: 'fotos',
         belongsToId: record.id,
       },
@@ -171,7 +170,7 @@ class clieteProdutoCertificadosRepository {
       options,
     );
 
-    let record = await options.database.clieteProdutoCertificado.findOne(
+    let record = await options.database.clienteProdutoCertificado.findOne(
       {
         where: {
           id,
@@ -213,11 +212,11 @@ class clieteProdutoCertificadosRepository {
       options,
     );
 
-    const record = await options.database.clieteProdutoCertificado.findOne(
+    const record = await options.database.clienteProdutoCertificado.findOne(
       {
         where: {
           id,
-          createdById: currentUser.id,
+          userId: currentUser.id,
         },
         include,
         transaction,
@@ -260,7 +259,7 @@ class clieteProdutoCertificadosRepository {
       tenantId: currentTenant.id,
     };
 
-    const records = await options.database.clieteProdutoCertificado.findAll(
+    const records = await options.database.clienteProdutoCertificado.findAll(
       {
         attributes: ['id'],
         where,
@@ -288,7 +287,7 @@ class clieteProdutoCertificadosRepository {
       tenantId: currentTenant.id,
     };
 
-    const records = await options.database.clieteProdutoCertificado.findAll(
+    const records = await options.database.clienteProdutoCertificado.findAll(
       {
         attributes: ['id'],
         where,
@@ -307,7 +306,7 @@ class clieteProdutoCertificadosRepository {
       options,
     );
 
-    return options.database.clieteProdutoCertificado.count(
+    return options.database.clienteProdutoCertificado.count(
       {
         where: {
           ...filter,
@@ -342,7 +341,7 @@ class clieteProdutoCertificadosRepository {
     );
 
     whereAnd.push({
-      createdById: currentUser.id,
+      userId: currentUser.id,
     });
 
     if (filter) {
@@ -355,7 +354,7 @@ class clieteProdutoCertificadosRepository {
       if (filter.nome) {
         whereAnd.push(
           SequelizeFilterUtils.ilikeIncludes(
-            'clieteProdutoCertificado',
+            'clienteProdutoCertificado',
             'nome',
             filter.nome,
           ),
@@ -365,7 +364,7 @@ class clieteProdutoCertificadosRepository {
       if (filter.status) {
         whereAnd.push(
           SequelizeFilterUtils.ilikeIncludes(
-            'clieteProdutoCertificado',
+            'clienteProdutoCertificado',
             'status',
             filter.status,
           ),
@@ -440,11 +439,19 @@ class clieteProdutoCertificadosRepository {
     }
 
     const where = { [Op.and]: whereAnd };
+    
+    console.log(
+      options.database.clienteProdutoCertificado
+    )
+    console.log("options.database")
+    console.log(options.database)
+
+
 
     let {
       rows,
       count,
-    } = await options.database.clieteProdutoCertificado.findAndCountAll({
+    } = await options.database.clienteProdutoCertificado.findAndCountAll({
       where,
       include,
       limit: limit ? Number(limit) : undefined,
@@ -494,7 +501,7 @@ class clieteProdutoCertificadosRepository {
       `SELECT 
       p.*
       FROM
-          clieteProdutoCertificado p
+          clienteProdutoCertificado p
       WHERE
           p.status = 'ativo'
 	        and deletedAt is null
@@ -547,7 +554,7 @@ class clieteProdutoCertificadosRepository {
       `SELECT 
       p.*
       FROM
-          clieteProdutoCertificados p
+          clienteProdutoCertificados p
       WHERE
           p.ativo = 'ativo'
           ${where}
@@ -606,7 +613,7 @@ class clieteProdutoCertificadosRepository {
       `SELECT 
       p.*
       FROM
-          clieteProdutoCertificados p
+          clienteProdutoCertificados p
       WHERE
           p.status = 'aprovado'
           ${where}
@@ -654,7 +661,7 @@ class clieteProdutoCertificadosRepository {
       `SELECT 
         p.*, f.publicUrl
         FROM
-            clieteProdutoCertificados p
+            clienteProdutoCertificados p
                 INNER JOIN
             files f ON f.belongsToId = p.id
         WHERE isOferta = 0
@@ -687,7 +694,7 @@ class clieteProdutoCertificadosRepository {
           { ['id']: SequelizeFilterUtils.uuid(query) },
           {
             [Op.and]: SequelizeFilterUtils.ilikeIncludes(
-              'clieteProdutoCertificado',
+              'clienteProdutoCertificado',
               'nome',
               query,
             ),
@@ -698,7 +705,7 @@ class clieteProdutoCertificadosRepository {
 
     const where = { [Op.and]: whereAnd };
 
-    const records = await options.database.clieteProdutoCertificado.findAll(
+    const records = await options.database.clienteProdutoCertificado.findAll(
       {
         attributes: ['id', 'nome'],
         where,
@@ -730,7 +737,7 @@ class clieteProdutoCertificadosRepository {
 
     await AuditLogRepository.log(
       {
-        entityName: 'clieteProdutoCertificado',
+        entityName: 'clienteProdutoCertificado',
         entityId: record.id,
         action,
         values,
@@ -778,7 +785,7 @@ class clieteProdutoCertificadosRepository {
 
     let query =
       'SELECT IFNULL(p.precoOferta, p.preco) AS `preco`' +
-      ` FROM clieteProdutoCertificados p
+      ` FROM clienteProdutoCertificados p
 
         WHERE p.id = '${id}';`;
 
@@ -793,13 +800,13 @@ class clieteProdutoCertificadosRepository {
     return record[0].preco;
   }
 
-  static async findclieteProdutoCertificadobyId(id: number) {
+  static async findclienteProdutoCertificadobyId(id: number) {
 
     let query =
       `SELECT 
     p.*, f.publicUrl
     FROM
-        clieteProdutoCertificados p
+        clienteProdutoCertificados p
             LEFT JOIN
         files f ON f.belongsToId = p.id
         where p.useId = '${id}';`;
@@ -818,7 +825,7 @@ class clieteProdutoCertificadosRepository {
   static async listPromocionalImagem() {
 
     let query =
-      `select distinct imagemPromocional, promocaoId from clieteProdutoCertificados  where imagemPromocional is not null;`;
+      `select distinct imagemPromocional, promocaoId from clienteProdutoCertificados  where imagemPromocional is not null;`;
 
     let record = await seq.query(query, {
       type: QueryTypes.SELECT,
@@ -830,10 +837,10 @@ class clieteProdutoCertificadosRepository {
 
     return record;
   }
-  static async clieteProdutoCertificadoUpdateStatus(id, data) {
+  static async clienteProdutoCertificadoUpdateStatus(id, data) {
 
     let query =
-      ` UPDATE clieteProdutoCertificados p
+      ` UPDATE clienteProdutoCertificados p
       SET p.status = '${data.status}'
       WHERE p.id = '${id}';`;
 
@@ -965,29 +972,29 @@ class clieteProdutoCertificadosRepository {
     `SELECT
     *
     FROM 
-    clieteProdutoCertificados`;
+    clienteProdutoCertificados`;
 
     let record = await seq.query(query, {
       type: QueryTypes.SELECT,
     });
 
     record.map(
-      async (clieteProdutoCertificados) =>{
-        if(clieteProdutoCertificados.isOferta){
+      async (clienteProdutoCertificados) =>{
+        if(clienteProdutoCertificados.isOferta){
           console.log(
-            nowDate >= clieteProdutoCertificados.promocaoEncerramento
+            nowDate >= clienteProdutoCertificados.promocaoEncerramento
           )
-          if(nowDate >= clieteProdutoCertificados.promocaoEncerramento){
+          if(nowDate >= clienteProdutoCertificados.promocaoEncerramento){
             let rows = await seq.query(
               `
-              UPDATE clieteProdutoCertificados p
+              UPDATE clienteProdutoCertificados p
               SET p.isOferta = 0,
               p.imagemPromocional = null,
               p.promocaoEncerramento = null,
               p.promocaoCriacao = null,
               p.promocaoId = null
               
-              WHERE p.id = '${clieteProdutoCertificados.id}';
+              WHERE p.id = '${clienteProdutoCertificados.id}';
               `
             );
             console.log(rows)
@@ -1039,7 +1046,7 @@ class clieteProdutoCertificadosRepository {
       `SELECT 
       p.*
       FROM
-          clieteProdutoCertificados p
+          clienteProdutoCertificados p
       WHERE
           p.status = 'aprovado'
           ${where}
@@ -1062,4 +1069,4 @@ class clieteProdutoCertificadosRepository {
 
 
 
-export default clieteProdutoCertificadosRepository;
+export default clienteProdutoCertificadosRepository;

@@ -17,14 +17,10 @@ export default (app) => {
     require('./perguntaFind').default,
   );
   app.get(
-    `/tenant/:tenantId/findByProduto/:id`,
+    `/findByProduto/:id`,
     require('./perguntaListByProduto').default,
   );
 
-  app.get(
-    `/tenant/:tenantId/findByEmpresa/:id`,
-    require('./perguntaByEmpresa').default,
-  );
   // app.post(
   //   `/tenant/:tenantId/pergunta`,
   //   require('./perguntaFindByProduto').default,

@@ -5,9 +5,9 @@ import BannersService from '../../services/bannersService';
 
 export default async (req, res, next) => {
   try {
-    new PermissionChecker(req).validateHas(
-      Permissions.values.bannersDestroy,
-    );
+    // new PermissionChecker(req).validateHas(
+    //   Permissions.values.bannersDestroy,
+    // );
 
 
     await new BannersService(req).destroyOne(
