@@ -784,7 +784,7 @@ class clieteProdutoCertificadosRepository {
     return record[0].preco;
   }
 
-  static async findclieteProdutoCertificadobyId(id: number) {
+  static async findclienteProdutoCertificadobyId(id: number) {
 
     let query =
       `SELECT 

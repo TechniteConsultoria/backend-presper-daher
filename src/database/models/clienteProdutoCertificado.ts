@@ -18,6 +18,18 @@ export default function (sequelize) {
       precoTotal: {
         type: DataTypes.DECIMAL(10, 2),
       },
+      isCertificado:{
+        type: DataTypes.BOOLEAN,
+      },
+      isPago:{
+        type: DataTypes.BOOLEAN,
+      },
+      dataInicio:{
+        type: DataTypes.DATE,
+      },
+      dataTermino:{
+        type: DataTypes.DATE,
+      }
      
     },
     {
