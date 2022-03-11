@@ -18,58 +18,15 @@ export default class PedidoService {
   }
 
   async create(data) {
-    /*
-    fornecedorEmpresa
-    Produto
-    Produtos
-    código
-    
-    */
     try {
-      console.log("----------------")
-      console.log("data")
-      console.log(data)
-      console.log("----------------")
-      // // data.compradorUser = await UserRepository.filterIdInTenant(data.compradorUser, { ...this.options });
-      // data.fornecedorEmpresa = await EmpresaRepository.filterIdInTenant(data.fornecedorEmpresa, { ...this.options });//espera receber direto o fornecedor na req
-      // const currentUser = SequelizeRepository.getCurrentUser(
-      //   this.options,
-      // );
-      // data.compradorUserId = currentUser.id
-      // // data.produto = await ProdutoRepository.filterIdsInTenant(data.produto, { ...this.options });  
-      // console.log(data.produto)
-      // data.codigo = await PedidoRepository.findProximoCodigo();
-
-      // const pedido = await PedidoRepository.create(data, {
-      //   ...this.options,
-      // });
-
-      // data.produtos.forEach(async e => {
-
-      //   e.precoUnitario = await ProdutoRepository.findPrecoById(e.id);
-      //   e.precoTotal = e.precoUnitario * e.quantidade;
-
-      //   await PedidoProdutoRepository.create(pedido.id, e, {
-      //     ...this.options,
-      //   });
-      // });
+      data.userId = data.userId;
       
-      /*
-      PARA CADA PRODUTO UM PEDIDO
-
-      */
-
-      // data.compradorUser = await UserRepository.filterIdInTenant(data.compradorUser, { ...this.options });
-      // data.fornecedorEmpresa = await EmpresaRepository.filterIdInTenant(data.fornecedorEmpresa, { ...this.options });//espera receber direto o fornecedor na req
-      data.fornecedorEmpresa = data.fornecedorId;//espera receber direto o fornecedor na req
-    
       const currentUser = SequelizeRepository.getCurrentUser(
         this.options,
       );
+      
       data.compradorUserId = currentUser.id
-      // data.produto = await ProdutoRepository.filterIdsInTenant(data.produto, { ...this.options });  
-      console.log("data.produto")
-      console.log(data.produtos)
+
       //cria o código sozinho
       data.codigo = await PedidoRepository.findProximoCodigo();
 
@@ -77,29 +34,23 @@ export default class PedidoService {
         ...this.options,
       });
 
-      console.log("*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-**")
-      console.log("pedido")
-      console.log(pedido) 
-      console.log("*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-**")
 
       await data.produtos.forEach(
+
          async e => {
-          console.log(e)
-          e.precoUnitario = await ProdutoRepository.findPrecoById(e.produto.id);
-          e.precoTotal = e.precoUnitario * e.quantidade;
-  
+          e.precoUnitario = await ProdutoRepository.findPrecoById(e.id);
+          e.precoTotal = e.precoUnitario // * e.quantidade;
+          
           await PedidoProdutoRepository.create(pedido.id, e, {
             ...this.options,
-                  });
+          });
 
       });
 
-      console.log("data.produtos")
-      console.log(data.produtos)
-
       return await pedido;
 
-    } catch (error) {
+    }
+    catch (error) {
 
       SequelizeRepository.handleUniqueFieldError(
         error,
