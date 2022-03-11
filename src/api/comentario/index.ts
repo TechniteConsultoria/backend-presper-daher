@@ -12,6 +12,13 @@ export default (app) => {
     `/tenant/:tenantId/comentario`,
     require('./comentarioList').default,
   );
+
+  app.get(
+    `/comentario`,
+    require('./comentarioList').default,
+  );
+
+
   app.get(
     `/tenant/:tenantId/find-comentario/:id`,
     require('./comentarioFind').default,
