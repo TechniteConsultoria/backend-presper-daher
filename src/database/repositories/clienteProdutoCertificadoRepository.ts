@@ -58,12 +58,8 @@ class clieteProdutoCertificadosRepository {
           ...lodash.pick(data, [
             "produtoId"
           ]), 
-<<<<<<< HEAD
           tenantId:    tenant.id,
           produtoId:     data.id,
-=======
-          tenantId: tenant.id,
->>>>>>> 128788d04359021a77a7276e92aa95bc90379e23
           createdById: currentUser.id,
           updatedById: currentUser.id,
         },
@@ -213,22 +209,15 @@ class clieteProdutoCertificadosRepository {
       options,
     );
 
-<<<<<<< HEAD
     const currentUser = SequelizeRepository.getCurrentUser(
       options,
     );
 
-=======
->>>>>>> 128788d04359021a77a7276e92aa95bc90379e23
     const record = await options.database.clieteProdutoCertificado.findOne(
       {
         where: {
           id,
-<<<<<<< HEAD
           createdById: currentUser.id,
-=======
-          tenantId: currentTenant.id,
->>>>>>> 128788d04359021a77a7276e92aa95bc90379e23
         },
         include,
         transaction,
@@ -348,17 +337,12 @@ class clieteProdutoCertificadosRepository {
     let include = [
     ];
 
-<<<<<<< HEAD
     const currentUser = SequelizeRepository.getCurrentUser(
       options,
     );
 
     whereAnd.push({
       createdById: currentUser.id,
-=======
-    whereAnd.push({
-      tenantId: tenant.id,
->>>>>>> 128788d04359021a77a7276e92aa95bc90379e23
     });
 
     if (filter) {
@@ -809,11 +793,7 @@ class clieteProdutoCertificadosRepository {
     return record[0].preco;
   }
 
-<<<<<<< HEAD
   static async findclieteProdutoCertificadobyId(id: number) {
-=======
-  static async findclienteProdutoCertificadobyId(id: number) {
->>>>>>> 128788d04359021a77a7276e92aa95bc90379e23
 
     let query =
       `SELECT 
