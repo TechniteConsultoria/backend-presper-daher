@@ -33,7 +33,7 @@ class PedidoProdutoRepository {
             ]),
             compradorUserId: currentUser.id, 
             pedidoId: pedido,
-            produtoId: data.produto.id,
+            produtoId: data.id,
           },
             {
             transaction,
