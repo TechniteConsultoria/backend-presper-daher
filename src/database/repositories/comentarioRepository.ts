@@ -45,7 +45,6 @@ class ComentarioRepository {
         'comentario',
         'resposta',
         'produtoId',
-        'fornecedorEmpresaId',
         'userId'
       ]),
       dataComentario: new Date(),
@@ -53,7 +52,6 @@ class ComentarioRepository {
       tenantId: tenant.id,
       createdById: currentUser.id,
       updatedById: currentUser.id,
-      fornecedorEmpresaId: data.fornecedorEmpresaId,
       userId: data.userId,
     });
 
@@ -299,75 +297,64 @@ class ComentarioRepository {
     { filter, limit = 0, offset = 0, orderBy = '' },
     options: IRepositoryOptions,
    ) {
-    // try{
-    //   const tenant =
-    //   SequelizeRepository.getCurrentTenant(options);
 
-    // let whereAnd: Array<any> = [];
-    // let include = [
-    //   {
-    //     model: options.database.user,
-    //     as: 'compradorUser',
-    //     include: {
-    //       model: options.database.pessoaFisica,
-    //       as: 'pessoaFisica',
-    //     },
-    //   },
-    //   {
-    //     model: options.database.empresa,
-    //     as: 'fornecedorEmpresa',
-    //   },
-    // ];
+    try{
 
-    // whereAnd.push({
-    //   tenantId: tenant.id,
-    // });
+    let whereAnd: Array<any> = [];
 
-    // if (filter) {
-    //   if (filter.id) {
-    //     whereAnd.push({
-    //       ['id']: SequelizeFilterUtils.uuid(filter.id),
-    //     });
-    //   }
+    let include = [
+      {
+        model: options.database.user,
+        as: 'user',
+      }
+    ];
 
 
-    //   if (filter.user) {
-    //     whereAnd.push({
-    //       ['userId']: SequelizeFilterUtils.uuid(
-    //         filter.user,
-    //       ),
-    //     });
-    //   }
 
-    //   if (filter.fornecedorEmpresa) {
-    //     whereAnd.push({
-    //       ['fornecedorEmpresaId']:
-    //         SequelizeFilterUtils.uuid(
-    //           filter.fornecedorEmpresa,
-    //         ),
-    //     });
-    //   }
-    // }
+    if (filter) {
+      if (filter.id) {
+        whereAnd.push({
+          ['id']: SequelizeFilterUtils.uuid(filter.id),
+        });
+      }
 
-    // const where = { [Op.and]: whereAnd };
 
-    // let { rows, count } =
-    //   await options.database.comentarios.findAndCountAll({
-    //     where,
-    //     include,
-    //     limit: limit ? Number(limit) : undefined,
-    //     offset: offset ? Number(offset) : undefined,
-    //     order: orderBy
-    //       ? [orderBy.split('_')]
-    //       : [['createdAt', 'DESC']],
-    //     transaction:
-    //       SequelizeRepository.getTransaction(options),
-    //   });
-    // return { rows, count };
-    // }
-    // catch (e){
-    //   console.log(e)
-    // }
+      if (filter.user) {
+        whereAnd.push({
+          ['userId']: SequelizeFilterUtils.uuid(
+            filter.user,
+          ),
+        });
+      }
+
+      if (filter.produtoId) {
+        whereAnd.push({
+          ['produtoId']: filter.produtoId
+        });
+      }
+    }
+
+    const where = { [Op.and]: whereAnd };
+
+    let { rows, count } =
+      await options.database.comentarios.findAndCountAll({
+        where,
+        include,
+        limit: limit ? Number(limit) : undefined,
+        offset: offset ? Number(offset) : undefined,
+        order: orderBy
+          ? [orderBy.split('_')]
+          : [['createdAt', 'DESC']],
+        transaction:
+          SequelizeRepository.getTransaction(options),
+      });
+
+      
+    return { rows, count };
+    }
+    catch (e){
+      console.log(e)
+    }
   
   let seq = new (<any>Sequelize)(
     getConfig().DATABASE_DATABASE,
