@@ -402,6 +402,74 @@ class CarrinhoProdutoRepository {
 
     return output;
   }
+  static async destroyByUser(id, options: IRepositoryOptions) {
+    const transaction = SequelizeRepository.getTransaction(
+      options,
+    );
+
+    const currentUser = SequelizeRepository.getCurrentUser(
+      options,
+    );
+
+    let seq = new (<any>Sequelize)(
+    getConfig().DATABASE_DATABASE,
+    getConfig().DATABASE_USERNAME,
+    getConfig().DATABASE_PASSWORD,
+    {
+      host: getConfig().DATABASE_HOST,
+      dialect: getConfig().DATABASE_DIALECT,
+      logging:
+        getConfig().DATABASE_LOGGING === 'true'
+          ? (log) =>
+              console.log(
+                highlight(log, {
+                  language: 'sql',
+                  ignoreIllegals: true,
+                }),
+              )
+          : false,
+      timezone: getConfig().DATABASE_TIMEZONE,
+    },
+    
+  );
+    const { QueryTypes } = require('sequelize')
+
+    const record = await seq.query(
+      "SELECT cp.id " +
+      "FROM carrinhos c " +
+      "LEFT JOIN carrinhoprodutos cp " +
+      "ON c.id = cp.carrinhoId " +
+      "LEFT JOIN produtos p " +
+      "ON cp.produtoId = p.id " +
+      " " +
+      " " +
+      "WHERE c.userId = '" + currentUser.id + "' "
+      ,
+      { type: QueryTypes.SELECT },
+    )
+
+    let userId = new Array();
+    
+    record.forEach(e => {
+      userId.push(e.id);
+    });
+
+    const del = await options.database.carrinhoProduto.destroy(
+      {
+        where: {
+          id: { 
+            [Op.in]: [userId]
+          }
+        },
+      },
+      {
+        transaction,
+      },
+    )
+
+    return del
+
+  }
 }
 
 export default CarrinhoProdutoRepository;
