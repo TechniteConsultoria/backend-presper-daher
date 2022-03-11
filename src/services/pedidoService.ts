@@ -9,6 +9,8 @@ import PedidoProdutoRepository from '../database/repositories/pedidoProdutoRepos
 import PagamentoRepository from '../database/repositories/pagamentoRepository';
 import { databaseInit } from '../database/databaseConnection';
 import { ConfigurationServicePlaceholders } from 'aws-sdk/lib/config_service_placeholders';
+import informacoesFind from '../api/informacoes/informacoesFind';
+import clienteProdutoCertificadoRepository from '../database/repositories/clienteProdutoCertificadoRepository';
 
 export default class PedidoService {
   options: IServiceOptions;
@@ -40,12 +42,28 @@ export default class PedidoService {
          async e => {
           e.precoUnitario = await ProdutoRepository.findPrecoById(e.id);
           e.precoTotal = e.precoUnitario // * e.quantidade;
+          e.volumeVendas = e.volumeVendas + 1
           
           await PedidoProdutoRepository.create(pedido.id, e, {
             ...this.options,
           });
 
+          ProdutoRepository.update(e.id ,e, {
+            ...this.options,
+          });
+
       });
+
+
+    //   await data.produtos.forEach(
+
+    //     async e => {
+    //      e.precoUnitario = await ProdutoRepository.findPrecoById(e.id);
+    //      e.precoTotal = e.precoUnitario // * e.quantidade;
+
+    //      await clienteProdutoCertificadoRepository.create(e, this.options)
+
+    //  });
 
       return await pedido;
 
