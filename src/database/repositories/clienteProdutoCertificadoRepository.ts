@@ -49,48 +49,53 @@ class clienteProdutoCertificadosRepository {
       options,
     );
     try {
-      console.log("data do repo")
-      console.log( data )
 
+      let prodArray = 
 
-      const record = await options.database.clienteProdutoCertificado.create(
-        {
-          ...lodash.pick(data, [
-            // "produtoId"
-          ]), 
-          tenantId:    tenant.id,
-          produtoId:   data.id,
-          userId:      currentUser.id,
-          // updatedById: currentUser.id,
-        },
-        {
-          transaction,
-        },
-      );
-      
-      console.log('record')
-      console.log(record)
+      data.produtos.map(
+        async produto => {
+          console.log(produto)
 
-      await FileRepository.replaceRelationFiles(
-        {
-          belongsTo: options.database.clienteProdutoCertificado.getTableName(),
-          belongsToColumn: 'fotos',
-          belongsToId: record.id,
-        },
-        data.fotos,
-        options,
-      );
+          const record = await options.database.clienteProdutoCertificado.findOrCreate(
+            {
+              // ...lodash.pick(data, [
+              //   // "produtoId"
+              // ]), 
+              tenantId:    tenant.id,
+              produtoId:   produto.id,
+              userId:      currentUser.id,
+            },
+            {
+              transaction,
+            },
+          );
 
-      await this._createAuditLog(
-        AuditLogRepository.CREATE,
-        record,
-        data,
-        options,
-      );
-
-      console.log(record)
-
-      return this.findById(record.id, options);
+    
+          await FileRepository.replaceRelationFiles(
+            {
+              belongsTo: options.database.clienteProdutoCertificado.getTableName(),
+              belongsToColumn: 'fotos',
+              belongsToId: record.id,
+            },
+            data.fotos,
+            options,
+          );
+    
+          await this._createAuditLog(
+            AuditLogRepository.CREATE,
+            record,
+            data,
+            options,
+          );
+    
+          console.log(record)
+    
+          let newProd = await this.findById(record.id, options);
+          prodArray.push(newProd)
+        }
+      )
+        
+    return prodArray
     }
     catch (e) {
       console.log(e)

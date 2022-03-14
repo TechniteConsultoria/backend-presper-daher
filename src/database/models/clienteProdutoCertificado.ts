@@ -20,9 +20,11 @@ export default function (sequelize) {
       },
       isCertificado:{
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
       isPago:{
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
       dataInicio:{
         type: DataTypes.DATE,
