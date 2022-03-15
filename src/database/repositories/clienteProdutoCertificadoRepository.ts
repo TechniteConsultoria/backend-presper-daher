@@ -53,42 +53,31 @@ class clienteProdutoCertificadosRepository {
       let prodArray = 
 
       data.produtos.map(
-        async produto => {
+        async (produto, index) => {
           console.log(produto)
+          console.log(index)
 
           const record = await options.database.clienteProdutoCertificado.findOrCreate(
             {
-              // ...lodash.pick(data, [
-              //   // "produtoId"
-              // ]), 
-              tenantId:    tenant.id,
-              produtoId:   produto.id,
-              userId:      currentUser.id,
-            },
-            {
-              transaction,
-            },
-          );
-
-    
-          await FileRepository.replaceRelationFiles(
-            {
-              belongsTo: options.database.clienteProdutoCertificado.getTableName(),
-              belongsToColumn: 'fotos',
-              belongsToId: record.id,
-            },
-            data.fotos,
-            options,
+              where:
+              {
+                userId:      currentUser.id,
+                produtoId: produto.id,
+              },
+              defaults: {
+                produtoId:   produto.id,
+                userId:      currentUser.id,
+              }
+            }
           );
     
-          await this._createAuditLog(
-            AuditLogRepository.CREATE,
-            record,
-            data,
-            options,
-          );
-    
+          console.log("record")
           console.log(record)
+
+          console.log("---------")
+
+          console.log("record[0].id")
+          console.log( record[0].id )
     
           let newProd = await this.findById(record.id, options);
           prodArray.push(newProd)
