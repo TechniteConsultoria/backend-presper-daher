@@ -32,6 +32,8 @@ export default class clienteProdutoCertificadoService {
       );
 
       return record;
+
+      
     } catch (error) {
       await SequelizeRepository.rollbackTransaction(
         transaction,
