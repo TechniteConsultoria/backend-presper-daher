@@ -49,13 +49,10 @@ class clienteProdutoCertificadosRepository {
       options,
     );
     try {
-
-      let prodArray = 
+      let prodArray: any = []
 
       data.produtos.map(
         async (produto, index) => {
-          console.log(produto)
-          console.log(index)
 
           const record = await options.database.clienteProdutoCertificado.findOrCreate(
             {
@@ -79,12 +76,17 @@ class clienteProdutoCertificadosRepository {
           console.log("record[0].id")
           console.log( record[0].id )
     
-          let newProd = await this.findById(record.id, options);
-          prodArray.push(newProd)
+          // let newProd = await this.findById(record[0].id, options);
+          
+          prodArray.push(record)
         }
       )
+
+    console.log("prodArray")
+    console.log(prodArray)
         
     return prodArray
+
     }
     catch (e) {
       console.log(e)
@@ -328,6 +330,10 @@ class clienteProdutoCertificadosRepository {
 
     let whereAnd: Array<any> = [];
     let include = [
+      {
+        model: options.database.produto,
+        as: 'produto',
+      },
     ];
 
     const currentUser = SequelizeRepository.getCurrentUser(
