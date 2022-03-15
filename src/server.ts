@@ -7,7 +7,7 @@ require('dotenv').config();
 import api from './api';
 import ProdutoService from './services/produtoService';
 
-const PORT = process.env.PORT || 7777;
+const PORT = process.env.PORT || 8146;
 
 // const updatePagamentos = async () => {
 //   console.log('LAHA LEHE')
