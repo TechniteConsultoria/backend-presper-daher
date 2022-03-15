@@ -36,37 +36,6 @@ export default class PedidoService {
         ...this.options,
       });
 
-
-      await data.produtos.forEach(
-
-         async e => {
-          e.precoUnitario = await ProdutoRepository.findPrecoById(e.id);
-          e.precoTotal = e.precoUnitario // * e.quantidade;
-          e.volumeVendas = e.volumeVendas + 1
-          
-          await PedidoProdutoRepository.create(pedido.id, e, {
-            ...this.options,
-          });
-
-          ProdutoRepository.update(e.id ,e, {
-            ...this.options,
-          });
-
-          await clienteProdutoCertificadoRepository.create(e, this.options)
-
-      });
-
-
-    //   await data.produtos.forEach(
-
-    //     async e => {
-    //      e.precoUnitario = await ProdutoRepository.findPrecoById(e.id);
-    //      e.precoTotal = e.precoUnitario // * e.quantidade;
-
-    //      await clienteProdutoCertificadoRepository.create(e, this.options)
-
-    //  });
-
       return await pedido;
 
     }
