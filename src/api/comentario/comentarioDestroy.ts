@@ -11,8 +11,8 @@ export default async (req, res, next) => {
       Permissions.values.pedidoDestroy,
     );
 
-    await new comentarioService(req).destroyAll(
-      req.query.ids,
+    await new comentarioService(req).destroy(
+      req.params.id,
     );
 
     const payload = true;

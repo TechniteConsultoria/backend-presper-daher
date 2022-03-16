@@ -3,11 +3,10 @@ import SequelizeRepository from '../database/repositories/sequelizeRepository';
 import { IServiceOptions } from './IServiceOptions';
 import ComentarioRepository from '../database/repositories/comentarioRepository';
 import EmpresaRepository from '../database/repositories/empresaRepository';
-import ProdutoRepository from '../database/repositories/produtoRepository';
 import UserRepository from '../database/repositories/userRepository';
 
 
-export default class PedidoService {
+export default class ComentarioService {
   options: IServiceOptions;
 
   constructor(options) {
@@ -95,7 +94,7 @@ export default class PedidoService {
 
     try {
       for (const id of ids) {
-        await ProdutoRepository.destroy(id, {
+        await ComentarioRepository.destroy(id, {
           ...this.options,
           transaction,
         });
@@ -113,6 +112,31 @@ export default class PedidoService {
   }
 
 
+  async destroy(id) {
+    const transaction = await SequelizeRepository.createTransaction(
+      this.options.database,
+    );
+
+    try {
+      await ComentarioRepository.destroy(id, {
+        ...this.options,
+        transaction,
+      });
+
+      await SequelizeRepository.commitTransaction(
+        transaction,
+      );
+    } catch (error) {
+      await SequelizeRepository.rollbackTransaction(
+        transaction,
+      );
+      throw error;
+    }
+  }
+
+
+
+
   async destroyOne(id) {
     console.log("id")
     console.log(id)
@@ -122,7 +146,7 @@ export default class PedidoService {
     );
 
     try {
-      await ProdutoRepository.destroy(id, {
+      await ComentarioRepository.destroy(id, {
         ...this.options,
         transaction,
       });

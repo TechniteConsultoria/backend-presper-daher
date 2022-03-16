@@ -121,12 +121,20 @@ class ComentarioRepository {
         timezone: getConfig().DATABASE_TIMEZONE,
       },
 
+      
     );
+
+    console.log("data")
+    console.log(data)
+
+    console.log("id")
+    console.log(id)
+
     let rows = await seq.query(
       `
       UPDATE comentarios c
-      SET c.isRespondido = '${data.isRespondido}',
-      c.isDenunciado = '${data.isDenunciado}',
+      SET c.isRespondido = '${Number(data.isRespondido)}',
+      c.isDenunciado     = '${Number(data.isDenunciado)}',
       c.comentario = '${data.comentario}',
       c.resposta = '${data.resposta}'
       WHERE c.id = '${id}';
@@ -306,6 +314,10 @@ class ComentarioRepository {
       {
         model: options.database.user,
         as: 'user',
+      },
+      {
+        model: options.database.produto,
+        as: 'produto',
       }
     ];
 
@@ -330,6 +342,12 @@ class ComentarioRepository {
       if (filter.produtoId) {
         whereAnd.push({
           ['produtoId']: filter.produtoId
+        });
+      }
+
+      if (filter.isDenunciado) {
+        whereAnd.push({
+          ['isDenunciado']: filter.isDenunciado
         });
       }
     }

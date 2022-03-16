@@ -23,6 +23,7 @@ export default (app) => {
     `/tenant/:tenantId/find-comentario/:id`,
     require('./comentarioFind').default,
   );
+  
   app.get(
     `/tenant/:tenantId/findByProduto/:id`,
     require('./comentarioListByProduto').default,
@@ -32,10 +33,10 @@ export default (app) => {
     `/tenant/:tenantId/findByEmpresa/:id`,
     require('./comentarioByEmpresa').default,
   );
-  // app.post(
-  //   `/tenant/:tenantId/comentario`,
-  //   require('./comentarioFindByProduto').default,
-  // );
-  
+
+  app.delete(
+    `/tenant/:tenantId/comentario/:id`,
+    require('./comentarioDestroy').default,
+  );
   
 };
