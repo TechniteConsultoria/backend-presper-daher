@@ -22,7 +22,7 @@ export default class ProdutoService {
 
     try {
 
-      data.categoria = await CategoriaRepository.filterIdInTenant(data.categoria, { ...this.options, transaction });
+      // data.categoria = await CategoriaRepository.filterIdInTenant(data.categoria, { ...this.options, transaction });
 
       const record = await ProdutoRepository.create(data, {
         ...this.options,

@@ -2,7 +2,7 @@ import PermissionChecker from '../../services/user/permissionChecker';
 import ApiResponseHandler from '../apiResponseHandler';
 import Permissions from '../../security/permissions';
 import PedidoService from '../../services/pedidoService';
-import perguntaService from '../../services/perguntaService';
+import comentarioService from '../../services/comentarioService';
 
 
 export default async (req, res, next) => {
@@ -11,8 +11,8 @@ export default async (req, res, next) => {
       Permissions.values.pedidoDestroy,
     );
 
-    await new perguntaService(req).destroyAll(
-      req.query.ids,
+    await new comentarioService(req).destroyOne(
+      req.params.id,
     );
 
     const payload = true;

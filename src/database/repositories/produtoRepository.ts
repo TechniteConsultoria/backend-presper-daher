@@ -48,6 +48,11 @@ class ProdutoRepository {
     const transaction = SequelizeRepository.getTransaction(
       options,
     );
+
+
+    console.log("repo")
+    console.log("data")
+    console.log(data)
     try {
 
 
@@ -168,11 +173,10 @@ class ProdutoRepository {
           'prazo',
           'promocaoEncerramento',
           'promocaoCriacao',
-          'categoriaId',
           'imagemUrl',
         ]),
         empresaId: data.empresaId || null,
-        // categoriaId: data.categoria,
+        categoriaId: data.categoria || null,
         updatedById: currentUser.id,
       },
       {

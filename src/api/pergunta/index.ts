@@ -21,10 +21,10 @@ export default (app) => {
     require('./perguntaListByProduto').default,
   );
 
-  // app.post(
-  //   `/tenant/:tenantId/pergunta`,
-  //   require('./perguntaFindByProduto').default,
-  // );
+  app.delete(
+    `/tenant/:tenantId/pergunta/:id`,
+    require('./perguntaDestroy').default,
+  );
   
   
 };
