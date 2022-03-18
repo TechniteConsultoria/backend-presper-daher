@@ -47,7 +47,7 @@ const { QueryTypes } = require('sequelize');
 
 //Token Usado na Fatura
 // const API_TOKEN = 'A7C933D7B2F192D4DA24D134FF9640FD4CE73D7049284194CE962E7374A3EA37';   //* TESTE
-const API_TOKEN = '9E22B79709D38A9C4CD229E480EBDDB363BC99F9182C8FD1BC49CECC0CAA44F8' //* PRODUÇÃO
+const API_TOKEN = 'CC93760DC60C4FFDA487ED6D9B88D9B6' //* PRODUÇÃO
 
 /*
 api_token deve ser o user_token da empresa
@@ -63,15 +63,22 @@ class PagamentoRepository {
     this.options = options;
   }
 
-  static async create(data, options: IRepositoryOptions) {
+
+  static async create(data, prods, options: IRepositoryOptions) {
+
+
+
+    console.log("prods")
+    console.log( prods)
+
     const currentUser = SequelizeRepository.getCurrentUser(
       options,
     );
 
-    const pessoa = await options.database.pessoaFisica.findOne(
+    const pessoa = await options.database.user.findOne(
       {
         where: {
-          userId: data.compradorUserId
+          id: data.compradorUserId
         }
       }
     );
@@ -79,110 +86,82 @@ class PagamentoRepository {
     if (!pessoa) {
       throw new Error404();
     }
-    console.log("--------------------")
-    console.log("data")
-    console.log(data)
-    console.log("--------------------")
-
-
-
-    if(pessoa.cpf){
-      pessoa.cpf = pessoa.cpf.replace(/\.|-/g, '');
-    }
-    if(pessoa.cep){
-      pessoa.cep = pessoa.cep.replace(/\.|-/g, '');
-    }
-    if(pessoa.celular){
-      pessoa.celular = pessoa.celular.replace(/\+|\(|\)| |-/g, '');
-    }
+    // pessoa.cep = pessoa.cep.replace(/\.|-/g, '');
+    // pessoa.cpf = pessoa.cpf.replace(/\.|-/g, ''); //this will be necessary!
+    pessoa.telefone = pessoa.telefone.replace(/\+|\(|\)| |-/g, '');
 
     let dataVencimento = new Date();
     dataVencimento.setDate(dataVencimento.getDate() + 3);
 
-    let arrItems: any = data.produtos.map(e => {
+    let items: any = prods.produtos.map(e => {
       return {
-        description: e.nome,
+        reference_id: e.id,
+        name: e.nome,
         quantity: e.quantidade,
-        price_cents: e.precoUnitario * 100 //API Iugu considera centavos
+        // unit_amount: e.preco,
+        unit_amount: Number(e.preco) * 100 //API Iugu considera centavos
       }
     });
 
+
+    console.log("items")
+    console.log(items)
+
     let precoPedido = 0;
 
-    arrItems.forEach(e => {
-      precoPedido += (e.price_cents * e.quantity);
+    items.forEach(e => {
+      precoPedido += (e.unit_amount * e.quantity);
     });
 
-    let formaPagamento;
-    switch (data.formaPagamento) {
-      case 'boleto':
-        formaPagamento = ['bank_slip'];
-        break;
-
-      case 'cartao':
-        formaPagamento = precoPedido < 100000 ? ['credit_card'] : ['bank_slip', 'pix'];
-        break;
-
-      case 'pix':
-        formaPagamento = ['pix'];
-        break;
-
-      default:
-        formaPagamento = precoPedido < 100000 ? ['all'] : ['bank_slip', 'pix'];
-        break;
-    }
-
-    const url = `https://api.iugu.com/v1/invoices?api_token=${API_TOKEN}`;
+    const url = `https://sandbox.api.pagseguro.com/orders`;
     const opt = {
       method: 'POST',
-      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': API_TOKEN
+      },
       body: JSON.stringify({
-        //ensure_workday_due_date: true, //Garantir que a data da fatura caia em dia útil
-        items: [
-          arrItems
-        ],
-        payable_with: formaPagamento,
-        payer: {
-          address: {
-            zip_code: pessoa.cep,
-            street: pessoa.estado,
-            number: pessoa.numero,
-            district: pessoa.bairro,
-            city: pessoa.cidade,
-            state: pessoa.estado,
-            country: 'brasil'
-          },
-          name: pessoa.nome,
-          phone: pessoa.celular,
-          cpf_cnpj: pessoa.cpf,
-          email: pessoa.email
+        eference_id: pessoa.id,
+        customer: {
+            name: pessoa.name,
+            email: pessoa.email,
+            tax_id: '52939198810',
+            phones: [
+                {
+                    country: 55,
+                    area: pessoa.telefone.substring(0,2),
+                    number: pessoa.telefone.substring(2, pessoa.telefone.length),
+                    type: 'MOBILE'
+                }
+            ]
         },
-        ensure_workday_due_date: false,
+        items,
 
-        // splits: [{
-        //   percent: 5,
-        //   bank_slip_percent: 5,
-        //   credit_card_percent: 5,
-        //   pix_percent: 5,
-        //   permit_aggregated: true,
-        //   recipient_account_id: moderadorIdIugu
-        // }],
+      qr_codes: [{
+          amount: {
+            value: precoPedido
+        }
+      }],
 
-        email: pessoa.email,
-        due_date: dataVencimento
+        notification_urls: [
+            'https://meusite.com/notificacoes'
+        ]
       })
     };
 
     await fetch(url, opt)
       .then(res => res.json())
       .then(json => {
+        console.log("json")
         console.log(json)
-        data.idIugu = json.id
-        data.urlFaturaIugu = json.secure_url
+        data.idIugu = json.links[0].href
+        data.urlFaturaIugu = json.secure_url  
       }
       )
       .catch(err => console.error('error:' + err));
-
+     
+    
     const record = await options.database.pagamento.create(
       {
         ...lodash.pick(data, [
@@ -190,7 +169,7 @@ class PagamentoRepository {
           'urlFaturaIugu',
         ]),
         status: 'pendente',
-        pedidoId: data.pedidoId,
+        pedidoId: data.id,
         createdById: currentUser.id,
         updatedById: currentUser.id,
       },
@@ -198,6 +177,7 @@ class PagamentoRepository {
 
     return record;
   }
+
   static async createNewFaturaWithSplits(data, options: IRepositoryOptions){
     /*
     "splits": [
@@ -345,40 +325,43 @@ class PagamentoRepository {
         splits: splits,
 
         email: pessoa.email,
-        due_date: dataVencimento
+        due_date: dataVencimento,
+
+
+
+        charge: [
+          {
+              reference_id: "referencia do pagamento",
+              description: "descricao do pagamento",
+              amount: {
+                  value: 500,
+                  currency: "BRL"
+              },
+              payment_method: {
+                  type: "CREDIT_CARD",
+                  installments: 1,
+                  capture: true,
+                  card: {
+                      number: "4111111111111111",
+                      exp_month: "12",
+                      exp_year: "2026",
+                      security_code: "123",
+                      holder: {
+                          name: "Jose da Silva"
+                      },
+                      store: false
+                  }
+              },
+              notification_urls: [
+                  "https://meusite.com/notificacoes"
+              ]
+          }
+      ]
       }
     };
     console.log("Dados enviados")
     console.log(opt)
-    /*
-    {
-      "items":["Sapato Social Infantil"],
-      "payable_with":["all"],
-      "payer":{
-          "address":{
-              "zip_code":"18540000",
-              "street":"15151651",
-              "number":16116511,
-              "district":"industria",
-              "city":"65156165165",
-              "state":"15151651",
-              "country":"brasil"
-            },
-            "name":"aaaaaaaa",
-            "phone":"15996827652",
-            "cpf_cnpj":"52939198810",
-            "email":"ryan@email.com"
-          },
-          "ensure_workday_due_date":false,
-          "splits":[
-            {
-              "recipient_account_id":"32931CDC346328EE79CCDCD61A004E92EA866FC6E1D2A5F9A4501254977183B8","cents":9000
-            }
-          ],
-          "email":"ryan@email.com","due_date":"2022-01-23T11:09:54.810Z"
-        }
 
-    */
 
     await fetch(url, opt)
       .then(res => res.json())
