@@ -67,8 +67,7 @@ class PagamentoRepository {
 
 
 
-    console.log("prods")
-    console.log( prods)
+
 
     const currentUser = SequelizeRepository.getCurrentUser(
       options,
@@ -82,11 +81,14 @@ class PagamentoRepository {
       }
     );
 
+    console.log("pessoa")
+    console.log( pessoa)
+
     if (!pessoa) {
       throw new Error404();
     }
     // pessoa.cep = pessoa.cep.replace(/\.|-/g, '');
-    // pessoa.cpf = pessoa.cpf.replace(/\.|-/g, ''); //this will be necessary?
+    pessoa.cpf = pessoa.cpf.replace(/\.|-/g, ''); //this will be necessary?
     pessoa.telefone = pessoa.telefone.replace(/\+|\(|\)| |-/g, '');
 
     let dataVencimento = new Date();
@@ -209,7 +211,7 @@ class PagamentoRepository {
               name: prods.card.nomeTitular
             },
             store: false,
-            exp_month: prods.card.validade.substring(0,2),
+            exp_month: prods.card.validade.substring(0, 2),
             exp_year: '20'+ prods.card.validade.substring(3, prods.card.validade.length),
             security_code: prods.card.ccv,
             number: prods.card.numero
@@ -223,7 +225,7 @@ class PagamentoRepository {
         customer: {
                   name: pessoa.name,
                   email: pessoa.email,
-                  tax_id: '52939198810',
+                  tax_id: pessoa.cpf,
                   phones: [
                       {
                           country: 55,
