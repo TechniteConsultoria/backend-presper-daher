@@ -51,7 +51,7 @@ export default class PedidoService {
     }
   }
 
-  async geraFatura(id) {
+  async geraFatura(id, prodsList) {
 
     try {
       const pedido = await PedidoRepository.findById(id, this.options);
@@ -61,7 +61,7 @@ export default class PedidoService {
 
       pedido.pedidoId = id
       
-      let fatura = await PagamentoRepository.create(pedido, {
+      let fatura = await PagamentoRepository.create(pedido, prodsList, {
         ... this.options
       });
 
