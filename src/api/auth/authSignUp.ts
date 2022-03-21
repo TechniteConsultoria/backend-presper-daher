@@ -8,6 +8,8 @@ export default async (req, res, next) => {
       req.body.fullName,
       req.body.email,
       req.body.password,
+      req.body.telefone,
+      req.body.cpf,
       req.body.invitationToken,
       req.body.tenantId,
       req.body.role,
