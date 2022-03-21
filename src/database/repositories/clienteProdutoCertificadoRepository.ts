@@ -358,6 +358,12 @@ class clienteProdutoCertificadosRepository {
     });
 
     if (filter) {
+      if(filter.isCertificado){
+        whereAnd.push({
+          ['isCertificado']: filter.isCertificado,
+        });
+      }
+
       if (filter.id) {
         whereAnd.push({
           ['id']: SequelizeFilterUtils.uuid(filter.id),
