@@ -95,7 +95,7 @@ export default class ProdutoService {
       // );
       // data.empresaId = await EmpresaRepository.findByUserId(userData.id, { ...this.options, transaction });
 
-      data.categoria = await CategoriaRepository.filterIdInTenant(data.categoria, { ...this.options, transaction });
+      // data.categoria = await CategoriaRepository.filterIdInTenant(data.categoria, { ...this.options, transaction });
 
       const record = await ProdutoRepository.update(
         id,
