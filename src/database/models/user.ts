@@ -63,6 +63,10 @@ export default function (sequelize, DataTypes) {
       telefone: {
         type: DataTypes.STRING(255),
       },
+
+      cpf: {
+        type: DataTypes.STRING(255),
+      },
       
 
       provider: {
