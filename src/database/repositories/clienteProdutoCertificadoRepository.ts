@@ -211,6 +211,15 @@ class clienteProdutoCertificadosRepository {
     );
 
     const include = [
+      {
+        model: options.database.produto,
+        as: 'produto',
+      },
+
+      {
+        model: options.database.user,
+        as: 'user',
+      },
     ];
 
     const currentTenant = SequelizeRepository.getCurrentTenant(
@@ -278,33 +287,7 @@ class clienteProdutoCertificadosRepository {
     return records.map((record) => record.id);
   }
 
-  static async filterIdsInTenantGettingFornecedor(
-    ids,
-    options: IRepositoryOptions,
-  ) {
-    if (!ids || !ids.length) {
-      return [];
-    }
 
-    const currentTenant =
-      SequelizeRepository.getCurrentTenant(options);
-
-    const where = {
-      id: {
-        [Op.in]: ids,
-      },
-      tenantId: currentTenant.id,
-    };
-
-    const records = await options.database.clienteProdutoCertificado.findAll(
-      {
-        attributes: ['id'],
-        where,
-      },
-    );
-
-    return records.map((record) => record.empresaId);
-  }
 
   static async count(filter, options: IRepositoryOptions) {
     const transaction = SequelizeRepository.getTransaction(
