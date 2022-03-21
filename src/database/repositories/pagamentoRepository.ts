@@ -46,8 +46,7 @@ const moderadorIdIugu = 'B4CE264C2A374693B3E3E1F8E72D40E6'
 const { QueryTypes } = require('sequelize');
 
 //Token Usado na Fatura
-// const API_TOKEN = 'A7C933D7B2F192D4DA24D134FF9640FD4CE73D7049284194CE962E7374A3EA37';   //* TESTE
-const API_TOKEN = 'CC93760DC60C4FFDA487ED6D9B88D9B6' //* PRODUÇÃO
+const API_TOKEN = 'CC93760DC60C4FFDA487ED6D9B88D9B6' //* teste
 
 /*
 api_token deve ser o user_token da empresa
@@ -87,7 +86,7 @@ class PagamentoRepository {
       throw new Error404();
     }
     // pessoa.cep = pessoa.cep.replace(/\.|-/g, '');
-    // pessoa.cpf = pessoa.cpf.replace(/\.|-/g, ''); //this will be necessary!
+    // pessoa.cpf = pessoa.cpf.replace(/\.|-/g, ''); //this will be necessary?
     pessoa.telefone = pessoa.telefone.replace(/\+|\(|\)| |-/g, '');
 
     let dataVencimento = new Date();
@@ -99,21 +98,17 @@ class PagamentoRepository {
         name: e.nome,
         quantity: e.quantidade,
         // unit_amount: e.preco,
-        unit_amount: Number(e.preco) * 100 //API Iugu considera centavos
+        unit_amount: Number(e.preco) * 100 //API considera centavos
       }
     });
-
-
-    console.log("items")
-    console.log(items)
 
     let precoPedido = 0;
 
     items.forEach(e => {
-      precoPedido += (e.unit_amount * e.quantity);
+      precoPedido += (e.unit_amount * e.quantity);//price in cents
     });
 
-    const url = `https://sandbox.api.pagseguro.com/orders`;
+    /* const url = `https://sandbox.api.pagseguro.com/orders`;
     const opt = {
       method: 'POST',
       headers: {
@@ -144,19 +139,116 @@ class PagamentoRepository {
         }
       }],
 
-        notification_urls: [
-            'https://meusite.com/notificacoes'
-        ]
+      notification_urls: [
+          'https://meusite.com/notificacoes'
+      ],
+      charge: [
+        {
+          reference_id: data.id,
+          description: 'Compra de Cusos na plataforma Presper',
+          amount: {
+              value: precoPedido,
+              currency: 'BRL'
+            },
+          payment_method: {
+            card: {
+              holder: {
+                name: prods.card.nomeTitular
+              },
+              store: false,
+              exp_month: prods.card.validade.substring(0,2),
+              exp_year: '20'+ prods.card.validade.substring(3, prods.card.validade.length),
+              security_code: prods.card.ccv,
+              number: prods.card.numero
+            },
+            installments: 1,
+            capture: true,
+            type: 'CREDIT_CARD'
+          },
+          notification_urls: ['https://www.google.com/'],
+          // metadata: `reference_id: ${data.id}`,
+          customer: {
+                    name: pessoa.name,
+                    email: pessoa.email,
+                    tax_id: '52939198810',
+                    phones: [
+                        {
+                            country: 55,
+                            area: pessoa.telefone.substring(0,2),
+                            number: pessoa.telefone.substring(2, pessoa.telefone.length),
+                            type: 'MOBILE'
+                        }
+                    ]
+          },
+        }
+    ]
+
+
       })
     };
+
+    */
+    const url = 'https://sandbox.api.pagseguro.com/charges';
+    const opt = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': API_TOKEN
+      },
+      body: JSON.stringify({
+        reference_id: data.id,
+        description: 'Compra de Cusos na plataforma Presper',
+        amount: {
+            value: precoPedido,
+            currency: 'BRL'
+          },
+        payment_method: {
+          card: {
+            holder: {
+              name: prods.card.nomeTitular
+            },
+            store: false,
+            exp_month: prods.card.validade.substring(0,2),
+            exp_year: '20'+ prods.card.validade.substring(3, prods.card.validade.length),
+            security_code: prods.card.ccv,
+            number: prods.card.numero
+          },
+          installments: 1,
+          capture: true,
+          type: 'CREDIT_CARD'
+        },
+        notification_urls: ['https://www.google.com/'],
+        // metadata: `reference_id: ${data.id}`,
+        customer: {
+                  name: pessoa.name,
+                  email: pessoa.email,
+                  tax_id: '52939198810',
+                  phones: [
+                      {
+                          country: 55,
+                          area: pessoa.telefone.substring(0,2),
+                          number: pessoa.telefone.substring(2, pessoa.telefone.length),
+                          type: 'MOBILE'
+                      }
+                  ]
+        },
+      })
+    };
+
+    let a
 
     await fetch(url, opt)
       .then(res => res.json())
       .then(json => {
-        console.log("json")
+        console.log("-*-*-*-*-*-*-*-*-*-*-*-*-")
+        console.log("--- json ---")
         console.log(json)
-        data.idIugu = json.links[0].href
-        data.urlFaturaIugu = json.secure_url  
+        console.log("-*-*-*-*-*-*-*-*-*-*-*-*-")
+        data.urlFaturaIugu = json.links[0].href
+
+        data.idIugu = json.qr_codes.id  
+        a = json
       }
       )
       .catch(err => console.error('error:' + err));
@@ -174,12 +266,48 @@ class PagamentoRepository {
         updatedById: currentUser.id,
       },
     );
+    
 
     return record;
   }
 
   static async createNewFaturaWithSplits(data, options: IRepositoryOptions){
     /*
+
+
+const options = {
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+    Authorization: 'token',
+    'Content-type': 'application/json'
+  },
+  body: JSON.stringify({
+    amount: {value: 15000, currency: 'BRL'},
+    payment_method: {
+      card: {
+        holder: {
+          name: 'Nome do portador do cartão de crédito, cartão de débito e token de bandeira.'
+        },
+        store: false,
+        exp_month: 5,
+        exp_year: 2003,
+        security_code: 'ccv',
+        number: 'Número do cartão de crédito ou cartão de débito.'
+      },
+      installments: 0,
+      capture: false,
+      type: 'CREDIT_CARD'
+    },
+    notification_urls: ['https://www.google.com/'],
+    metadata: 'a',
+    description: 'Descrição da cobrança. Tamanho: 1-64 caracteres alfanuméricos.',
+    reference_id: 'Identificador próprio atribuído para a cobrança.'
+
+
+
+
+
     "splits": [
 
           {
@@ -328,35 +456,6 @@ class PagamentoRepository {
         due_date: dataVencimento,
 
 
-
-        charge: [
-          {
-              reference_id: "referencia do pagamento",
-              description: "descricao do pagamento",
-              amount: {
-                  value: 500,
-                  currency: "BRL"
-              },
-              payment_method: {
-                  type: "CREDIT_CARD",
-                  installments: 1,
-                  capture: true,
-                  card: {
-                      number: "4111111111111111",
-                      exp_month: "12",
-                      exp_year: "2026",
-                      security_code: "123",
-                      holder: {
-                          name: "Jose da Silva"
-                      },
-                      store: false
-                  }
-              },
-              notification_urls: [
-                  "https://meusite.com/notificacoes"
-              ]
-          }
-      ]
       }
     };
     console.log("Dados enviados")

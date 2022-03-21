@@ -116,6 +116,8 @@ export default class UserRepository {
         firstName: data.firstName,
         imagemUrl: data.imagemUrl || null,
         password: data.password,
+        telefone: data.telefone,
+        cpf:      data.cpf
       },
       { transaction },
     );

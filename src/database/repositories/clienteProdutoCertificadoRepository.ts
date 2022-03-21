@@ -93,7 +93,18 @@ class clienteProdutoCertificadosRepository {
     }
   }
 
-  static async update(id, data, options: IRepositoryOptions) {
+  static async update(produtoId, data, options: IRepositoryOptions) {
+
+    console.log("---*---")
+    console.log("data")
+    console.log(data)
+    console.log("---*---")
+
+    console.log("---*---")
+    console.log("produtoId")
+    console.log(produtoId)
+    console.log("---*---")
+
     const currentUser = SequelizeRepository.getCurrentUser(
       options,
     );
@@ -110,14 +121,14 @@ class clienteProdutoCertificadosRepository {
     let record = await options.database.clienteProdutoCertificado.findOne(
       {
         where: {
-          id,
-          tenantId: currentTenant.id,
+          produtoId,
         },
         transaction,
       },
     );
 
     if (!record) {
+      console.log("num tem recorde...")
       throw new Error404();
     }
 
@@ -126,7 +137,9 @@ class clienteProdutoCertificadosRepository {
         ...lodash.pick(data, [
           "url",
           "nome",
-          "ativo"
+          "ativo",
+          "isCertificado",
+          "isPago",
         ]),  
         userId: currentUser.id,
       },

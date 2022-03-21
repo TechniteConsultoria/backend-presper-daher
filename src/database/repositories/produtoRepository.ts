@@ -174,9 +174,9 @@ class ProdutoRepository {
           'promocaoEncerramento',
           'promocaoCriacao',
           'imagemUrl',
+          'categoriaId',
         ]),
         empresaId: data.empresaId || null,
-        categoriaId: data.categoria || null,
         updatedById: currentUser.id,
       },
       {
@@ -990,18 +990,22 @@ class ProdutoRepository {
         
     let query =
       `SELECT 
-          p.id,
-          p.nome,
-          p.descricao,
-          p.imagemUrl,
-          p.preco,
-          p.volumeVendas,
-          p.somatoriaAvaliacoes,
-          p.quantidadeAvaliacoes
-            FROM 
-            produtos p
-            where p.deletedAt is null
-            and p.id = '${id}';`
+      p.id,
+      p.nome,
+      p.descricao,
+      p.imagemUrl,
+      p.preco,
+      p.volumeVendas,
+      p.somatoriaAvaliacoes,
+      p.quantidadeAvaliacoes,
+      c.nome AS categoriaNome
+      FROM
+          produtos p
+              INNER JOIN
+          categoria c ON p.categoriaId = c.id
+      WHERE
+          p.deletedAt IS NULL
+                AND p.id = '${id}';`
 
     let produto = await seq.query(query, {
       type: QueryTypes.SELECT,
