@@ -21,6 +21,8 @@ class AuthService {
     fullName,
     email,
     password,
+    telefone,
+    cpf,
     invitationToken,
     tenantId,
     role,
@@ -142,6 +144,8 @@ class AuthService {
           firstName: fullName.split(' ')[0],
           password: hashedPassword,
           email: email,
+          telefone: telefone,
+          cpf: cpf,
         },
         {
           ...options,
