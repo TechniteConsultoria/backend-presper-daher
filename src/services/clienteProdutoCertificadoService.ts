@@ -153,21 +153,6 @@ export default class clienteProdutoCertificadoService {
     );
   }
 
-  async findAllWithoutLogin() {
-    return clienteProdutoCertificadoRepository.findAllWithoutLogin();
-  }
-  async findAllWithoutLoginTrue() {
-    return clienteProdutoCertificadoRepository.findAllWithoutLoginTrue();
-  }
-
-  async findAllWithoutLoginAndTenant(args) {
-    return clienteProdutoCertificadoRepository.findAllWithoutLoginAndTenant(args);
-  }
-  
-  async findLimitedWithoutLogin() {
-    return clienteProdutoCertificadoRepository.findLimitedWithoutLogin();
-  }
-
   // async findclienteProdutoCertificadobyId(id: number) {
   //   return clienteProdutoCertificadoRepository.findclienteProdutoCertificadobyId(id);
   // }
