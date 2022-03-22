@@ -381,6 +381,13 @@ class ProdutoRepository {
     });
 
     if (filter) {
+
+      if (filter.categoriaId) {
+        whereAnd.push({
+          ['categoriaId']: filter.categoriaId,
+        });
+      }
+
       if (filter.id) {
         whereAnd.push({
           ['id']: SequelizeFilterUtils.uuid(filter.id),
