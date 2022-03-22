@@ -45,7 +45,8 @@ class ComentarioRepository {
         'comentario',
         'resposta',
         'produtoId',
-        'userId'
+        'userId',
+        'estrelas'
       ]),
       dataComentario: new Date(),
       compradorUserId: currentUser.id || null,
