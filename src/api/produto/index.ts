@@ -37,6 +37,11 @@ export default (app) => {
     require('./produtoFindWithoutLogin').default,
   );
 
+  app.get(
+    `/tenant/:tenantId/produto/:id`,
+    require('./produtoFind').default,
+  );
+
   app.put(
     `/tenant/:tenantId/produtos/:id`,
     require('./produtoAfterBuy').default,
