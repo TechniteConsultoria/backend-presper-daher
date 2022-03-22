@@ -247,14 +247,7 @@ class ProdutoRepository {
     );
 
     const include = [
-      {
-        model: options.database.categoria,
-        as: 'categoria',
-      },
-      {
-        model: options.database.produtoModulo,
-        as: 'produtoModulo',
-      },
+  
     ];
 
 
@@ -270,6 +263,7 @@ class ProdutoRepository {
     );
 
     if (!record) {
+      console.log("bhbvsbvkjsdvksdkjjk")
       throw new Error404();
     }
 
