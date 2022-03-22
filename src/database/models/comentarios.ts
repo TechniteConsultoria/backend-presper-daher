@@ -23,6 +23,12 @@ export default function (sequelize) {
       comentario:{
         type: DataTypes.TEXT,
       },
+
+      estrelas:{
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+      },
+
       resposta:{
         type: DataTypes.TEXT,
       },
