@@ -114,7 +114,7 @@ export default function (sequelize) {
 
   produto.associate = (models) => {
 
-    models.produto.belongsTo(models.produtoModulo, {
+    models.produto.hasMany(models.produtoModulo, {
       as: 'produtoModulo',
       constraints: false,
     });
