@@ -101,6 +101,7 @@ require('./banner').default(routes);
 require('./termo').default(routes);
 require('./clienteProdutoCertificado').default(routes);
 require('./informacoes').default(routes);
+require('./produtoModulo').default(routes);
 
 
 // Loads the Tenant if the :tenantId param is passed
