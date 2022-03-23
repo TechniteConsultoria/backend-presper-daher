@@ -1,7 +1,8 @@
 import PermissionChecker from '../../services/user/permissionChecker';
 import ApiResponseHandler from '../apiResponseHandler';
 import Permissions from '../../security/permissions';
-import ProdutoService from '../../services/produtoService';
+import ProdutoModuloService from '../../services/produtoModuloService';
+
 
 export default async (req, res, next) => {
   try {
@@ -9,7 +10,7 @@ export default async (req, res, next) => {
     //   Permissions.values.produtoRead,
     // );
 
-    const payload = await new ProdutoService(req).findById(
+    const payload = await new ProdutoModuloService(req).findById(
       req.params.id,
     );
 

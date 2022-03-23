@@ -1,7 +1,7 @@
 import PermissionChecker from '../../services/user/permissionChecker';
 import ApiResponseHandler from '../apiResponseHandler';
 import Permissions from '../../security/permissions';
-import ProdutoService from '../../services/produtoService';
+import ProdutoModuloService from '../../services/produtoModuloService';
 
 export default async (req, res, next) => {
   try {
@@ -9,7 +9,7 @@ export default async (req, res, next) => {
       Permissions.values.produtoEdit,
     );
 
-    const payload = await new ProdutoService(req).update(
+    const payload = await new ProdutoModuloService(req).update(
       req.params.id,
       req.body.data,
     );

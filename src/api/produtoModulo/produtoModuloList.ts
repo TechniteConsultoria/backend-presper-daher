@@ -1,7 +1,9 @@
 import PermissionChecker from '../../services/user/permissionChecker';
 import ApiResponseHandler from '../apiResponseHandler';
 import Permissions from '../../security/permissions';
-import ProdutoService from '../../services/produtoService';
+
+import ProdutoModuloService from '../../services/produtoModuloService';
+
 import EmpresaService from '../../services/empresaService';
 
 export default async (req, res, next) => {
@@ -30,7 +32,7 @@ export default async (req, res, next) => {
       req.query.filter.empresa = empresa.id
     }
 
-    const payload = await new ProdutoService(
+    const payload = await new ProdutoModuloService(
       req,
     ).findAndCountAll(req.query);
 
