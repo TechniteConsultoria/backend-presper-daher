@@ -171,6 +171,7 @@ class ProdutoRepository {
           'promocaoId',
           'frete',
           'prazo',
+          'autor',
           'promocaoEncerramento',
           'promocaoCriacao',
           'imagemUrl',
