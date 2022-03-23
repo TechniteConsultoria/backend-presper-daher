@@ -170,6 +170,7 @@ export default class UserRepository {
       bio:         data.bio         || null,
       profissao:   data.profissao   || null,
       imagemUrl:   data.imagemUrl   || null,
+      cpf:         data.cpf         || null,
       updatedById: currentUser.id,
     }
     )
@@ -177,14 +178,15 @@ export default class UserRepository {
 
     await user.update(
       {
-        fullName:    data.fullName     || null,
-        name:        data.fullName     || null,
+        fullName:    data.fullName    || null,
+        name:        data.fullName    || null,
         firstName:   data.firstName   || null,
         lastName:    data.lastName    || null,
         telefone:    data.telefone    || null,
         bio:         data.bio         || null,
         profissao:   data.profissao   || null,
         imagemUrl:   data.imagemUrl   || null,
+        cpf:         data.cpf         || null,
         updatedById: currentUser.id,
       },
       { transaction },
