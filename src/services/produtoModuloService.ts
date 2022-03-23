@@ -1,7 +1,7 @@
 import Error400 from '../errors/Error400';
 import SequelizeRepository from '../database/repositories/sequelizeRepository';
 import { IServiceOptions } from './IServiceOptions';
-import ProdutoRepository from '../database/repositories/produtoRepository';
+import ProdutoModuloRepository from '../database/repositories/produtoModuloRepository';
 import EmpresaRepository from '../database/repositories/empresaRepository';
 import CategoriaRepository from '../database/repositories/categoriaRepository';
 import upload from '../api/file/localhost/upload';
@@ -20,6 +20,7 @@ export default class ProdutoModuloService {
 
     try {
       /*
+
       Quando for dar o get no produto deve-se ser passada o id da empresa
       onde ele é passado?
       localStorage?
@@ -29,10 +30,8 @@ export default class ProdutoModuloService {
       const userData = SequelizeRepository.getCurrentUser(
         this.options,
       );
-      data.empresa = await EmpresaRepository.findByUserId(userData.id, { ...this.options, transaction });
-      data.categoria = await CategoriaRepository.filterIdInTenant(data.categoria, { ...this.options, transaction });
 
-      const record = await ProdutoRepository.create(data, {
+      const record = await ProdutoModuloRepository.create(data, {
         ...this.options,
         transaction,
       });
@@ -57,7 +56,7 @@ export default class ProdutoModuloService {
     }
   }
   async produtoUpdateStatus(id, data) {
-    await ProdutoRepository.produtoUpdateStatus(id, data);
+    await ProdutoModuloRepository.produtoUpdateStatus(id, data);
   }
   async update(id, data) {
     const transaction = await SequelizeRepository.createTransaction(
@@ -65,15 +64,7 @@ export default class ProdutoModuloService {
     );
 
     try {
-      data.empresa = await EmpresaRepository.filterIdInTenant(data.empresaId, { ...this.options, transaction });
-      // const userData = SequelizeRepository.getCurrentUser(
-      //   this.options,
-      // );
-      // data.empresaId = await EmpresaRepository.findByUserId(userData.id, { ...this.options, transaction });
-
-      data.categoria = await CategoriaRepository.filterIdInTenant(data.categoria, { ...this.options, transaction });
-
-      const record = await ProdutoRepository.update(
+      const record = await ProdutoModuloRepository.update(
         id,
         data,
         {
@@ -109,7 +100,7 @@ export default class ProdutoModuloService {
 
     try {
       for (const id of ids) {
-        await ProdutoRepository.destroy(id, {
+        await ProdutoModuloRepository.destroy(id, {
           ...this.options,
           transaction,
         });
@@ -136,7 +127,7 @@ export default class ProdutoModuloService {
     );
 
     try {
-      await ProdutoRepository.destroy(id, {
+      await ProdutoModuloRepository.destroy(id, {
         ...this.options,
         transaction,
       });
@@ -153,11 +144,11 @@ export default class ProdutoModuloService {
   }
 
   async findById(id) {
-    return ProdutoRepository.findById(id, this.options);
+    return ProdutoModuloRepository.findById(id, this.options);
   }
 
   async findAllAutocomplete(search, limit) {
-    return ProdutoRepository.findAllAutocomplete(
+    return ProdutoModuloRepository.findAllAutocomplete(
       search,
       limit,
       this.options,
@@ -165,39 +156,39 @@ export default class ProdutoModuloService {
   }
 
   async findAndCountAll(args) {
-    return ProdutoRepository.findAndCountAll(
+    return ProdutoModuloRepository.findAndCountAll(
       args,
       this.options,
     );
   }
 
   async findAllWithoutLogin() {
-    return ProdutoRepository.findAllWithoutLogin();
+    return ProdutoModuloRepository.findAllWithoutLogin();
   }
   async findAllWithoutLoginTrue() {
-    return ProdutoRepository.findAllWithoutLoginTrue();
+    return ProdutoModuloRepository.findAllWithoutLoginTrue();
   }
 
   async findAllWithoutLoginAndTenant(args) {
-    return ProdutoRepository.findAllWithoutLoginAndTenant(args);
+    return ProdutoModuloRepository.findAllWithoutLoginAndTenant(args);
   }
   
   async findLimitedWithoutLogin() {
-    return ProdutoRepository.findLimitedWithoutLogin();
+    return ProdutoModuloRepository.findLimitedWithoutLogin();
   }
   async findProdutobyId(id) {
-    return ProdutoRepository.findProdutobyId(id);
+    return ProdutoModuloRepository.findProdutobyId(id);
   }
   async listPromocionalImagem() {
-    return ProdutoRepository.listPromocionalImagem();
+    return ProdutoModuloRepository.listPromocionalImagem();
   }
 
   async deleteProdutobyId(id) {
-    return ProdutoRepository.deletePromocionalImagem(id);
+    return ProdutoModuloRepository.deletePromocionalImagem(id);
   }
 
   async produtoAfterBuy(id, quantidade) {
-    return ProdutoRepository.produtoAfterBuy(id, quantidade);
+    return ProdutoModuloRepository.produtoAfterBuy(id, quantidade);
   }
 
   async import(data, importHash) {
@@ -224,7 +215,7 @@ export default class ProdutoModuloService {
   }
 
   async _isImportHashExistent(importHash) {
-    const count = await ProdutoRepository.count(
+    const count = await ProdutoModuloRepository.count(
       {
         importHash,
       },
@@ -234,10 +225,10 @@ export default class ProdutoModuloService {
     return count > 0;
   }
   async updateAllDatabaseOfPagementos(){
-    return ProdutoRepository.updateAllDatabaseOfPagementos();
+    return ProdutoModuloRepository.updateAllDatabaseOfPagementos();
   }
   async updateAllIsOferta(){
-    return ProdutoRepository.updateAllIsOferta();
+    return ProdutoModuloRepository.updateAllIsOferta();
   }
 
 }
