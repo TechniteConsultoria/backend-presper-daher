@@ -66,7 +66,6 @@ class ProdutoModuloRepository {
             'produtoId',
           ]), //como se pegasse o data.algo
           empresaId:  currentUser.id,
-          // categoriaId: data.categoria || null,
           tenantId: tenant.id,
           createdById: currentUser.id,
           updatedById: currentUser.id,
@@ -161,7 +160,6 @@ class ProdutoModuloRepository {
           'caracteristicasTecnicas',
         ]),
         empresaId: data.empresaId || null,
-        // categoriaId: data.categoria,
         updatedById: currentUser.id,
       },
       {
@@ -236,10 +234,7 @@ class ProdutoModuloRepository {
       //   model: options.database.empresa,
       //   as: 'empresa',
       // },
-      {
-        model: options.database.categoria,
-        as: 'categoria',
-      },
+      
     ];
 
     const currentTenant = SequelizeRepository.getCurrentTenant(
@@ -372,10 +367,7 @@ class ProdutoModuloRepository {
       //   model: options.database.empresa,
       //   as: 'empresa',
       // },
-      {
-        model: options.database.categoria,
-        as: 'categoria',
-      },
+
     ];
 
     whereAnd.push({
@@ -957,22 +949,8 @@ class ProdutoModuloRepository {
     if (!record) {
       return record;
     }
-    console.log("record 2")
-    console.log(record)
 
-    const output = record.get({ plain: true });
-
-    const transaction = SequelizeRepository.getTransaction(
-      options,
-    );
-
-    output.fotos = await FileRepository.fillDownloadUrl(
-      await record.getFotos({
-        transaction,
-      }),
-    );
-
-    return output;
+    return record;
   }
 
   static async findPrecoById(id) {

@@ -230,6 +230,7 @@ class ProdutoRepository {
     }
 
     await record.destroy({
+      
       transaction,
     });
 
@@ -247,6 +248,10 @@ class ProdutoRepository {
     );
 
     const include = [
+      {
+        model: options.database.produtoModulo,
+        as: 'produtoModulo',
+      },
   
     ];
 
@@ -366,10 +371,10 @@ class ProdutoRepository {
 
     let whereAnd: Array<any> = [];
     let include = [
-      // {
-      //   model: options.database.empresa,
-      //   as: 'empresa',
-      // },
+      {
+        model: options.database.produtoModulo,
+        as: 'produtoModulo',
+      },
       {
         model: options.database.categoria,
         as: 'categoria',
@@ -1002,7 +1007,7 @@ class ProdutoRepository {
       c.nome AS categoriaNome
       FROM
           produtos p
-              INNER JOIN
+              LEFT JOIN
           categoria c ON p.categoriaId = c.id
       WHERE
           p.deletedAt IS NULL
