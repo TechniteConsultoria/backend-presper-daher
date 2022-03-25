@@ -122,6 +122,7 @@ class clienteProdutoCertificadosRepository {
       {
         where: {
           produtoId,
+          userId: currentUser.id
         },
         transaction,
       },
