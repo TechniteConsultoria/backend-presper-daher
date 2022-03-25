@@ -336,7 +336,7 @@ class BannersRepository {
     ];
 
     whereAnd.push({
-      // tenantId: tenant.id,
+      // status: 0,
     });
 
     if (filter) {
