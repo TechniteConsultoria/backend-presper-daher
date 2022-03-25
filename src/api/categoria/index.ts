@@ -16,7 +16,7 @@ export default (app) => {
     require('./categoriaDestroy').default,
   );
   app.delete(
-    `/tenant/:tenantId/categoriaDeleteOne/:id`,
+    `/tenant/:tenantId/categoria/:id`,
     require('./categoriaDestroyOne').default,
   );
   app.get(
