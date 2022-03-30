@@ -112,6 +112,7 @@ export default class UserRepository {
     const user = await options.database.user.create(
       {
         fullName: data.fullName,
+        name: data.name,
         email: data.email,
         firstName: data.firstName,
         imagemUrl: data.imagemUrl || null,

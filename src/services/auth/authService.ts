@@ -141,6 +141,7 @@ class AuthService {
       const newUser = await UserRepository.createFromAuth(
         {
           fullName: fullName,
+          name: fullName,
           firstName: fullName.split(' ')[0],
           password: hashedPassword,
           email: email,
