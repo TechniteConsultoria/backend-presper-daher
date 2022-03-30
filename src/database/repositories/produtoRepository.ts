@@ -379,6 +379,7 @@ class ProdutoRepository {
       {
         model: options.database.categoria,
         as: 'categoria',
+        order: ['createdAt', 'DESC']
       },
     ];
 
