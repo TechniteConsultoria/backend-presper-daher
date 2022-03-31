@@ -9,6 +9,8 @@ import { getConfig } from '../config';
 import jwt from 'jsonwebtoken';
 import EmpresaRepository from '../database/repositories/empresaRepository';
 import { ConfigurationServicePlaceholders } from 'aws-sdk/lib/config_service_placeholders';
+import UserRepository from '../database/repositories/userRepository';
+import ProdutoRepository from '../database/repositories/produtoRepository';
 
 export default class SmtpService {
 
@@ -438,5 +440,112 @@ export default class SmtpService {
     
         return info;
     }
+
+
+
+    async enviarPerguntaProduto(comentario, produtoId, currentUser) {
+        let baseUrl = env.NODEMAILER_BASE_URL || '';
+
+
+        console.log(" currentUser")
+        console.log(  currentUser)
+
+        let produto = await ProdutoRepository.findById(produtoId, this.options)
+
+        // create reusable transporter object using the default SMTP transport
+        let transporter = await this.createTransporter();
+
+    
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+            from: env.NODEMAILER_FROM, // sender address
+            to: 'ryan.r.c.339ac@gmail.com', // cliente.email, // list of receivers
+            
+            subject: "Pergunta enviada", // Subject line
+            text: "", // plain text body
+            html: `
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td style="padding: 20px 0 30px 0;">
+                        <table style="border: 1px solid #cccccc;" align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
+                        <td align="center" bgcolor="#000000" style="padding: 40px 0 30px 0;"></td>
+                        <tr>
+                            <td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 24px; padding-bottom: 20px">
+                                    <b>Uma pergunta foi enviada pela plataforma Presper Daher</b>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" style="padding: 20px 0 30px 0;" >
+                                    Nome: ${currentUser.name}
+                                </td>
+                                </tr>
+
+
+                                <tr>
+                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" style="padding: 20px 0 30px 0;" >
+                                    Telefone: ${currentUser.telefone}
+                                </td>
+                                </tr>
+
+                                <tr>
+                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" style="padding: 20px 0 30px 0;" >
+                                    Email: ${currentUser.email}
+                                </td>
+                                </tr>
+
+                                <tr>
+                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" style="padding: 20px 0 30px 0;" >
+                                    Nome do Produto: ${produto.nome}
+                                </td>
+                                </tr>
+
+
+                                <tr>
+                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" style="padding: 20px 0 30px 0;" >
+                                    Conteudo: ${comentario}
+                                </td>
+                                </tr>
+
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <tr>
+                                    <td style="font-size: 0; line-height: 0;" width="20">
+                                    &nbsp;
+                                    </td>
+                                    </tr>
+                                </table>
+                                </td>
+                            </tr>
+    
+                            <td bgcolor="#000000" style="padding: 30px 30px 30px 30px;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                <td style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">
+                                    &reg; Copyright © 2022 Plataforma EAD.<br/>
+                                </td>
+                                </tr>
+                            </table>
+    
+                        </td>
+                            
+                        </table>
+    
+                    </td>
+    
+                    </tr>
+    
+                </table>
+            `
+        });
+    
+        transporter.close();
+    
+        return info;
+    }
+
+
 }
 
