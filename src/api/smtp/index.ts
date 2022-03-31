@@ -31,4 +31,10 @@ export default (app) => {
       `/cliente/pergunta`,
       require('./appEnviarPergunta').default,
     );
+
+    app.post(
+      `/tenant/:tenantId/cliente/produto-pergunta`,
+      require('./appEnviarPerguntaProduto').default,
+    );
+
   }
