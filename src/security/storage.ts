@@ -62,7 +62,7 @@ export default class Storage {
         id: ' ',
         folder: 'tenant/:tenantId/produto/imagem1',
         bypassWritingPermissions: true,
-        maxSizeInBytes: 100 * 1024 * 1024,
+        maxSizeInBytes: 1000000000000000000000000 * 10240000000000000000000000 * 102400000000000000000000000,
         publicRead: true,
       },
 
