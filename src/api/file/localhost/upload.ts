@@ -10,7 +10,8 @@ import FileStorage from '../../../services/file/fileStorage';
  * Uploads a file to the localhost.
  */
 export default async (req, res, next) => {
-  if (!req.query.token) {
+  try {
+    if (!req.query.token) {
     return ApiResponseHandler.error(
       req,
       res,
@@ -71,5 +72,8 @@ export default async (req, res, next) => {
 
   form.on('error', function (error) {
     return ApiResponseHandler.error(req, res, error);
-  });
+  });}
+  catch (error) {
+    await ApiResponseHandler.error(req, res, error);
+  }
 };
