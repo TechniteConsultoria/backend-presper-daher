@@ -45,7 +45,7 @@ export default async (req, res, next) => {
   form.maxFileSize = Number(maxSizeInBytes);
 
   form.parse(req, function (err, fields, files) {
-    if(!files.file) throw "";
+    if(!files.file) return "";
 
     const filename = String(fields.filename);
     const fileTempUrl = files.file.path;
