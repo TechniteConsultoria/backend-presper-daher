@@ -1029,7 +1029,7 @@ class ProdutoRepository {
           pm.titulo,
           pm.url
             FROM 
-            produtomodulos pm
+            produtoModulos pm
             where pm.produtoId = '${prodId}';`
 
     let produtoModulo = await seq.query(queryForProdModule, {
