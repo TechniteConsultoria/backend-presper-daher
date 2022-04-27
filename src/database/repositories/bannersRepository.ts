@@ -58,8 +58,8 @@ class BannersRepository {
           ...lodash.pick(data, [
             'imagemUrl',
             'status',
-            'titulo',
-            'descricao',
+            // 'titulo',
+            // 'descricao',
             'nome'
           ]), 
           tenantId: tenant.id,
@@ -130,8 +130,8 @@ class BannersRepository {
       {
         ...lodash.pick(data, [
           'imagemUrl',
-          'titulo',
-          'descricao',
+          // 'titulo',
+          // 'descricao',
           'status',
           'nome'
 

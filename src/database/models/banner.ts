@@ -26,12 +26,12 @@ export default function (sequelize) {
       nome: {
         type: DataTypes.STRING(255),
       },
-      titulo: {
-        type: DataTypes.STRING(255),
-      },
-      descricao: {
-        type: DataTypes.STRING(255),
-      },
+      // titulo: {
+      //   type: DataTypes.STRING(255),
+      // },
+      // descricao: {
+      //   type: DataTypes.STRING(255),
+      // },
 
     },
     {
